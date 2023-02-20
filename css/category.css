@@ -1,0 +1,52 @@
+.nav {
+  display: flex;
+  justify-content: space-around;
+  background-color: #FA663F;
+  width: 1200px;
+  font-size: 25px;
+  color: white;
+}
+
+ul{
+  text-align: left;
+  margin-left: 5em;
+}
+
+li {
+  display: inline;
+  margin-left: 1em;
+}
+
+.nav-button{
+  background: none;
+  border-radius: 0;
+}
+
+.nav-button:hover{
+  background: #ED8B00;
+}
+
+.search-bar{
+  text-align: right;
+  margin-top:10px;
+  margin-right: 1em;
+}
+
+.search-bar input[type=text] {
+  background: none;
+  border: 0.2em solid white;
+  border-radius: 1em;
+}
+
+.search-bar button {
+  margin-left: -2em;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+::placeholder {
+  color: white;
+  padding-left: 0.5em;
+  font-size: 1em;
+}

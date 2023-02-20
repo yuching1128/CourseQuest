@@ -1,0 +1,22 @@
+footer {
+  background: var(--secondary-background-color);
+  width: 1200px;
+  height: 60px;
+  justify-content: center;
+}
+
+.about-us{
+  text-align: center;
+  font-size: 25px;
+  color: var(--primary-color);
+}
+
+.copy-right{
+  width: 1200px;
+  height: 30px;
+  background: var(--primary-color);;
+  text-align: center;
+  font-size: 18px;
+  color: white;
+  padding: 5px;
+}

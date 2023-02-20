@@ -1,0 +1,97 @@
+/* GOOGLE FONTS */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+/* CUSTOM PROPERTIES */
+
+:root {
+
+  --default-font-family: 'Roboto', sans-serif;
+  --defatul-font-size: 1.5rem;
+  --default-text-color: #111;
+  --neutral-color: white;
+
+  --primary-color: #630031;
+  --primary-color-bright: #D83379;
+  --primary-background-color: white;
+  --secondary-background-color: #D9D9D9;
+  --card-background-color: #AEA7A2;
+  --card-text-color: #A64800;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button,
+input {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+/* UTILITY CLASSES */
+
+.flow-content > * + * {
+  margin-top: 1rem;
+}
+
+.container {
+  padding: 1rem;
+}
+
+/* LAYOUT */
+
+/* These global font properties with be inherited by child elements. */
+body {
+  background: var(--primary-background-color);
+  color: var(--default-text-color);
+  font-family: 'Roboto', sans-serif;;
+  margin: 0 auto;
+  max-width: 70rem;
+}
+
+/* BUTTONS */
+.button,
+.button:visited {
+  display: inline-block;
+  background: var(--primary-color);
+  color: white;
+  text-decoration: none;
+  padding: 0.5em 0.5em;
+  cursor: pointer;
+  border: none;
+  border-radius: 0.9em;
+}
+
+.button:hover,
+.button:active {
+  background: var(--primary-color-bright);
+  color: white;
+}
+
+/* LINKS */
+a,
+a:visited {
+  color: var(--primary-color);
+  text-decoration:none;
+}
+
+a:hover,
+a:active {
+  color: var(--primary-color-bright);
+}
+
+
+

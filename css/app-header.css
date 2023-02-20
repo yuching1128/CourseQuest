@@ -1,0 +1,32 @@
+header {
+  background: #FBF6F6;
+  display: flex;
+  justify-content: space-between;
+  width: 1200px;
+  height: 90px;
+  font-size: 22px;
+  color: var(--primary-color);
+}
+
+.logo{
+  text-align: left;
+  float: left;
+  margin-top: 0.1em;
+  margin-left: 1em;
+}
+
+.button-login{
+  color: #111111;
+  background: none;
+}
+
+.login-signup{
+  text-align: right;
+  margin-top: 0.1em;
+}
+
+@media (max-width: 700px) {
+  header {
+    flex-direction: column;
+  }
+}
