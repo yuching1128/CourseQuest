@@ -42,3 +42,12 @@ Currently, there are no such applications available to help and guide students. 
 
 ## Test and Deploy
 - Work in progress
+
+## Git Merge Strategy
+- Create a new branch from develop branch
+- Naming convention for the branch : COUR-[story-id]-brief-description 
+- Work on this branch for your story commits
+- Once you are done with all changes, create a merge request to develop branch with reviewer as the peer reviewer.
+- Add appropriate comments if any for merge request.
+- Either delete it manually or enable the tick mark to delete automatically after merge request is approved.
+- When code is stable, merge the develop branch to main branch with team's review.
