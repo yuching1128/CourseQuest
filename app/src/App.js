@@ -1,5 +1,9 @@
+import Container from 'react-bootstrap/Container';
+import Header from "./components/Header";
 export default function App() {
     return (
-        <h1>CourseQuest</h1>
+        <Container fluid className="App">
+            <Header />
+        </Container>
     );
 }
