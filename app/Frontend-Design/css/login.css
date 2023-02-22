@@ -1,0 +1,47 @@
+.login-page {
+    display: flex;
+    width: 1200px;
+    height: 500px;
+}
+
+.image{
+    width: 600px;
+    background-image: url("../images/login/login-page-image.png");
+    background-position: center;
+    background-size: 750px;
+}
+
+.login-component{
+    flot: left;
+    width: 600px;
+    background:  #FBF6F6;
+}
+
+.login-text{
+    font-weight: lighter;
+    color: var(--primary-color);
+    font-size: 3em;
+    margin-left: 5.5em;
+}
+
+.login-info{
+    margin-top: 2em;
+    color: var(--secondary-color);
+    font-size: 1.5em;
+    margin-left: 8em;
+}
+
+.login-component input[type=text] {
+    margin-bottom: 1em;
+    margin-left: 14em;
+    background: none;
+    border: 10px none;
+    border-bottom: solid var(--primary-color);
+    outline: 0;
+}
+
+.main-login-button{
+    margin-top: 1em;
+    margin-left: 10em;
+    font-size: 25px;
+}
