@@ -4,6 +4,7 @@ import Header from "./app/Header";
 import HomePage from "./features/homepage/HomePage";
 import LoginPage from "./features/login/LoginPage";
 import SignupPage from "./features/signup/SignupPage";
+import Footer from "./app/Footer";
 export default function App() {
     return (
         <Container fluid className="App">
@@ -15,6 +16,7 @@ export default function App() {
                     <Route exact path="/signup" element={<SignupPage />} />
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
+                <Footer />
             </BrowserRouter>
         </Container>
     );

@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/header.css'
 import './css/index.css';
 import './css/loginPage.css';
+import './css/footer.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
