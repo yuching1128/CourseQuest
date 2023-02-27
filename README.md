@@ -51,3 +51,12 @@ Currently, there are no such applications available to help and guide students. 
 - Add appropriate comments if any for merge request.
 - Either delete it manually or enable the tick mark to delete automatically after merge request is approved.
 - When code is stable, merge the develop branch to main branch with team's review.
+
+## Local Development Setup - frontend
+- Install node.js (check if installed on machine by typing in 'node -v')
+- Install git 
+- Install Webstorm IDE
+- CD into an appropriate folder location and git clone this repo
+- Open the newly cloned repo in Webstorm
+- Install the required packages through npm install
+- Check if can start up web application by running 'npm start' 
