@@ -1,0 +1,5 @@
+.Header {
+    border-bottom: 1px solid #ddd;
+    border-bottom: 0.2em solid var(--secondary-color);
+    margin-bottom: 50px;
+}

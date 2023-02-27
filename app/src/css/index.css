@@ -11,3 +11,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.App {
+  padding: 0;
+}
+
+:root {
+
+  --default-font-family: 'Roboto', sans-serif;
+  --defatul-font-size: 1.5rem;
+  --default-text-color: #111;
+  --neutral-color: white;
+
+  --primary-color: #630031;
+  --primary-color-bright: #D83379;
+  --secondary-color: #CF4420;
+}
