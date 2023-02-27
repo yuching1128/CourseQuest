@@ -1,3 +1,7 @@
 .LoginContent {
     justify-content: center;
 }
+
+.errorMessage {
+    color: red;
+}
