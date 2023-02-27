@@ -1,59 +1,38 @@
 import Container from "react-bootstrap/Container";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import {useEffect, useRef, useState} from "react";
 import {Image, Stack} from "react-bootstrap";
+import { useForm } from "react-hook-form";
 
 export default function LoginPage() {
-    const [loginErrors, setLoginErrors] = useState({})
-    const emailField = useRef()
-    const passwordField = useRef()
 
-    useEffect(() => {
-        emailField.current.focus()
-    }, []);
+    const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const onSubmit = (ev) => {
-        ev.preventDefault()
-        const email = emailField.current.value
-        const password = passwordField.current.value
-
-        // error handling
-        const errors = {}
-        if (!email) {
-            errors.email = 'Email cannot be empty'
-        }
-        if (!password) {
-            errors.password = 'Password cannot be empty'
-        }
-        setLoginErrors(errors)
-        if (Object.keys(errors).length > 0 ) {
-            return
-        }
-
-        // success
-        // TODO - DISPATCH TO REDUX AND SEND TO BACKEND API FOR PROCESSING
-        console.log(`Email: ${email} | Password: ${password}`)
+    const onSubmit = (data) => {
+        // TODO SUBMIT LOGIN DATA TO API FOR PROCESSING
+        console.log(data)
     }
 
     return (
         <Container className="LoginPage">
             <Stack direction="horizontal" gap={3} className="LoginContent">
+
                 <Image alt="Logo" src={require('../../images/login-page-image.png') }
                        width="400px"
                        className="d-inline-block align-top " />
-                <Form onSubmit={onSubmit} className="LoginForm">
+
+                <Form onSubmit={handleSubmit(onSubmit)} className="LoginForm">
                     <h1>Login</h1>
                     <Form.Group className="mb-3" controlId="loginEmail">
                         <Form.Label>Email</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" ref={emailField} />
-                        {loginErrors.email && <Form.Text className="text-danger">{loginErrors.email}</Form.Text>}
+                        <Form.Control placeholder="Enter email" {...register("email", { required: 'Email is required' })} />
+                        {errors.email && <p className="errorMessage">{errors.email?.message}</p>}
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="loginPassword" >
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" ref={passwordField} />
-                        {loginErrors.password && <Form.Text className="text-danger">{loginErrors.password}</Form.Text>}
+                        <Form.Control type="password" placeholder="Password"  {...register("password", { required: 'Password is required' })} />
+                        {errors.password && <p className="errorMessage">{errors.password?.message}</p>}
                     </Form.Group>
 
                     <Button variant="primary" type="submit" className="LoginButton">Login</Button>
