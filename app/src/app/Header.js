@@ -17,10 +17,9 @@ export default function Header() {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <Nav.Link as={NavLink} to="/" end>Home</Nav.Link>
-                        <Nav.Link as={NavLink} to="/">Courses</Nav.Link>
+                        <Nav.Link as={NavLink} to="/courses">Courses</Nav.Link>
                         <Nav.Link as={NavLink} to="/">Be a Mentor</Nav.Link>
                         <Nav.Link as={NavLink} to="/">Find my Mentor</Nav.Link>
-
                     </Nav>
                     <Nav>
                         <Nav.Link as={NavLink} to="/login">Login</Nav.Link>
