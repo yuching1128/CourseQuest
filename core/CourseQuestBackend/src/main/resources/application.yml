@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    include: default
+  security:
+    user:
+      name: test
+      password: 123456
+      roles:
+        - user
+        - admin
+server:
+  port: 8080
+
