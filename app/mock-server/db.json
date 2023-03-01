@@ -1,0 +1,47 @@
+{
+  "courses": [
+    {
+      "id": 1,
+      "crn_number": 4704,
+      "name": "CS4704: Software Engineering Capstone",
+      "rating": 4,
+      "instructor": "Dr. Bob",
+      "dept_name_id": 1,
+      "credits": 3,
+      "description": "Senior project course integrating software engineering knowledge and skills acquired in previous courses. Team-based approach to problem formulation, requirements engineering, architecture, design, implementation, integration, documentation and delivery of a software system that solves a real-world problem. (3H,3C)",
+      "date_created": "time",
+      "level": 400,
+      "universityId": 1
+    },
+    {
+      "id": 2,
+      "crn_number": 1114,
+      "name": "CS1114: Introduction to Software Design",
+      "rating": 3,
+      "instructor": "Dr. Joe",
+      "dept_name_id": 1,
+      "credits": 3,
+      "description": "Fundamental concepts of programming from an object-oriented perspective. Basic software engineering principles and programming skills in a programming language that supports the object-oriented paradigm. Simple data types, control structures, array and string data structures, basic algorithms, testing and debugging. A basic model of the computer as an abstract machine. Modeling and problem-solving skills applicable to programming at this level.",
+      "date_created": "time",
+      "level": 400,
+      "universityId": 1
+    },
+    {
+      "id": 3,
+      "crn_number": 2354,
+      "name": "BCHM 2354 - Biochemical Techniques",
+      "rating": 3,
+      "instructor": "Dr. Bio",
+      "dept_name_id": 1,
+      "credits": 3,
+      "description": "Fundamental aspects of biochemical laboratory measurements. Properties of biomolecules and methods for their isolation, separation, detection and quantification. Calculations required to provide quantitative biomolecular data. Common instrumentation in biochemical laboratories, their principles of operation, and their roles in biochemical assays and measuring biochemical interactions. Overview of on-line resources for biochemical information.",
+      "date_created": "time",
+      "level": 200,
+      "university_id": 1
+    }
+  ],
+  "university": [
+    {"id":  1, "name": "Virginia Tech"},
+    {"id":  2, "name":  "University of Virginia"}
+  ]
+}
