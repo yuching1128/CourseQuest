@@ -1,19 +1,18 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const apiSlice = createApi({
-    // The cache reducer expects to be added at `state.api` (already default - this is optional)
+    // The cache reducer expects to be added at `state.api`
     reducerPath: 'api',
-    // All of our requests will have URLs starting with '/fakeApi'
-    baseQuery: fetchBaseQuery({ baseUrl: '/fakeApi' }),
-    // The "endpoints" represent operations and requests for this server
+    // todo update mocked baseUrl to actual back-end server once available.
+    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:4000/' }),
     endpoints: builder => ({
-        // The `getPosts` endpoint is a "query" operation that returns data
-        getPosts: builder.query({
-            // The URL for the request
-            query: () => '/posts'
+        getCourses: builder.query({
+            query: () => '/courses'
+        }),
+        getCourse: builder.query({
+            query: courseId => `/courses/${courseId}`
         })
     })
 })
 
-// Export the auto-generated hook for the `getPosts` query endpoint
-export const { useGetPostsQuery } = apiSlice
+export const { useGetCoursesQuery, useGetCourseQuery } = apiSlice
