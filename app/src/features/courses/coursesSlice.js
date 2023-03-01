@@ -9,14 +9,15 @@ const initialState = [
         id: 1,
         crn_number: 4704,
         name: 'CS4704: Software Engineering Capstone',
-        rating: 4,
+        rating: 4.5,
         instructor: 'Dr. Bob',
         dept_name_id: 1,
         credits: 3,
-        description: 'Senior project course integrating software engineering knowledge and skills acquired in previous courses. Team-based approach to problem formulation, requirements engineering, architecture, design, implementation, integration, documentation and delivery of a software system that solves a real-world problem. (3H,3C)',
+        description: 'Senior project course integrating software engineering knowledge and skills acquired in previous courses. Team-based approach to problem formulation, requirements engineering, architecture, design, implementation, integration, documentation and delivery of a software system that solves a real-world problem.',
         date_created: 'time',
         level: 400,
-        university_id: 1
+        university_id: 1,
+        reviews: ['Good', 'Interesting!', 'I love it.']
     },
     {
         id: 2,
@@ -32,6 +33,7 @@ const initialState = [
         university_id: 1
     }
 ]
+
 
 const coursesSlice = createSlice({
     name: 'courses',
