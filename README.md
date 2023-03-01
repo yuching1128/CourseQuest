@@ -58,5 +58,7 @@ Currently, there are no such applications available to help and guide students. 
 - Install Webstorm IDE
 - CD into an appropriate folder location and git clone this repo
 - Open the newly cloned repo in Webstorm
-- Install the required packages through npm install
+- Install the required packages through 'npm install'
+- Install JSON-server for mocked backend API fetching.
+- Run JSON-server 'cd mock-server' then 'json-server --watch db.json'. Local server will be 'http://localhost:4000/'
 - Check if can start up web application by running 'npm start' 
