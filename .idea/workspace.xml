@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78b88d9b-7eec-44d9-b1fb-e6ed8bf75b86" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/features/courses/SingleCoursePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/features/courses/SingleCoursePage.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,6 +14,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="COUR-71" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
@@ -78,7 +83,7 @@
       <updated>1677041338566</updated>
       <workItem from="1677041340317" duration="139000" />
       <workItem from="1677041712798" duration="1133000" />
-      <workItem from="1677712303348" duration="496000" />
+      <workItem from="1677712303348" duration="1155000" />
     </task>
     <servers />
   </component>
