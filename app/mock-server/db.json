@@ -43,5 +43,10 @@
   "university": [
     {"id":  1, "name": "Virginia Tech"},
     {"id":  2, "name":  "University of Virginia"}
+  ],
+  "reviews": [
+    {"id": 1, "coursesId": 1, "poster":  "Jen", "content":  "This is review #1", "date_created": "[fake time]"},
+    {"id": 2, "coursesId": 1, "poster":  "Pun", "content":  "This is review #2", "date_created": "[fake time]"},
+    {"id": 3, "coursesId": 1, "poster":  "Lao", "content":  "This is review #3", "date_created": "[fake time]"}
   ]
 }

@@ -4,6 +4,7 @@ import {useParams} from "react-router-dom";
 import {Spinner} from "react-bootstrap";
 import {useGetCourseQuery} from "../api/apiSlice";
 import ProgressBar from 'react-bootstrap/ProgressBar';
+import {ReviewsPage} from "../reviews/ReviewsPage";
 
 export const SingleCoursePage = () => {
     const { courseId } = useParams()
@@ -15,16 +16,6 @@ export const SingleCoursePage = () => {
         isError,
         error
     } = useGetCourseQuery(courseId)
-
-    // const ReviewList = () => {
-    //     return (
-    //         <div className="reviews">
-    //             {course.reviews.map(review =>(
-    //                 <div className="reviewBlock">{review}</div>
-    //             ))}
-    //         </div>
-    //     );
-    // }
 
     let content
 
@@ -47,7 +38,7 @@ export const SingleCoursePage = () => {
                 </div>
                 <h3 className="reviews-text">Reviews</h3>
                 <hr/>
-                {/*<ReviewList/>*/}
+                <ReviewsPage courseId={course.id} />
 
             </Container>
         )
