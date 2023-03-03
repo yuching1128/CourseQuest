@@ -2,9 +2,10 @@ package com.vt.coursequestbackend.controller;
 
 import com.vt.coursequestbackend.entity.Course;
 import com.vt.coursequestbackend.entity.User;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author: EugeneFeng
@@ -12,17 +13,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @description: some desc
  */
 
-@Controller
+@RestController
 public class MainController {
 
     @RequestMapping("/index")
     @ResponseBody
     public String index(){
-        return "Welcome to the CourseQuest!";
+        return "Welcome to the CourseQuest!!";
     }
 
 
-    @RequestMapping("/course")
+    @GetMapping("/course")
     @ResponseBody
     public Course course() {
         Course course = new Course();
