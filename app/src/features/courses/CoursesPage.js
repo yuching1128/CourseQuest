@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import {Spinner} from "react-bootstrap";
 import {useGetCoursesQuery} from "../api/apiSlice";
@@ -21,7 +21,7 @@ let CourseExcerpt = ({ course }) => {
 
 export const CoursesPage = () => {
 
-    const user = useSelector(state => state.user)
+    const { universityId } = useParams()
 
     const {
         data: courses,
@@ -29,7 +29,7 @@ export const CoursesPage = () => {
         isSuccess,
         isError,
         error
-    } = useGetCoursesQuery(user.universityId)
+    } = useGetCoursesQuery(universityId)
 
     let content
 
