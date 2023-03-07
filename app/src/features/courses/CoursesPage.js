@@ -8,12 +8,12 @@ import {useSelector} from "react-redux";
 let CourseExcerpt = ({ course }) => {
     return (
         <article className="course-excerpt" key={course.id}>
-            <h3>{course.name}</h3>
+            <Link to={`/courses/${course.id}`} className="button">
+                <h3>{course.name}</h3>
+            </Link>
+            <p>Professor: {course.instructor}</p>
             <p className="description">{course.description.substring(0, 100)}...</p>
             <div>Rating: {course.rating} / 5</div>
-            <Link to={`/courses/${course.id}`} className="button">
-                View Course
-            </Link>
             <hr />
         </article>
     )
