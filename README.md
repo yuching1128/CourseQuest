@@ -62,3 +62,7 @@ Currently, there are no such applications available to help and guide students. 
 - Install JSON-server for mocked backend API fetching.
 - Run JSON-server 'cd mock-server' then 'json-server --watch db.json'. Local server will be 'http://localhost:4000/'
 - Check if can start up web application by running 'npm start' 
+
+## maven command(at the folder: coursequest) to run the integrated project on local at port 8080 I.e. localhost:8080
+- mvn clean install generate-resources process-resources validate
+- java -jar core/target/course-quest.jar
