@@ -5,15 +5,23 @@ import {Spinner} from "react-bootstrap";
 import {useGetCoursesQuery} from "../api/apiSlice";
 import {useSelector} from "react-redux";
 
+
 let CourseExcerpt = ({ course }) => {
     return (
         <article className="course-excerpt" key={course.id}>
-            <Link to={`/courses/${course.id}`} className="button">
+            <Link to={`/courses/${course.id}`} className="course-button">
                 <h3>{course.name}</h3>
             </Link>
-            <p>Professor: {course.instructor}</p>
-            <p className="description">{course.description.substring(0, 100)}...</p>
-            <div>Rating: {course.rating} / 5</div>
+            <div className="allInfo">
+                <div className="ratingBox">
+                    <p className="rating-text">Rating</p>
+                    <div className="rating-point">{course.rating}</div>
+                </div>
+                <div className="courseInfo">
+                    <p className="professorName">Professor: {course.instructor}</p>
+                    <p className="des">{course.description.substring(0, 100)}...</p>
+                </div>
+            </div>
             <hr />
         </article>
     )
@@ -42,14 +50,15 @@ export const CoursesPage = () => {
     }
 
     return (
-        <Container className="courses-list">
-            <h2>Courses:</h2>
-            {content}
+        <Container>
+            <div className="courses-list">
+                {content}
+            </div>
+            <button className="courseList-Load">
+                Load more
+            </button>
         </Container>
     )
-
-
-
 }
 
 

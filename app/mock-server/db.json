@@ -37,7 +37,7 @@
       "description": "Fundamental aspects of biochemical laboratory measurements. Properties of biomolecules and methods for their isolation, separation, detection and quantification. Calculations required to provide quantitative biomolecular data. Common instrumentation in biochemical laboratories, their principles of operation, and their roles in biochemical assays and measuring biochemical interactions. Overview of on-line resources for biochemical information.",
       "date_created": "time",
       "level": 200,
-      "university_id": 1
+      "universityId": 1
     }
   ],
   "university": [
