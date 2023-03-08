@@ -1,0 +1,73 @@
+.courses-list{
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.course-button{
+    color: #630031;
+    width: content-box;
+}
+
+.course-button:hover{
+    color: #D83379;
+}
+
+.allInfo{
+    display: flex;
+    margin-top: 1em;
+}
+
+.ratingBox{
+    display:inline-block;
+    background-color: #FBF6F6;
+    width: 100px;
+    height: 100px;
+
+}
+
+.rating-text{
+    padding-top: 0.5em;
+    text-align: center;
+    margin: 0 auto;
+    font-weight: bold;
+}
+
+.rating-point{
+    color: #CF4420;
+    font-size: 3em;
+    font-weight: bold;
+    text-align: center;
+    margin: -0.1em auto 0;
+}
+
+.courseInfo {
+    display: inline-block;
+    margin-left: 1em;
+}
+
+.professorName {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+}
+
+.des{
+    font-size: 1.2em;
+    position: relative;
+}
+
+.courseList-Load{
+    background-color: #630031;
+    color: white;
+    font-weight: bold;
+    font-size: 1em;
+    border: none;
+    border-radius: 0.6em;
+    padding: 0.2em 1em 0.2em 1em;
+    margin-top: 2em;
+    position: relative;
+    top: 50%;
+    left: 45%;
+}
+
