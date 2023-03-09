@@ -23,24 +23,9 @@ public class MainController {
     }
 
 
-    @GetMapping("/course")
-    @ResponseBody
-    public Course course() {
-        Course course = new Course();
-        course.setId(1);
-        course.setName("Software Engineering");
-        course.setCrnNumber("CRN123456");
-        return course;
-    }
-
-    @RequestMapping("/user")
-    @ResponseBody
-    public User user() {
-        User user = new User();
-        user.setId(1);
-        user.setPhone("8623579779");
-        user.setLastName("Feng");
-        user.setFirstName("Yuechen");
-        return user;
+    @GetMapping("/error")
+    public int error(){
+        int i = 9/0;
+        return i;
     }
 }
