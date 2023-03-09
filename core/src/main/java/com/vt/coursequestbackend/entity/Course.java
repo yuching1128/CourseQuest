@@ -1,4 +1,5 @@
 package com.vt.coursequestbackend.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
@@ -21,10 +22,12 @@ public class Course {
     int id;
 
 
+    @JsonIgnore
     @JoinColumn(name = "university_id")
     @OneToOne
     University university;
 
+    @JsonIgnore
     @JoinColumn(name = "degree_id")
     @OneToOne
     Degree degree;
