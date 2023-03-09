@@ -1,7 +1,9 @@
 package com.vt.coursequestbackend.controller;
 
 import com.vt.coursequestbackend.dao.CourseRepository;
+import com.vt.coursequestbackend.dao.DegreeRepository;
 import com.vt.coursequestbackend.entity.Course;
+import com.vt.coursequestbackend.entity.Degree;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,9 @@ public class CourseController {
     @Resource
     private CourseRepository courseRepository;
 
+    @Resource
+    private DegreeRepository degreeRepository;
+
     @ApiOperation("This service is used to get the list of all the courses available in the university")
     @GetMapping("/api/university/{universityid}/courses")
     public List<Course> getCourseList(@PathVariable String universityid) {
@@ -36,8 +41,8 @@ public class CourseController {
 
     @ApiOperation("This service is used to get the list of all the degree types available in the university\n")
     @GetMapping("/api/university/{universityid}/degreetypes")
-    public String getDegreeList(@PathVariable String universityid) {
-        return "getDegreeList: " + "universityid: " + universityid;
+    public List<Degree> getDegreeList(@PathVariable String universityid) {
+        return degreeRepository.findAll();
     }
 
 
