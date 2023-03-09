@@ -1,0 +1,20 @@
+# IntelliJ
+.idea
+*.ipr
+*.iml
+*.iws
+
+#Maven Core
+core/target/
+
+# Maven App
+app/build
+app/target/
+app/node/
+app/node_modules/
+app/package-lock.json
+
+# Eclipse
+.project
+.classpath
+.settings/
