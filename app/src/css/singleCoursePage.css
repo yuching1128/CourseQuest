@@ -1,0 +1,66 @@
+.singleCoursePage {
+    padding: 1em;
+}
+.courseName{
+    color: #630031;
+}
+
+.courseDescription{
+    padding-top: 1em;
+    font-size: 1.2em;
+    text-align: justify;
+}
+
+.rating{
+    color: #ED8B00;
+    font-size: 10em;
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 0.2em;
+}
+
+.rateOutof{
+    color: #ED8B00;
+    font-size: 3em;
+    font-weight: bold;
+    display: inline-block;
+}
+.progress-bar{
+    background-color: #ED8B00;
+}
+
+.ratingBar{
+    margin-top: -2em;
+    width: 250px;
+}
+
+.counts{
+    display: inline-block;
+}
+
+.rate-review-but{
+    padding: 0.1em 0.5em 0.1em 0.5em;
+    background-color: #630031;
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    display: inline-block;
+    margin-left: 5em;
+}
+
+.reviews-text{
+    color: #630031;
+    font-weight: bold;
+    margin-top: 2em;
+}
+
+.reviews{
+    margin-top: 1em;
+}
+
+.reviewBlock{
+    background-color: #FDF3E5;
+    margin-top: 1em;
+}
