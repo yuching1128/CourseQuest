@@ -1,12 +1,14 @@
-import React from 'react'
+import React, {Component} from 'react'
 import Container from "react-bootstrap/Container";
 import {useParams} from "react-router-dom";
 import {Spinner} from "react-bootstrap";
 import {useGetCourseQuery} from "../api/apiSlice";
-import ProgressBar from 'react-bootstrap/ProgressBar';
 import {ReviewsPage} from "../reviews/ReviewsPage";
+import StarRatings from 'react-star-ratings';
+import Accordion from 'react-bootstrap/Accordion';
 
 export const SingleCoursePage = () => {
+
     const { courseId } = useParams()
 
     const {
@@ -16,6 +18,21 @@ export const SingleCoursePage = () => {
         isError,
         error
     } = useGetCourseQuery(courseId)
+
+
+    class Bar extends Component {
+        render() {
+            return (
+                <StarRatings
+                    rating={course.rating}
+                    starDimension="2em"
+                    starSpacing="0.2em"
+                    starRatedColor ='rgb(237, 139, 0)'
+                />
+            );
+        }
+    }
+
 
     let content
 
@@ -30,16 +47,27 @@ export const SingleCoursePage = () => {
                 <div>
                     <p className="rating">{course.rating}</p>
                     <p className="rateOutof">/ 5</p>
+                </div>
+                <Bar/>
+                <div className="functionButtons">
                     <button className="rate-review-but">Rate and Review</button>
+                    <button className="rate-review-but">Ask Questions</button>
                 </div>
-                <div className="ratingBar">
-                    <ProgressBar max = "5" now={course.rating} />
-                    <p className="counts">(Counts of total ratings)</p>
-                </div>
-                <h3 className="reviews-text">Reviews</h3>
-                <hr/>
-                <ReviewsPage courseId={course.id} />
+                <Accordion>
+                    <Accordion.Item eventKey="0">
+                        <Accordion.Header>Reviews</Accordion.Header>
+                        <Accordion.Body className="reviewsComponent">
+                            <ReviewsPage courseId={course.id} />
+                        </Accordion.Body>
 
+                    </Accordion.Item>
+                    <Accordion.Item eventKey="1">
+                        <Accordion.Header>Rate and Review</Accordion.Header>
+                        <Accordion.Body>
+                            Rate and Review component
+                        </Accordion.Body>
+                    </Accordion.Item>
+                </Accordion>
             </Container>
         )
     } else if (isError) {
