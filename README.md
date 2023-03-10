@@ -63,11 +63,12 @@ Currently, there are no such applications available to help and guide students. 
 - Run JSON-server 'cd mock-server' then 'json-server --watch db.json'. Local server will be 'http://localhost:4000/'
 - Check if can start up web application by running 'npm start' 
 
-## maven command(at the folder: coursequest) to run the integrated project on local at port 8080 I.e. localhost:8080
+## Maven command(at the folder: coursequest) 
+# To run the integrated project on local at port 8080 i.e. localhost:8080
 - mvn clean install generate-resources process-resources validate
 - java -jar core/target/course-quest.jar
 
-# Spring Boot Microservice using DockerCompose connecting to MySQL Docker container
+# Spring Boot using DockerCompose connecting to MySQL Docker container
 
 1. Run the command: mvn clean install generate-resources process-resources validate
 
