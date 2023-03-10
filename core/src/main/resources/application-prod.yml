@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/CourseQuest
+    username: root
+    password: Fyc8623579779
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+#      ddl-auto: update
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+  profiles:
+    include: default
+  security:
+    user:
+      name: test
+      password: 123456
+      roles:
+        - user
+        - admin
+server:
+  port: 8080

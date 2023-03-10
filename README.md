@@ -66,3 +66,25 @@ Currently, there are no such applications available to help and guide students. 
 ## maven command(at the folder: coursequest) to run the integrated project on local at port 8080 I.e. localhost:8080
 - mvn clean install generate-resources process-resources validate
 - java -jar core/target/course-quest.jar
+
+# Spring Boot Microservice using DockerCompose connecting to MySQL Docker container
+
+1. Run the command: mvn clean install generate-resources process-resources validate
+
+2. Start dockerDesktop 
+
+3. Run: 
+- docker-compose build
+- docker-compose up -d
+- Test with localhost:8080
+
+4. Stop docker container
+`docker-compose down`
+
+
+## Useful Docker commands
+- `docker images`
+- `docker container ls`
+- `docker logs <container_name>`
+- `docker container rm <container_name>`
+- `docker image rm <image_name>`
