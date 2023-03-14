@@ -3,16 +3,16 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const apiSlice = createApi({
     reducerPath: 'api',
     // todo update mocked baseUrl to actual back-end server once available.
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:4000/' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/api/' }),
     endpoints: builder => ({
         getCourses: builder.query({
-            query: universityId => `/university/${universityId}/courses`
+            query: universityId => `university/${universityId}/courses`
         }),
         getCourse: builder.query({
-            query: courseId => `/courses/${courseId}`
+            query: courseId => `courses/${courseId}`
         }),
         getCourseReviews: builder.query({
-            query: courseId => `/courses/${courseId}/reviews`
+            query: courseId => `courses/${courseId}/reviews`
         }),
     })
 })
