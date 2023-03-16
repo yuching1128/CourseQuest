@@ -1,3 +1,6 @@
+create schema CourseQuest;
+use CourseQuest;
+
 create table degree
 (
     id   int auto_increment

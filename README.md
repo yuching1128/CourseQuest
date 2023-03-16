@@ -63,6 +63,16 @@ Currently, there are no such applications available to help and guide students. 
 - Run JSON-server 'cd mock-server' then 'json-server --watch db.json'. Local server will be 'http://localhost:4000/'
 - Check if can start up web application by running 'npm start' 
 
+## Local Development Setup - backend + database
+- MySQL Installation/Setup
+  - Install MySQL on your local machine
+  - Create new database via DataGrip (ensure to use your MySQL username and password)
+  - Create tables and queries for by running these SQL scripts (located in coursequest -> db -> mysql -> init.sql)
+- SpringBoot Setup
+  - In Coursequest -> core -> scr -> main -> resources -> application.yml, update lines 4 and 5 to your MySQL username and password
+  - Run the maven and java commands below to build the project 
+  - Open localhost:8080 on browser. 
+  
 ## Maven command(at the folder: coursequest) 
 # To run the integrated project on local at port 8080 i.e. localhost:8080
 - mvn clean install generate-resources process-resources validate
