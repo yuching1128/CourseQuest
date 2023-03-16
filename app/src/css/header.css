@@ -2,10 +2,15 @@
     border-bottom: 1px solid #ddd;
     border-bottom: 0.2em solid var(--secondary-color);
     margin-bottom: 50px;
+    background-color: #FBF6F6;
 }
 
-.navbar-nav .nav-link.active {
+.navbar-nav .nav-link.active{
     color: var(--primary-color-bright);
+}
+
+.nav-button:focus {
+    outline: none;
 }
 
 .nav-button{
@@ -17,18 +22,24 @@
 }
 
 .nav-button:hover{
-    color: #ED8B00;
+    color: #630031;
     font-size: 1.5em;
     font-weight: bold;
     margin-left: 2em;
 }
 
 .button-login{
+    background-color: transparent;
+    border: none;
     font-size: 1.5em;
     font-weight: bold;
     color: #111111;
     margin-left: 2em;
     margin-top: 0.5em;
+}
+
+.button-login:hover{
+    color: #630031;
 }
 
 .button-signup {
@@ -41,17 +52,15 @@
     border-radius: 15px;
 }
 
-.button-login:hover{
-    color: var(--primary-color-bright);
-}
-
 .button-signup:hover {
     background-color: var(--primary-color-bright);
     color: white;
 }
 
-.button-signup:focus {
+.button-signup:focus,
+.button-signup.active{
     background-color: var(--primary-color-bright) !important;
     color: white !important;
 }
+
 

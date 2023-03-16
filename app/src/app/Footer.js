@@ -1,21 +1,20 @@
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container'
+import {faCopyright} from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
+import {NavLink} from "react-router-dom";
 import {Nav} from "react-bootstrap";
-import { NavLink } from 'react-router-dom';
 
 export default function Footer() {
     return (
-        <Navbar bg="light" className="Footer" expand="lg" >
+        <Navbar className="Footer" expand="lg" >
             <Container>
-                <Nav>
-                    <Nav.Link as={NavLink} to="/">About Us</Nav.Link>
-                    <Nav.Link as={NavLink} to="/">Privacy Notice</Nav.Link>
-                </Nav>
-                All Rights Reserved
+                <div className="about">
+                    <Nav.Link as={NavLink} to="/" className="about-us">About Us</Nav.Link>
+                </div>
             </Container>
+            <p className="copy-right"><FontAwesomeIcon icon={faCopyright} /> All Rights Reserved</p>
         </Navbar>
     )
-
-
-
 }
