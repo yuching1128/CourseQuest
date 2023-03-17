@@ -11,6 +11,7 @@
     left: 50%;
     margin-left: -4em;
 }
+
 .about-us{
     background-color: transparent;
     border: none;
@@ -18,6 +19,7 @@
     font-weight: bold;
     color: black;
 }
+
 .about-us:hover{
     background-color: transparent;
     border: none;
@@ -25,7 +27,6 @@
     font-weight: bold;
     color: #630031;
 }
-
 
 .copy-right{
     margin-top: 3em;
@@ -40,4 +41,3 @@
 .Container{
     margin-bottom: 0;
 }
-
