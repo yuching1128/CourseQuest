@@ -1,5 +1,6 @@
 import Container from 'react-bootstrap/Container';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+//import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import {HashRouter, Routes, Route, Navigate} from 'react-router-dom';
 import Header from "./app/Header";
 import HomePage from "./features/homepage/HomePage";
 import LoginPage from "./features/login/LoginPage";
@@ -11,7 +12,7 @@ import {CoursesPage} from "./features/courses/CoursesPage";
 export default function App() {
     return (
         <Container fluid className="App">
-            <BrowserRouter>
+            <HashRouter>
                 <Header />
                 <Routes>
                     <Route exact path="/" element={<HomePage />} />
@@ -22,7 +23,7 @@ export default function App() {
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
                 <Footer />
-            </BrowserRouter>
+            </HashRouter>
         </Container>
     );
 }

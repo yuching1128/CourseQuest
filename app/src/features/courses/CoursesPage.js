@@ -1,10 +1,7 @@
-import React from 'react'
-import {Link, useParams} from "react-router-dom";
-import Container from "react-bootstrap/Container";
-import {Spinner} from "react-bootstrap";
-import {useGetCoursesQuery} from "../api/apiSlice";
-import {useSelector} from "react-redux";
-
+import React, { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
+import { Spinner } from 'react-bootstrap';
 
 let CourseExcerpt = ({ course }) => {
     return (
@@ -24,41 +21,76 @@ let CourseExcerpt = ({ course }) => {
             </div>
             <hr />
         </article>
-    )
-}
+    );
+};
 
 export const CoursesPage = () => {
+    const { universityId } = useParams();
 
-    const { universityId } = useParams()
+    const pageSize = 3;
 
-    const {
-        data: courses,
-        isLoading,
-        isSuccess,
-        isError,
-        error
-    } = useGetCoursesQuery(universityId)
+    const [currentPage, setCurrentPage] = useState(
+        localStorage.getItem('curpage') ? parseInt(localStorage.getItem('curpage')) : 0
+    );
 
-    let content
+    const [courseList, setCourseList] = useState([]);
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    const [error, setError] = useState(null);
+
+    const [noMoreCourses, setNoMoreCourses] = useState(false);
+
+    useEffect(() => {
+        const fetchCourses = async () => {
+            setIsLoading(true);
+
+            try {
+                const response = await fetch(`/api/university/${universityId}/courses/${currentPage}/${pageSize}`);
+                const data = await response.json();
+
+                if (data.length === 0) {
+                    setNoMoreCourses(true);
+                } else {
+                    setCourseList((prevCourseList) => [...prevCourseList, ...data]);
+                }
+            } catch (error) {
+                setError(error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchCourses();
+    }, [universityId, currentPage, pageSize]);
+
+    let content;
 
     if (isLoading) {
-        content = <Spinner text="Loading..." />
-    } else if (isSuccess) {
-        content = courses.map(course => <CourseExcerpt key={course.id} course={course} />)
-    } else if (isError) {
-        content = <div>{error.toString()}</div>
+        content = <Spinner text="Loading..." />;
+    } else if (courseList.length > 0) {
+        content = courseList.map((course) => <CourseExcerpt key={course.id} course={course} />);
+    } else if (error) {
+        content = <div>{error.toString()}</div>;
     }
+
+    useEffect(() => {
+        localStorage.setItem('curpage', currentPage.toString());
+    }, [currentPage]);
+
+    const handleLoadMore = () => {
+        setCurrentPage(currentPage + 1);
+    };
 
     return (
         <Container>
-            <div className="courses-list">
-                {content}
-            </div>
-            <button className="courseList-Load">
-                Load more
-            </button>
+            <div className="courses-list">{content}</div>
+            {!noMoreCourses && (
+                <button className="courseList-Load" onClick={handleLoadMore}>
+                    Load more
+                </button>
+            )}
+            {noMoreCourses && <div className="noCourse">No more to load</div>}
         </Container>
-    )
-}
-
-
+    );
+};
