@@ -6,22 +6,20 @@ import javax.persistence.*;
 
 /**
  * @author: EugeneFeng
- * @date: 3/1/23 10:15 AM
+ * @date: 3/17/23 5:43 PM
  * @description: some desc
  */
 
-
 @Data
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "instructor")
+public class Instructor {
 
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     int id;
-    String firstName;
-    String lastName;
-    String phone;
-    String password;
+
+    @Column(name = "name")
+    String name;
 }

@@ -18,5 +18,6 @@ public class Degree {
     @Id
     int id;
 
+    @Column(name = "name")
     String name;
 }
