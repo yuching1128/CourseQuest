@@ -71,3 +71,11 @@
     left: 45%;
 }
 
+.noCourse{
+    position: relative;
+    margin-top: 2em;
+    left: 50%;
+    margin-left: -6em;
+    font-size: 1.5em;
+    font-weight: bold;
+}
