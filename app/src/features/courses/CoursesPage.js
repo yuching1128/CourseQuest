@@ -27,19 +27,25 @@ let CourseExcerpt = ({ course }) => {
 export const CoursesPage = () => {
     const { universityId } = useParams();
 
-    const pageSize = 3;
+    const pageSize = 2;
 
     const [currentPage, setCurrentPage] = useState(
         localStorage.getItem('curpage') ? parseInt(localStorage.getItem('curpage')) : 0
     );
 
-    const [courseList, setCourseList] = useState([]);
+    const [courseList, setCourseList] = useState(
+        localStorage.getItem('courseList') ? JSON.parse(localStorage.getItem('courseList')) : []
+    );
 
     const [isLoading, setIsLoading] = useState(false);
 
     const [error, setError] = useState(null);
 
-    const [noMoreCourses, setNoMoreCourses] = useState(false);
+    const [noMoreCourses, setNoMoreCourses] = useState(
+        localStorage.getItem('noMoreCourses') ? localStorage.getItem('noMoreCourses') === 'true' : false
+    );
+
+    const [shouldLoadMore, setShouldLoadMore] = useState(false);
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -51,6 +57,7 @@ export const CoursesPage = () => {
 
                 if (data.length === 0) {
                     setNoMoreCourses(true);
+                    localStorage.setItem('noMoreCourses', true);
                 } else {
                     setCourseList((prevCourseList) => [...prevCourseList, ...data]);
                 }
@@ -58,15 +65,20 @@ export const CoursesPage = () => {
                 setError(error);
             } finally {
                 setIsLoading(false);
+                setShouldLoadMore(false);
             }
         };
 
-        fetchCourses();
-    }, [universityId, currentPage, pageSize]);
+        if (shouldLoadMore) {
+            fetchCourses();
+        } else if (courseList.length === 0) {
+            fetchCourses();
+        }
+    }, [universityId, currentPage, pageSize, shouldLoadMore, courseList]);
 
     let content;
 
-    if (isLoading) {
+    if (isLoading && courseList.length === 0) {
         content = <Spinner text="Loading..." />;
     } else if (courseList.length > 0) {
         content = courseList.map((course) => <CourseExcerpt key={course.id} course={course} />);
@@ -76,9 +88,12 @@ export const CoursesPage = () => {
 
     useEffect(() => {
         localStorage.setItem('curpage', currentPage.toString());
-    }, [currentPage]);
+        localStorage.setItem('courseList', JSON.stringify(courseList));
+        localStorage.setItem('noMoreCourses', noMoreCourses.toString());
+    }, [currentPage, courseList, noMoreCourses]);
 
     const handleLoadMore = () => {
+        setShouldLoadMore(true);
         setCurrentPage(currentPage + 1);
     };
 
