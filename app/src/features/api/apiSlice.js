@@ -8,7 +8,7 @@ export const apiSlice = createApi({
         getCourses: builder.query({
             query: ({universityId, currentPage, pageSize} ) => {
                 console.log(universityId, currentPage, pageSize);
-                return `university/${universityId}/courses/${currentPage}/${pageSize}`
+                return `university/${universityId}/courses?pageNum=${currentPage}&pageSize=${pageSize}`
             }
         }),
         getCourse: builder.query({

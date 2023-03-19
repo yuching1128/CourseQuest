@@ -1,9 +1,17 @@
 package com.vt.coursequestbackend.entity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.Data;
 
 /**
  * @author: EugeneFeng
@@ -33,15 +41,19 @@ public class Course {
     Degree degree;
 
     @Column(name = "crnNumber")
+    @JsonProperty
     String crnNumber;
 
     @Column(name = "name")
+    @JsonProperty
     String name;
 
     @Column(name = "rating")
+    @JsonProperty
     Float rating;
 
     @Column(name = "description")
+    @JsonProperty
     String description;
 
 }

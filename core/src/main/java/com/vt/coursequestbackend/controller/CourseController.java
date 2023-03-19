@@ -1,17 +1,21 @@
 package com.vt.coursequestbackend.controller;
 
-import com.vt.coursequestbackend.dao.CourseRepository;
-import com.vt.coursequestbackend.dao.DegreeRepository;
-import com.vt.coursequestbackend.entity.Course;
-import com.vt.coursequestbackend.entity.Degree;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.data.domain.PageRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
-import java.util.List;
+import com.mysql.cj.util.StringUtils;
+import com.vt.coursequestbackend.entity.Course;
+import com.vt.coursequestbackend.entity.Degree;
+import com.vt.coursequestbackend.service.CourseDataService;
+
+import io.swagger.annotations.ApiOperation;
 
 /**
  * @author: EugeneFeng
@@ -22,36 +26,33 @@ import java.util.List;
 @RestController
 public class CourseController {
 
-    @Resource
-    private CourseRepository courseRepository;
+	@Autowired
+	private CourseDataService cds;
 
-    @Resource
-    private DegreeRepository degreeRepository;
+	@ApiOperation("This service is used to get the list of all the courses available in the university")
+	@GetMapping("/api/university/{universityid}/courses")
+	public List<Course> getCourseList(@PathVariable String universityid, @RequestParam String pageNum,
+			@RequestParam String pageSize) {
+		List<Course> list = new ArrayList<>();
+		if (StringUtils.isNullOrEmpty(pageSize) && StringUtils.isNullOrEmpty(pageNum)) {
+			list = cds.findAll(Integer.parseInt(universityid));
+		} else {
+			list = cds.getCourseList(Integer.parseInt(universityid), Integer.parseInt(pageNum),
+					Integer.parseInt(pageSize), "");
+		}
+		return list;
+	}
 
-    @ApiOperation("This service is used to get the list of all the courses available in the university")
-    @GetMapping("/api/university/{universityid}/courses")
-    public List<Course> getCourseList(@PathVariable String universityid) {
-        return courseRepository.findByUniversityId(Integer.parseInt(universityid));
-    }
+	@ApiOperation("This service is used to get a particular coursedetails")
+	@GetMapping("/api/university/{universityid}/courses/{courseid}")
+	public Optional<Course> getCourseDetails(@PathVariable String courseid, @PathVariable String universityid) {
+		return cds.findOne(Integer.parseInt(universityid), Integer.parseInt(courseid));
+	}
 
-    @ApiOperation("This service is used to get the list of all the courses available in the university with pagination")
-    @GetMapping("/api/university/{universityid}/courses/{currentPage}/{pageSize}")
-    public List<Course> getCourseList(@PathVariable String universityid, @PathVariable int currentPage, @PathVariable int pageSize) {
-        PageRequest pageRequest = PageRequest.of(currentPage, pageSize);
-        return courseRepository.findByUniversityId(Integer.parseInt(universityid), pageRequest);
-    }
-
-    @ApiOperation("This service is used to get a particular coursedetails")
-    @GetMapping("/api/university/{universityid}/courses/{courseid}")
-    public List<Course> getCourseDetails(@PathVariable String courseid, @PathVariable String universityid) {
-       return courseRepository.findByUniversityIdAndId(Integer.parseInt(universityid), Integer.parseInt(courseid));
-    }
-
-    @ApiOperation("This service is used to get the list of all the degree types available in the university\n")
-    @GetMapping("/api /university/{universityid}/degreetypes")
-    public List<Degree> getDegreeList(@PathVariable String universityid) {
-        return degreeRepository.findAll();
-    }
-
+	@ApiOperation("This service is used to get the list of all the degree types available in the university\n")
+	@GetMapping("/api /university/{universityid}/degreetypes")
+	public List<Degree> getDegreeList(@PathVariable String universityId) {
+		return cds.getDegreeList(universityId);
+	}
 
 }

@@ -52,7 +52,7 @@ export const CoursesPage = () => {
             setIsLoading(true);
 
             try {
-                const response = await fetch(`/api/university/${universityId}/courses/${currentPage}/${pageSize}`);
+                const response = await fetch(`/api/university/${universityId}/courses?pageNum=${currentPage}&pageSize=${pageSize}`);
                 const data = await response.json();
 
                 if (data.length === 0) {
