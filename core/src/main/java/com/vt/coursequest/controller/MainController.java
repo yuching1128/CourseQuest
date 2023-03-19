@@ -1,7 +1,5 @@
-package com.vt.coursequestbackend.controller;
+package com.vt.coursequest.controller;
 
-import com.vt.coursequestbackend.entity.Course;
-import com.vt.coursequestbackend.entity.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

@@ -1,4 +1,4 @@
-package com.vt.coursequestbackend.entity;
+package com.vt.coursequest.entity;
 
 import lombok.Data;
 
@@ -6,18 +6,22 @@ import javax.persistence.*;
 
 /**
  * @author: EugeneFeng
- * @date: 3/9/23 11:23 PM
+ * @date: 3/1/23 10:15 AM
  * @description: some desc
  */
+
+
 @Data
 @Entity
-@Table(name = "degree")
-public class Degree {
+@Table(name = "user")
+public class User {
+
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     int id;
-
-    @Column(name = "name")
-    String name;
+    String firstName;
+    String lastName;
+    String phone;
+    String password;
 }

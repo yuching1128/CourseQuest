@@ -1,4 +1,4 @@
-package com.vt.coursequestbackend.controller;
+package com.vt.coursequest.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mysql.cj.util.StringUtils;
-import com.vt.coursequestbackend.entity.Course;
-import com.vt.coursequestbackend.entity.Degree;
-import com.vt.coursequestbackend.service.CourseDataService;
+import com.vt.coursequest.entity.Course;
+import com.vt.coursequest.entity.Degree;
+import com.vt.coursequest.service.CourseDataService;
 
 import io.swagger.annotations.ApiOperation;
 

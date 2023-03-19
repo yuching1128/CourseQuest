@@ -1,4 +1,4 @@
-package com.vt.coursequestbackend.entity;
+package com.vt.coursequest.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

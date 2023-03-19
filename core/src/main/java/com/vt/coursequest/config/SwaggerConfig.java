@@ -1,4 +1,4 @@
-package com.vt.coursequestbackend.config;
+package com.vt.coursequest.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

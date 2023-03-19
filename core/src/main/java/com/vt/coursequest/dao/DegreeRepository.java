@@ -1,7 +1,8 @@
-package com.vt.coursequestbackend.dao;
+package com.vt.coursequest.dao;
 
-import com.vt.coursequestbackend.entity.Degree;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.vt.coursequest.entity.Degree;
 
 /**
  * @author: EugeneFeng

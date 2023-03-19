@@ -1,4 +1,4 @@
-package com.vt.coursequestbackend.service.impl;
+package com.vt.coursequest.service.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,11 +9,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.vt.coursequestbackend.dao.CourseRepository;
-import com.vt.coursequestbackend.dao.DegreeRepository;
-import com.vt.coursequestbackend.entity.Course;
-import com.vt.coursequestbackend.entity.Degree;
-import com.vt.coursequestbackend.service.CourseDataService;
+import com.vt.coursequest.dao.CourseRepository;
+import com.vt.coursequest.dao.DegreeRepository;
+import com.vt.coursequest.entity.Course;
+import com.vt.coursequest.entity.Degree;
+import com.vt.coursequest.service.CourseDataService;
 
 @Service
 public class CourseDataServiceImpl implements CourseDataService {

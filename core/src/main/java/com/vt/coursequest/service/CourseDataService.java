@@ -1,10 +1,10 @@
-package com.vt.coursequestbackend.service;
+package com.vt.coursequest.service;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.vt.coursequestbackend.entity.Course;
-import com.vt.coursequestbackend.entity.Degree;
+import com.vt.coursequest.entity.Course;
+import com.vt.coursequest.entity.Degree;
 
 /**
  * 

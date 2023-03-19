@@ -1,4 +1,4 @@
-package com.vt.coursequestbackend.controller;
+package com.vt.coursequest.controller;
 
 
 import org.springframework.boot.web.servlet.error.ErrorController;

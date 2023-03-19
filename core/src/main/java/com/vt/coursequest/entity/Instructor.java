@@ -1,4 +1,4 @@
-package com.vt.coursequestbackend.entity;
+package com.vt.coursequest.entity;
 
 import lombok.Data;
 
