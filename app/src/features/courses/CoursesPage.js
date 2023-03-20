@@ -1,10 +1,7 @@
-import React from 'react'
-import {Link, useParams} from "react-router-dom";
-import Container from "react-bootstrap/Container";
-import {Spinner} from "react-bootstrap";
-import {useGetCoursesQuery} from "../api/apiSlice";
-import {useSelector} from "react-redux";
-
+import React, { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
+import { Spinner } from 'react-bootstrap';
 
 let CourseExcerpt = ({ course }) => {
     return (
@@ -24,41 +21,91 @@ let CourseExcerpt = ({ course }) => {
             </div>
             <hr />
         </article>
-    )
-}
+    );
+};
 
 export const CoursesPage = () => {
+    const { universityId } = useParams();
 
-    const { universityId } = useParams()
+    const pageSize = 2;
 
-    const {
-        data: courses,
-        isLoading,
-        isSuccess,
-        isError,
-        error
-    } = useGetCoursesQuery(universityId)
+    const [currentPage, setCurrentPage] = useState(
+        localStorage.getItem('curpage') ? parseInt(localStorage.getItem('curpage')) : 0
+    );
 
-    let content
+    const [courseList, setCourseList] = useState(
+        localStorage.getItem('courseList') ? JSON.parse(localStorage.getItem('courseList')) : []
+    );
 
-    if (isLoading) {
-        content = <Spinner text="Loading..." />
-    } else if (isSuccess) {
-        content = courses.map(course => <CourseExcerpt key={course.id} course={course} />)
-    } else if (isError) {
-        content = <div>{error.toString()}</div>
+    const [isLoading, setIsLoading] = useState(false);
+
+    const [error, setError] = useState(null);
+
+    const [noMoreCourses, setNoMoreCourses] = useState(
+        localStorage.getItem('noMoreCourses') ? localStorage.getItem('noMoreCourses') === 'true' : false
+    );
+
+    const [shouldLoadMore, setShouldLoadMore] = useState(false);
+
+    useEffect(() => {
+        const fetchCourses = async () => {
+            setIsLoading(true);
+
+            try {
+                const response = await fetch(`/api/university/${universityId}/courses?pageNum=${currentPage}&pageSize=${pageSize}`);
+                const data = await response.json();
+
+                if (data.length === 0) {
+                    setNoMoreCourses(true);
+                    localStorage.setItem('noMoreCourses', true);
+                } else {
+                    setCourseList((prevCourseList) => [...prevCourseList, ...data]);
+                }
+            } catch (error) {
+                setError(error);
+            } finally {
+                setIsLoading(false);
+                setShouldLoadMore(false);
+            }
+        };
+
+        if (shouldLoadMore) {
+            fetchCourses();
+        } else if (courseList.length === 0) {
+            fetchCourses();
+        }
+    }, [universityId, currentPage, pageSize, shouldLoadMore, courseList]);
+
+    let content;
+
+    if (isLoading && courseList.length === 0) {
+        content = <Spinner text="Loading..." />;
+    } else if (courseList.length > 0) {
+        content = courseList.map((course) => <CourseExcerpt key={course.id} course={course} />);
+    } else if (error) {
+        content = <div>{error.toString()}</div>;
     }
+
+    useEffect(() => {
+        localStorage.setItem('curpage', currentPage.toString());
+        localStorage.setItem('courseList', JSON.stringify(courseList));
+        localStorage.setItem('noMoreCourses', noMoreCourses.toString());
+    }, [currentPage, courseList, noMoreCourses]);
+
+    const handleLoadMore = () => {
+        setShouldLoadMore(true);
+        setCurrentPage(currentPage + 1);
+    };
 
     return (
         <Container>
-            <div className="courses-list">
-                {content}
-            </div>
-            <button className="courseList-Load">
-                Load more
-            </button>
+            <div className="courses-list">{content}</div>
+            {!noMoreCourses && (
+                <button className="courseList-Load" onClick={handleLoadMore}>
+                    Load more
+                </button>
+            )}
+            {noMoreCourses && <div className="noCourse">No more to load</div>}
         </Container>
-    )
-}
-
-
+    );
+};

@@ -6,7 +6,10 @@ export const apiSlice = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/api/' }),
     endpoints: builder => ({
         getCourses: builder.query({
-            query: universityId => `university/${universityId}/courses`
+            query: ({universityId, currentPage, pageSize} ) => {
+                console.log(universityId, currentPage, pageSize);
+                return `university/${universityId}/courses?pageNum=${currentPage}&pageSize=${pageSize}`
+            }
         }),
         getCourse: builder.query({
             query: courseId => `courses/${courseId}`
