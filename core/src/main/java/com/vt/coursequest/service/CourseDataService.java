@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.vt.coursequest.entity.Course;
 import com.vt.coursequest.entity.Degree;
+import com.vt.coursequest.entity.Review;
 
 /**
  * 
@@ -57,5 +58,20 @@ public interface CourseDataService {
 	 * @return List<Degree> for a particular university
 	 */
 	List<Degree> getDegreeList(String universityid);
+
+
+	/**
+	 *
+	 * This function is used to get all the reviews associated with a course in a specific university
+	 *
+	 * @param universityId: the unique id of the university
+	 * @param courseId: the unique id of a course
+	 * @param pageNum      : the pageNumber
+	 * @param pageSize     :the pageSize
+	 * @param orderBy      :the orderBy column name
+	 * @return List<Degree> for a particular university
+	 */
+	List<Review> getReviewList(Integer universityId, Integer courseId, Integer pageNum, Integer pageSize, String orderBy);
+
 
 }

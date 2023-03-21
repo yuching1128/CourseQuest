@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.vt.coursequest.entity.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,5 +55,19 @@ public class CourseController {
 	public List<Degree> getDegreeList(@PathVariable String universityId) {
 		return cds.getDegreeList(universityId);
 	}
+
+	@ApiOperation("This service is used to get the list of reviews in a specific course")
+	@GetMapping("/api/university/{universityid}/courses/{courseid}/review")
+	public List<Review> getReviewList(@PathVariable String universityId, @PathVariable String courseId, @RequestParam String pageNum,
+									  @RequestParam String pageSize) {
+		List<Review> list = new ArrayList<>();
+		list = cds.getReviewList(Integer.parseInt(universityId), Integer.parseInt(courseId), Integer.parseInt(pageNum),
+				Integer.parseInt(pageSize), "");
+		return list;
+	}
+
+
+
+
 
 }
