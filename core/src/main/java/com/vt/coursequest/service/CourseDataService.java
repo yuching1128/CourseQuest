@@ -69,9 +69,18 @@ public interface CourseDataService {
 	 * @param pageNum      : the pageNumber
 	 * @param pageSize     :the pageSize
 	 * @param orderBy      :the orderBy column name
-	 * @return List<Degree> for a particular university
+	 * @return List<Review> for a particular university
 	 */
 	List<Review> getReviewList(Integer universityId, Integer courseId, Integer pageNum, Integer pageSize, String orderBy);
 
+
+	/**
+	 *
+	 * This function is used to create the review associated with a course in a specific university
+	 *
+	 * @param review: the unique id of the university
+	 * @return Review: for a particular university
+	 */
+	public Review createReview(Review review);
 
 }

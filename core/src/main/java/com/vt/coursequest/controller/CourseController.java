@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.vt.coursequest.dao.ReviewRepository;
 import com.vt.coursequest.entity.Review;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.mysql.cj.util.StringUtils;
 import com.vt.coursequest.entity.Course;
@@ -30,6 +28,7 @@ public class CourseController {
 	@Autowired
 	private CourseDataService cds;
 
+	//TODO: Change the Response Format with ResponseEntity
 	@ApiOperation("This service is used to get the list of all the courses available in the university")
 	@GetMapping("/api/university/{universityid}/courses")
 	public List<Course> getCourseList(@PathVariable String universityid, @RequestParam String pageNum,
@@ -66,6 +65,12 @@ public class CourseController {
 		return list;
 	}
 
+	@PostMapping("/api/university/{universityid}/courses/{courseid}/review")
+	public Review addReview(@RequestBody Review review) {
+		return cds.createReview(review);
+	}
+
+	//TODO: Change the Response Format with ResponseEntity
 
 
 

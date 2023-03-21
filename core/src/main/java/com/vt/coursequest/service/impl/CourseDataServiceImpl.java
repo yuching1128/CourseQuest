@@ -56,4 +56,9 @@ public class CourseDataServiceImpl implements CourseDataService {
 		return courseRepository.findByUniversityId(universityId, pageable);
 	}
 
+	@Override
+	public Review createReview(Review review) {
+		return reviewRepository.save(review);
+	}
+
 }
