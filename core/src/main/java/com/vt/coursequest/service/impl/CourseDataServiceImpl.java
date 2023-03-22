@@ -51,6 +51,11 @@ public class CourseDataServiceImpl implements CourseDataService {
 	}
 
 	@Override
+	public List<Review> findAllReview(Integer universityId, Integer courseId) {
+		return reviewRepository.findByCourseIdAndUniversityId(universityId, courseId);
+	}
+
+	@Override
 	public List<Course> getCourseList(Integer universityId, Integer pageNum, Integer pageSize, String orderBy) {
 		Pageable pageable = PageRequest.of(pageNum, pageSize);
 		return courseRepository.findByUniversityId(universityId, pageable);

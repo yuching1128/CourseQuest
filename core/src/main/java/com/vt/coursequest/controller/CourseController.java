@@ -7,6 +7,8 @@ import java.util.Optional;
 import com.vt.coursequest.dao.ReviewRepository;
 import com.vt.coursequest.entity.Review;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.mysql.cj.util.StringUtils;
@@ -28,49 +30,53 @@ public class CourseController {
 	@Autowired
 	private CourseDataService cds;
 
-	//TODO: Change the Response Format with ResponseEntity
 	@ApiOperation("This service is used to get the list of all the courses available in the university")
 	@GetMapping("/api/university/{universityid}/courses")
-	public List<Course> getCourseList(@PathVariable String universityid, @RequestParam String pageNum,
-			@RequestParam String pageSize) {
-		List<Course> list = new ArrayList<>();
+	public ResponseEntity<List<Course>> getCourseList(@PathVariable String universityid, @RequestParam String pageNum,
+													 @RequestParam String pageSize) {
+		List<Course> list;
 		if (StringUtils.isNullOrEmpty(pageSize) && StringUtils.isNullOrEmpty(pageNum)) {
 			list = cds.findAll(Integer.parseInt(universityid));
 		} else {
 			list = cds.getCourseList(Integer.parseInt(universityid), Integer.parseInt(pageNum),
 					Integer.parseInt(pageSize), "");
 		}
-		return list;
+		return list.isEmpty()? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
 	@ApiOperation("This service is used to get a particular coursedetails")
 	@GetMapping("/api/university/{universityid}/courses/{courseid}")
-	public Optional<Course> getCourseDetails(@PathVariable String courseid, @PathVariable String universityid) {
-		return cds.findOne(Integer.parseInt(universityid), Integer.parseInt(courseid));
+	public ResponseEntity<Optional<Course>> getCourseDetails(@PathVariable String courseid, @PathVariable String universityid) {
+
+		return new ResponseEntity<>(cds.findOne(Integer.parseInt(universityid), Integer.parseInt(courseid)), HttpStatus.OK);
 	}
 
 	@ApiOperation("This service is used to get the list of all the degree types available in the university\n")
-	@GetMapping("/api /university/{universityid}/degreetypes")
-	public List<Degree> getDegreeList(@PathVariable String universityId) {
-		return cds.getDegreeList(universityId);
+	@GetMapping("/api/university/{universityid}/degreetypes")
+	public ResponseEntity<List<Degree>> getDegreeList(@PathVariable String universityId) {
+		List<Degree> list;
+		list = cds.getDegreeList(universityId);
+		return list.isEmpty()? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
 	@ApiOperation("This service is used to get the list of reviews in a specific course")
 	@GetMapping("/api/university/{universityid}/courses/{courseid}/review")
-	public List<Review> getReviewList(@PathVariable String universityId, @PathVariable String courseId, @RequestParam String pageNum,
+	public ResponseEntity<List<Review>> getReviewList(@PathVariable String universityId, @PathVariable String courseId, @RequestParam String pageNum,
 									  @RequestParam String pageSize) {
 		List<Review> list = new ArrayList<>();
-		list = cds.getReviewList(Integer.parseInt(universityId), Integer.parseInt(courseId), Integer.parseInt(pageNum),
-				Integer.parseInt(pageSize), "");
-		return list;
+		if (StringUtils.isNullOrEmpty(pageSize) && StringUtils.isNullOrEmpty(pageNum)) {
+			list = cds.findAllReview(Integer.parseInt(universityId), Integer.parseInt(courseId));
+		} else {
+			list = cds.getReviewList(Integer.parseInt(universityId), Integer.parseInt(courseId), Integer.parseInt(pageNum),
+					Integer.parseInt(pageSize), "");
+		}
+		return list.isEmpty()? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
 	@PostMapping("/api/university/{universityid}/courses/{courseid}/review")
 	public Review addReview(@RequestBody Review review) {
 		return cds.createReview(review);
 	}
-
-	//TODO: Change the Response Format with ResponseEntity
 
 
 

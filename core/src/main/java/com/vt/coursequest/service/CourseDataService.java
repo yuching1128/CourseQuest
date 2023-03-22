@@ -76,11 +76,22 @@ public interface CourseDataService {
 
 	/**
 	 *
+	 * This function is used to get all the reviews associated with a course in a specific university
+	 *
+	 * @param universityId: the unique id of the university
+	 * @param courseId: the unique id of a course
+	 * @return List<Review> for a particular university
+	 */
+	List<Review> findAllReview(Integer universityId, Integer courseId);
+
+
+	/**
+	 *
 	 * This function is used to create the review associated with a course in a specific university
 	 *
 	 * @param review: the unique id of the university
 	 * @return Review: for a particular university
 	 */
-	public Review createReview(Review review);
+	Review createReview(Review review);
 
 }
