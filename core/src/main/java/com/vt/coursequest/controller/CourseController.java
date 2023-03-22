@@ -31,28 +31,28 @@ public class CourseController {
 	private CourseDataService cds;
 
 	@ApiOperation("This service is used to get the list of all the courses available in the university")
-	@GetMapping("/api/university/{universityid}/courses")
-	public ResponseEntity<List<Course>> getCourseList(@PathVariable String universityid, @RequestParam String pageNum,
-													 @RequestParam String pageSize) {
+	@GetMapping("/api/university/{universityId}/courses")
+	public ResponseEntity<List<Course>> getCourseList(@PathVariable String universityId, @RequestParam(required = false) String pageNum,
+													 @RequestParam(required = false) String pageSize) {
 		List<Course> list;
 		if (StringUtils.isNullOrEmpty(pageSize) && StringUtils.isNullOrEmpty(pageNum)) {
-			list = cds.findAll(Integer.parseInt(universityid));
+			list = cds.findAll(Integer.parseInt(universityId));
 		} else {
-			list = cds.getCourseList(Integer.parseInt(universityid), Integer.parseInt(pageNum),
+			list = cds.getCourseList(Integer.parseInt(universityId), Integer.parseInt(pageNum),
 					Integer.parseInt(pageSize), "");
 		}
 		return list.isEmpty()? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
 	@ApiOperation("This service is used to get a particular coursedetails")
-	@GetMapping("/api/university/{universityid}/courses/{courseid}")
-	public ResponseEntity<Optional<Course>> getCourseDetails(@PathVariable String courseid, @PathVariable String universityid) {
+	@GetMapping("/api/university/{universityId}/courses/{courseId}")
+	public ResponseEntity<Optional<Course>> getCourseDetails(@PathVariable String courseId, @PathVariable String universityId) {
 
-		return new ResponseEntity<>(cds.findOne(Integer.parseInt(universityid), Integer.parseInt(courseid)), HttpStatus.OK);
+		return new ResponseEntity<>(cds.findOne(Integer.parseInt(universityId), Integer.parseInt(courseId)), HttpStatus.OK);
 	}
 
 	@ApiOperation("This service is used to get the list of all the degree types available in the university\n")
-	@GetMapping("/api/university/{universityid}/degreetypes")
+	@GetMapping("/api/university/{universityId}/degreeTypes")
 	public ResponseEntity<List<Degree>> getDegreeList(@PathVariable String universityId) {
 		List<Degree> list;
 		list = cds.getDegreeList(universityId);
@@ -60,9 +60,9 @@ public class CourseController {
 	}
 
 	@ApiOperation("This service is used to get the list of reviews in a specific course")
-	@GetMapping("/api/university/{universityid}/courses/{courseid}/review")
-	public ResponseEntity<List<Review>> getReviewList(@PathVariable String universityId, @PathVariable String courseId, @RequestParam String pageNum,
-									  @RequestParam String pageSize) {
+	@GetMapping("/api/university/{universityId}/courses/{courseId}/review")
+	public ResponseEntity<List<Review>> getReviewList(@PathVariable String universityId, @PathVariable String courseId, @RequestParam(required = false) String pageNum,
+									  @RequestParam(required = false) String pageSize) {
 		List<Review> list = new ArrayList<>();
 		if (StringUtils.isNullOrEmpty(pageSize) && StringUtils.isNullOrEmpty(pageNum)) {
 			list = cds.findAllReview(Integer.parseInt(universityId), Integer.parseInt(courseId));
@@ -73,7 +73,7 @@ public class CourseController {
 		return list.isEmpty()? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
-	@PostMapping("/api/university/{universityid}/courses/{courseid}/review")
+	@PostMapping("/api/university/{universityId}/courses/{courseId}/review")
 	public Review addReview(@RequestBody Review review) {
 		return cds.createReview(review);
 	}
