@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import { Spinner } from 'react-bootstrap';
+import {SearchComponent} from "../search/search";
 
 let CourseExcerpt = ({ course }) => {
     return (
@@ -23,6 +24,7 @@ let CourseExcerpt = ({ course }) => {
         </article>
     );
 };
+
 
 export const CoursesPage = () => {
     const { universityId } = useParams();
@@ -99,6 +101,7 @@ export const CoursesPage = () => {
 
     return (
         <Container>
+            <SearchComponent/>
             <div className="courses-list">{content}</div>
             {!noMoreCourses && (
                 <button className="courseList-Load" onClick={handleLoadMore}>
