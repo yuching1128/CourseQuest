@@ -1,6 +1,6 @@
 .searchBar {
     margin-left: 10em;
-    width: 450px;
+    width: 700px;
     border-radius: 10px 0px 0px 10px;
     border: 4px solid #CF4420;
     border-right: none;
@@ -29,19 +29,6 @@
     border-left: none;
 }
 
-.sortByText{
-    margin-left: 2em;
-    display: inline-block;
-    color: #630031;
-    font-size: 1.5em;
-    font-weight: bold;
-}
-.sortBy{
-    margin-left: 1em;
-    width: 200px;
-    display: inline-block;
-}
-
 .departmentText{
     margin-top: 1em;
     margin-left: 7em;
@@ -68,7 +55,7 @@
 
 .level{
     margin-left: 1em;
-    width: 250px;
+    width: 200px;
     display: inline-block;
 }
 
