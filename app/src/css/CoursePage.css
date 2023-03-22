@@ -1,6 +1,9 @@
 .courses-list{
     max-height: 500px;
     overflow-y: auto;
+    margin-top: 5em;
+    width: 1000px;
+    margin-left: 10em;
 }
 
 .course-button{
