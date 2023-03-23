@@ -75,6 +75,9 @@ public class CourseDataServiceImpl implements CourseDataService {
 	public Review updateReview(Integer reviewId, Review review) throws Exception {
 		return reviewRepository.findById(reviewId)
 				.map(newReview -> {
+					newReview.setUser(review.getUser());
+					newReview.setUniversity(review.getUniversity());
+					newReview.setAnonymous(review.getAnonymous());
 					newReview.setContent(review.getContent());
 					newReview.setDelivery(review.getDelivery());
 					newReview.setWorkload(review.getWorkload());
