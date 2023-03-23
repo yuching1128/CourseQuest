@@ -73,14 +73,14 @@ public class CourseController {
 		return list.isEmpty()? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
-	@ApiOperation("This service is used to get a specific review in a specific course")
-	@GetMapping("/api/university/{universityId}/courses/{courseId}/review")
-	public ResponseEntity<Optional<Review>> findOneReview(@PathVariable String universityId, @PathVariable String courseId,
-														  @RequestBody String userId) {
-		Optional<Review> review = cds.findOneReview(Integer.parseInt(universityId),
-				Integer.parseInt(courseId), Integer.parseInt(userId));
-		return review.isEmpty()? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(review, HttpStatus.OK);
-	}
+//	@ApiOperation("This service is used to get a specific review in a specific course")
+//	@GetMapping("/api/university/{universityId}/courses/{courseId}/review")
+//	public ResponseEntity<Optional<Review>> findOneReview(@PathVariable String universityId, @PathVariable String courseId,
+//														  @RequestBody String userId) {
+//		Optional<Review> review = cds.findOneReview(Integer.parseInt(universityId),
+//				Integer.parseInt(courseId), Integer.parseInt(userId));
+//		return review.isEmpty()? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(review, HttpStatus.OK);
+//	}
 
 	@ApiOperation("This service is used to create a review for a specific course")
 	@PostMapping("/api/university/{universityId}/courses/{courseId}/review")
