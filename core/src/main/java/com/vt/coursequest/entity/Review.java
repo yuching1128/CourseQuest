@@ -37,7 +37,7 @@ public class Review {
     @OneToOne
     University university;
 
-    
+
     @JoinColumn(name = "instructorId")
     @OneToOne
     Instructor instructor;
@@ -55,6 +55,9 @@ public class Review {
     @Enumerated
     @Column(name = "workload")
     Workload workload;
+
+    @Column(name = "isAnonymous")
+    Boolean isAnonymous;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)

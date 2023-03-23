@@ -47,12 +47,17 @@ public class CourseDataServiceImpl implements CourseDataService {
 	@Override
 	public List<Review> getReviewList(Integer universityId, Integer courseId, Integer pageNum, Integer pageSize, String orderBy) {
 		Pageable pageable = PageRequest.of(pageNum, pageSize);
-		return reviewRepository.findByCourseIdAndUniversityId(universityId, courseId, pageable);
+		return reviewRepository.findByCourseIdAndUniversityId(courseId, universityId, pageable);
 	}
 
 	@Override
 	public List<Review> findAllReview(Integer universityId, Integer courseId) {
-		return reviewRepository.findByCourseIdAndUniversityId(universityId, courseId);
+		return reviewRepository.findByCourseIdAndUniversityId(courseId, universityId);
+	}
+
+	@Override
+	public Optional<Review> findOneReview(Integer universityId, Integer courseId, Integer userId) {
+		return reviewRepository.findByCourseIdAndUniversityIdAndUserId(courseId, universityId, userId);
 	}
 
 	@Override
@@ -64,6 +69,25 @@ public class CourseDataServiceImpl implements CourseDataService {
 	@Override
 	public Review createReview(Review review) {
 		return reviewRepository.save(review);
+	}
+
+	@Override
+	public Review updateReview(Integer reviewId, Review review) throws Exception {
+		return reviewRepository.findById(reviewId)
+				.map(newReview -> {
+					newReview.setContent(review.getContent());
+					newReview.setDelivery(review.getDelivery());
+					newReview.setWorkload(review.getWorkload());
+					newReview.setInstructor(review.getInstructor());
+					newReview.setRating(review.getRating());
+					return reviewRepository.save(newReview);
+				})
+				.orElseThrow(() -> new Exception("Review not found with id " + reviewId));
+	}
+
+	@Override
+	public void deleteReview(Integer reviewId) {
+		reviewRepository.deleteById(reviewId);
 	}
 
 }

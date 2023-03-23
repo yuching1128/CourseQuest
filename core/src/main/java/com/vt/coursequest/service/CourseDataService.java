@@ -69,7 +69,7 @@ public interface CourseDataService {
 	 * @param pageNum      : the pageNumber
 	 * @param pageSize     :the pageSize
 	 * @param orderBy      :the orderBy column name
-	 * @return List<Review> for a particular university
+	 * @return List<Review> for a particular course of university
 	 */
 	List<Review> getReviewList(Integer universityId, Integer courseId, Integer pageNum, Integer pageSize, String orderBy);
 
@@ -80,18 +80,42 @@ public interface CourseDataService {
 	 *
 	 * @param universityId: the unique id of the university
 	 * @param courseId: the unique id of a course
-	 * @return List<Review> for a particular university
+	 * @return List<Review> for a particular course of university
 	 */
 	List<Review> findAllReview(Integer universityId, Integer courseId);
 
+	Optional<Review> findOneReview(Integer universityId, Integer courseId, Integer userId);
 
 	/**
 	 *
 	 * This function is used to create the review associated with a course in a specific university
 	 *
-	 * @param review: the unique id of the university
-	 * @return Review: for a particular university
+	 * @param review: the review body
+	 * @return Review: for a particular course of university
 	 */
 	Review createReview(Review review);
+
+	/**
+	 *
+	 * This function is used to update the review associated with a course in a specific university
+	 *
+	 * @param reviewId: the unique id of the review
+	 * @param review: the review body
+	 * @return Review: for a particular course of university
+	 */
+	Review updateReview(Integer reviewId, Review review) throws Exception;
+
+
+	/**
+	 *
+	 * This function is used to delete the review associated with a course in a specific university
+	 *
+	 * @param reviewId: the unique id of the review
+	 * @return Review: for a particular course of university
+	 */
+	void deleteReview(Integer reviewId);
+
+
+
 
 }
