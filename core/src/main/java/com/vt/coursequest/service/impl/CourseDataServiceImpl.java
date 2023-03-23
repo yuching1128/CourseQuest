@@ -35,12 +35,12 @@ public class CourseDataServiceImpl implements CourseDataService {
 	}
 
 	@Override
-	public Optional<Course> findOne(Integer courseid, Integer universityId) {
-		return courseRepository.findByUniversityIdAndId(universityId, courseid);
+	public Optional<Course> findOne(Integer universityId, Integer courseId) {
+		return courseRepository.findByUniversityIdAndId(universityId, courseId);
 	}
 
 	@Override
-	public List<Degree> getDegreeList(String universityid) {
+	public List<Degree> getDegreeList(Integer universityid) {
 		return degreeRepository.findAll();
 	}
 

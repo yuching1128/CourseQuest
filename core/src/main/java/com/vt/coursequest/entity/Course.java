@@ -29,7 +29,6 @@ public class Course {
     @Id
     int id;
 
-
     @JsonIgnore
     @JoinColumn(name = "university_id")
     @OneToOne
@@ -39,6 +38,11 @@ public class Course {
     @JoinColumn(name = "degree_id")
     @OneToOne
     Degree degree;
+
+    @JsonIgnore
+    @JoinColumn(name = "instructor_id")
+    @OneToOne
+    Instructor instructor;
 
     @Column(name = "crnNumber")
     @JsonProperty

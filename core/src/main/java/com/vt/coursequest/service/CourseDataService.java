@@ -54,10 +54,10 @@ public interface CourseDataService {
 	 * 
 	 * This function is used to get all the degrees associated with a university
 	 * 
-	 * @param universityid: the unique id of the university
+	 * @param universityId: the unique id of the university
 	 * @return List<Degree> for a particular university
 	 */
-	List<Degree> getDegreeList(String universityid);
+	List<Degree> getDegreeList(Integer universityId);
 
 
 	/**

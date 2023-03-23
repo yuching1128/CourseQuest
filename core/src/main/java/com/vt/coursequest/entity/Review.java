@@ -37,6 +37,7 @@ public class Review {
     @OneToOne
     University university;
 
+    
     @JoinColumn(name = "instructorId")
     @OneToOne
     Instructor instructor;

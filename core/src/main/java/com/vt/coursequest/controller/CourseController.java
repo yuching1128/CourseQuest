@@ -55,7 +55,7 @@ public class CourseController {
 	@GetMapping("/api/university/{universityId}/degreeTypes")
 	public ResponseEntity<List<Degree>> getDegreeList(@PathVariable String universityId) {
 		List<Degree> list;
-		list = cds.getDegreeList(universityId);
+		list = cds.getDegreeList(Integer.parseInt(universityId));
 		return list.isEmpty()? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
