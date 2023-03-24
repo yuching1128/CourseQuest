@@ -17,7 +17,13 @@ export const apiSlice = createApi({
         getCourseReviews: builder.query({
             query: courseId => `courses/${courseId}/reviews`
         }),
+        getDepartments: builder.query({
+            query: universityId => `university/${universityId}/departments`
+        }),
+        getLevels: builder.query({
+            query: universityId => `university/${universityId}/levels`
+        }),
     })
 })
 
-export const { useGetCoursesQuery, useGetCourseQuery, useGetCourseReviewsQuery } = apiSlice
+export const { useGetCoursesQuery, useGetCourseQuery, useGetCourseReviewsQuery, useGetDepartmentsQuery, useGetLevelsQuery } = apiSlice
