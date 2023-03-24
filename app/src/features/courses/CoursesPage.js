@@ -42,6 +42,8 @@ export const CoursesPage = () => {
         localStorage.getItem('noMoreCourses') ? localStorage.getItem('noMoreCourses') === 'true' : false
     );
 
+    const [shouldLoadMore, setShouldLoadMore] = useState(false);
+
     const {
         data: courseList,
         isLoading,
@@ -50,18 +52,22 @@ export const CoursesPage = () => {
         isError,
         error,
     } = useGetCoursesQuery({universityId: universityId, page: page, size: size});
-    console.log(courseList);
 
     useEffect(()=>{
-        if(isSuccess){
+        if(isSuccess && List.length === 0){
+            setList(courseList);
+            setPage(1);
+        }
+        if(isSuccess && !noMoreCourses && shouldLoadMore){
             if(courseList.length > 0){
                 setList((prevList) => [...new Set([...prevList, ...courseList])]);
             }
             if(courseList.length < size){
                 setNoMoreCourses(true);
             }
+            setShouldLoadMore(false);
         }
-    }, [isSuccess, courseList]);
+    }, [isSuccess, noMoreCourses, courseList]);
 
     let content;
 
@@ -72,15 +78,19 @@ export const CoursesPage = () => {
     } else if (isError) {
         content = <div>{error.toString()}</div>;
     }
+
     useEffect(() => {
         localStorage.setItem('curpage', page);
         localStorage.setItem('list', JSON.stringify(List));
         localStorage.setItem('noMoreCourses', noMoreCourses.toString());
     }, [page, List, noMoreCourses]);
 
-    const handleLordMoreClick = () => {
-        setPage(prevPage => prevPage+1);
+    const handleLordMoreClick = async () => {
+        console.log("page", page);
+        setPage(page + 1);
+        setShouldLoadMore(true);
     }
+
     return (
         <Container>
             <div className="courses-list">{content}</div>
