@@ -48,5 +48,15 @@
     {"id": 1, "coursesId": 1, "poster":  "Jen", "rating": 4, "content":  "This is review #1", "date_created": "[fake time]", "professor":  "Dr. M", "delivery":  "In person", "workload":  "Heavy"},
     {"id": 2, "coursesId": 1, "poster":  "Pun", "rating": 3, "content":  "This is review #2", "date_created": "[fake time]", "professor":  "Dr. K", "delivery":  "Online", "workload":  "Light"},
     {"id": 3, "coursesId": 1, "poster":  "Lao", "rating": 2, "content":  "This is review #3", "date_created": "[fake time]", "professor":  "Dr. J", "delivery":  "Hybrid", "workload":  "Moderate"}
+  ],
+  "departments": [
+    {"id": 1, "universityId": 1, "dept_name": "CS"},
+    {"id": 2, "universityId": 1, "dept_name": "ECE"},
+    {"id": 3, "universityId": 1, "dept_name": "MIT"}
+  ],
+  "levels": [
+    {"id": 1 ,"universityId": 1, "level": "1xxx"},
+    {"id": 2 ,"universityId": 1, "level": "2xxx"},
+    {"id": 3 ,"universityId": 1, "level": "3xxx"}
   ]
 }

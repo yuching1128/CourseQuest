@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import { Spinner } from 'react-bootstrap';
 import {useGetCoursesQuery} from "../api/apiSlice";
+import {SearchComponent} from "../search/search";
 
 let CourseExcerpt = ({ course }) => {
     return (
@@ -93,6 +94,7 @@ export const CoursesPage = () => {
 
     return (
         <Container>
+            <SearchComponent/>
             <div className="courses-list">{content}</div>
             {!noMoreCourses && (
                 <button className="courseList-Load"
