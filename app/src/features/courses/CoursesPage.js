@@ -96,8 +96,8 @@ export const CoursesPage = () => {
             <div className="courses-list">{content}</div>
             {!noMoreCourses && (
                 <button className="courseList-Load"
-                    onClick={handleLordMoreClick}
-                    disabled={isFetching}
+                        onClick={handleLordMoreClick}
+                        disabled={isFetching}
                 >
                     {isFetching? 'Loading':'Load more'}
                 </button>
