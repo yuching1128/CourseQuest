@@ -60,17 +60,16 @@ export const SearchComponent = () => {
                 <p className="departmentText">Department: </p>
                 <Select className="department"
                          options={departments}
-                         defaultValue={departments[0]}
+                         defaultValue={{value: "", label: "-- Select level" }}
                          isSearchable={false}
                 />
                 <p className="levelText">Level: </p>
                 <Select className="level"
                         options={levels}
-                        defaultValue={levels[0]}
+                        defaultValue={{value: "", label: "-- Select level" }}
                         isSearchable={false}
                 />
             </div>
-
         </form>
     );
 }
