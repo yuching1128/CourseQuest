@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import { Spinner } from 'react-bootstrap';
+import {useGetCoursesQuery} from "../api/apiSlice";
+import {SearchComponent} from "../search/search";
 
 let CourseExcerpt = ({ course }) => {
     return (
@@ -27,19 +29,15 @@ let CourseExcerpt = ({ course }) => {
 export const CoursesPage = () => {
     const { universityId } = useParams();
 
-    const pageSize = 2;
+    const size = 2;
 
-    const [currentPage, setCurrentPage] = useState(
+    const [page, setPage] = useState(
         localStorage.getItem('curpage') ? parseInt(localStorage.getItem('curpage')) : 0
     );
 
-    const [courseList, setCourseList] = useState(
-        localStorage.getItem('courseList') ? JSON.parse(localStorage.getItem('courseList')) : []
+    const [List, setList] = useState(
+        localStorage.getItem('list') ? JSON.parse(localStorage.getItem('list')) : []
     );
-
-    const [isLoading, setIsLoading] = useState(false);
-
-    const [error, setError] = useState(null);
 
     const [noMoreCourses, setNoMoreCourses] = useState(
         localStorage.getItem('noMoreCourses') ? localStorage.getItem('noMoreCourses') === 'true' : false
@@ -47,62 +45,63 @@ export const CoursesPage = () => {
 
     const [shouldLoadMore, setShouldLoadMore] = useState(false);
 
-    useEffect(() => {
-        const fetchCourses = async () => {
-            setIsLoading(true);
+    const {
+        data: courseList,
+        isLoading,
+        isFetching,
+        isSuccess,
+        isError,
+        error,
+    } = useGetCoursesQuery({universityId: universityId, page: page, size: size});
 
-            try {
-                const response = await fetch(`/api/university/${universityId}/courses?pageNum=${currentPage}&pageSize=${pageSize}`);
-                const data = await response.json();
-
-                if (data.length === 0) {
-                    setNoMoreCourses(true);
-                    localStorage.setItem('noMoreCourses', true);
-                } else {
-                    setCourseList((prevCourseList) => [...prevCourseList, ...data]);
-                }
-            } catch (error) {
-                setError(error);
-            } finally {
-                setIsLoading(false);
-                setShouldLoadMore(false);
-            }
-        };
-
-        if (shouldLoadMore) {
-            fetchCourses();
-        } else if (courseList.length === 0) {
-            fetchCourses();
+    useEffect(()=>{
+        if(isSuccess && List.length === 0){
+            setList(courseList);
+            setPage(1);
         }
-    }, [universityId, currentPage, pageSize, shouldLoadMore, courseList]);
+        if(isSuccess && !noMoreCourses && shouldLoadMore){
+            if(courseList.length > 0){
+                setList((prevList) => [...new Set([...prevList, ...courseList])]);
+            }
+            if(courseList.length < size){
+                setNoMoreCourses(true);
+            }
+            setShouldLoadMore(false);
+        }
+    }, [isSuccess, noMoreCourses, courseList]);
 
     let content;
 
-    if (isLoading && courseList.length === 0) {
-        content = <Spinner text="Loading..." />;
-    } else if (courseList.length > 0) {
-        content = courseList.map((course) => <CourseExcerpt key={course.id} course={course} />);
-    } else if (error) {
+    if (isLoading) {
+        content = <Spinner text="Loading..."/>;
+    } else if (isSuccess) {
+        content = List.map((course) => <CourseExcerpt key={course.id} course={course}/>);
+    } else if (isError) {
         content = <div>{error.toString()}</div>;
     }
 
     useEffect(() => {
-        localStorage.setItem('curpage', currentPage.toString());
-        localStorage.setItem('courseList', JSON.stringify(courseList));
+        localStorage.setItem('curpage', page);
+        localStorage.setItem('list', JSON.stringify(List));
         localStorage.setItem('noMoreCourses', noMoreCourses.toString());
-    }, [currentPage, courseList, noMoreCourses]);
+    }, [page, List, noMoreCourses]);
 
-    const handleLoadMore = () => {
+    const handleLordMoreClick = async () => {
+        console.log("page", page);
+        setPage(page + 1);
         setShouldLoadMore(true);
-        setCurrentPage(currentPage + 1);
-    };
+    }
 
     return (
         <Container>
+            <SearchComponent/>
             <div className="courses-list">{content}</div>
             {!noMoreCourses && (
-                <button className="courseList-Load" onClick={handleLoadMore}>
-                    Load more
+                <button className="courseList-Load"
+                        onClick={handleLordMoreClick}
+                        disabled={isFetching}
+                >
+                    {isFetching? 'Loading':'Load more'}
                 </button>
             )}
             {noMoreCourses && <div className="noCourse">No more to load</div>}
