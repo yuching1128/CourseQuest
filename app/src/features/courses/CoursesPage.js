@@ -5,11 +5,11 @@ import { Spinner } from 'react-bootstrap';
 import {useGetCoursesQuery} from "../api/apiSlice";
 import {SearchComponent} from "../search/search";
 
-let CourseExcerpt = ({ course, universityId }) => {
-    console.log(universityId, course);
+let CourseExcerpt = ({ course }) => {
+    console.log(course)
     return (
         <article className="course-excerpt" key={course.id}>
-            <Link to={`/university/${universityId}/course/${course.id}`} className="course-button">
+            <Link to={`/university/${course.universityId}/courses/${course.id}`} className="course-button">
                 <h3>{course.name}</h3>
             </Link>
             <div className="allInfo">

@@ -9,7 +9,7 @@ import StarRatings from "react-star-ratings";
 
 export const ReviewsPage = () => {
 
-    const { courseId } = useParams()
+    const { universityId, courseId } = useParams()
 
     const {
         data: reviews,
@@ -17,9 +17,9 @@ export const ReviewsPage = () => {
         isSuccess,
         isError,
         error
-    } = useGetCourseReviewsQuery(courseId)
+    } = useGetCourseReviewsQuery({universityId:universityId, courseId: courseId})
 
-
+    console.log(reviews)
 
     let ReviewExcerpt = ({ review }) => {
         class Bar extends Component {
@@ -37,7 +37,7 @@ export const ReviewsPage = () => {
 
         return (
             <div className="reviews" key={review.id}>
-                <p className="reviewBlock">
+                <div className="reviewBlock">
                     <div style={{display: "flex"}}>
                         <FontAwesomeIcon icon={faCircleUser} className="userIcon"/>
                         <h3 className="poster">{review.poster}</h3>
@@ -59,7 +59,7 @@ export const ReviewsPage = () => {
                             {review.date_created}
                         </p>
                     </div>
-                </p>
+                </div>
             </div>
         )
 

@@ -1,5 +1,4 @@
 import Container from 'react-bootstrap/Container';
-//import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import {HashRouter, Routes, Route, Navigate} from 'react-router-dom';
 import Header from "./app/Header";
 import HomePage from "./features/homepage/HomePage";
@@ -19,7 +18,11 @@ export default function App() {
                     <Route exact path="/login" element={<LoginPage />} />
                     <Route exact path="/signup" element={<SignupPage />} />
                     <Route exact path="/university/:universityId/courses" element={<CoursesPage />} />
+<<<<<<< HEAD
                     <Route exact path="/university/:universityId/course/:courseId" element={<SingleCoursePage />} />
+=======
+                    <Route exact path="/university/:universityId/courses/:courseId" element={<SingleCoursePage />} />
+>>>>>>> develop
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
                 <Footer />

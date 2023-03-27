@@ -10,7 +10,7 @@ import { RateReview } from '../reviews/RateReviewPage';
 
 export const SingleCoursePage = () => {
 
-    const { courseId, universityId } = useParams();
+    const { universityId, courseId } = useParams()
 
     const {
         data: course,

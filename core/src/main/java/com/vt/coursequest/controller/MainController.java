@@ -13,14 +13,12 @@ public class MainController {
 
     @RequestMapping("/index")
     @ResponseBody
-    @CrossOrigin
     public String index(){
         return "Welcome to the CourseQuest!!";
     }
 
 
     @GetMapping("/error")
-    @CrossOrigin
     public int error(){
         int i = 9/0;
         return i;

@@ -20,7 +20,6 @@ public class AppErrorController implements ErrorController {
     private static final String PATH = "/error";
 
     @RequestMapping(value = PATH)
-    @CrossOrigin
     public String handleError(HttpServletRequest request) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 
