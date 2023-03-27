@@ -22,9 +22,9 @@ public class User {
     @Id
     int id;
 
-    @JsonIgnore
+
     String firstName;
-    @JsonIgnore
+
     String lastName;
     @JsonIgnore
     String phone;
