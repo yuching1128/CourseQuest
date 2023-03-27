@@ -70,7 +70,7 @@ public class CourseController {
 			list = cds.getReviewList(Integer.parseInt(universityId), Integer.parseInt(courseId), Integer.parseInt(pageNum),
 					Integer.parseInt(pageSize), "");
 		}
-		return list.isEmpty()? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(list, HttpStatus.OK);
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
 //	@ApiOperation("This service is used to get a specific review in a specific course")

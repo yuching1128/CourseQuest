@@ -9,7 +9,7 @@ import Accordion from 'react-bootstrap/Accordion';
 
 export const SingleCoursePage = () => {
 
-    const { courseId } = useParams()
+    const { universityId, courseId } = useParams()
 
     const {
         data: course,
@@ -17,7 +17,7 @@ export const SingleCoursePage = () => {
         isSuccess,
         isError,
         error
-    } = useGetCourseQuery(courseId)
+    } = useGetCourseQuery({universityId: universityId, courseId: courseId})
 
 
     class Bar extends Component {
