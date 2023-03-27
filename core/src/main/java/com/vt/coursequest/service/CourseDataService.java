@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.vt.coursequest.entity.Course;
 import com.vt.coursequest.entity.Degree;
+import com.vt.coursequest.entity.Review;
 
 /**
  * 
@@ -53,9 +54,68 @@ public interface CourseDataService {
 	 * 
 	 * This function is used to get all the degrees associated with a university
 	 * 
-	 * @param universityid: the unique id of the university
+	 * @param universityId: the unique id of the university
 	 * @return List<Degree> for a particular university
 	 */
-	List<Degree> getDegreeList(String universityid);
+	List<Degree> getDegreeList(Integer universityId);
+
+
+	/**
+	 *
+	 * This function is used to get all the reviews associated with a course in a specific university
+	 *
+	 * @param universityId: the unique id of the university
+	 * @param courseId: the unique id of a course
+	 * @param pageNum      : the pageNumber
+	 * @param pageSize     :the pageSize
+	 * @param orderBy      :the orderBy column name
+	 * @return List<Review> for a particular course of university
+	 */
+	List<Review> getReviewList(Integer universityId, Integer courseId, Integer pageNum, Integer pageSize, String orderBy);
+
+
+	/**
+	 *
+	 * This function is used to get all the reviews associated with a course in a specific university
+	 *
+	 * @param universityId: the unique id of the university
+	 * @param courseId: the unique id of a course
+	 * @return List<Review> for a particular course of university
+	 */
+	List<Review> findAllReview(Integer universityId, Integer courseId);
+
+	Optional<Review> findOneReview(Integer universityId, Integer courseId, Integer userId);
+
+	/**
+	 *
+	 * This function is used to create the review associated with a course in a specific university
+	 *
+	 * @param review: the review body
+	 * @return Review: for a particular course of university
+	 */
+	Review createReview(Review review);
+
+	/**
+	 *
+	 * This function is used to update the review associated with a course in a specific university
+	 *
+	 * @param reviewId: the unique id of the review
+	 * @param review: the review body
+	 * @return Review: for a particular course of university
+	 */
+	Review updateReview(Integer reviewId, Review review) throws Exception;
+
+
+	/**
+	 *
+	 * This function is used to delete the review associated with a course in a specific university
+	 *
+	 * @param reviewId: the unique id of the review
+	 * @return Review: for a particular course of university
+	 */
+	void deleteReview(Integer reviewId);
+
+
+
 
 }
