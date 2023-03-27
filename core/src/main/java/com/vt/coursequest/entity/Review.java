@@ -22,7 +22,6 @@ public class Review {
     @Id
     int id;
 
-    @JsonIgnore
     @JoinColumn(name = "userId")
     @OneToOne
     User user;
@@ -57,7 +56,7 @@ public class Review {
     Workload workload;
 
     @Column(name = "isAnonymous")
-    Boolean isAnonymous;
+    Boolean anonymous;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -100,11 +99,11 @@ public class Review {
     }
 
     public Boolean getAnonymous() {
-        return isAnonymous;
+        return anonymous;
     }
 
     public void setAnonymous(Boolean anonymous) {
-        isAnonymous = anonymous;
+        this.anonymous = anonymous;
     }
 
     public void setRating(Float rating) {

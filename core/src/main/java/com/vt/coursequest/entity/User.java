@@ -1,5 +1,6 @@
 package com.vt.coursequest.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -20,8 +21,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     int id;
+
+    @JsonIgnore
     String firstName;
+    @JsonIgnore
     String lastName;
+    @JsonIgnore
     String phone;
+    @JsonIgnore
     String password;
 }
