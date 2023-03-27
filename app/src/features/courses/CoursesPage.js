@@ -76,7 +76,9 @@ export const CoursesPage = () => {
     if (isLoading) {
         content = <Spinner text="Loading..."/>;
     } else if (isSuccess) {
-        content = List.map((course) => <CourseExcerpt key={course.id} course={course}/>);
+        console.log(universityId)
+        console.log(content);
+        content = List.map((course) => <CourseExcerpt key={course.id} universityId={universityId} course={course}/>);
     } else if (isError) {
         content = <div>{error.toString()}</div>;
     }
