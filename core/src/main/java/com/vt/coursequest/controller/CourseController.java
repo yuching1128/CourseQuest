@@ -7,11 +7,8 @@ import java.util.Optional;
 import com.vt.coursequest.dao.ReviewRepository;
 import com.vt.coursequest.entity.Review;
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD
-=======
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
->>>>>>> develop
 import org.springframework.web.bind.annotation.*;
 
 import com.mysql.cj.util.StringUtils;
@@ -34,18 +31,10 @@ public class CourseController {
 	private CourseDataService cds;
 
 	@ApiOperation("This service is used to get the list of all the courses available in the university")
-<<<<<<< HEAD
-	@GetMapping("/api/university/{universityid}/courses")
-	@CrossOrigin
-	public List<Course> getCourseList(@PathVariable String universityid, @RequestParam String pageNum,
-			@RequestParam String pageSize) {
-		List<Course> list = new ArrayList<>();
-=======
 	@GetMapping("/api/university/{universityId}/courses")
 	public ResponseEntity<List<Course>> getCourseList(@PathVariable String universityId, @RequestParam(required = false) String pageNum,
 													 @RequestParam(required = false) String pageSize) {
 		List<Course> list;
->>>>>>> develop
 		if (StringUtils.isNullOrEmpty(pageSize) && StringUtils.isNullOrEmpty(pageNum)) {
 			list = cds.findAll(Integer.parseInt(universityId));
 		} else {
@@ -56,19 +45,6 @@ public class CourseController {
 	}
 
 	@ApiOperation("This service is used to get a particular coursedetails")
-<<<<<<< HEAD
-	@GetMapping("/api/university/{universityid}/course/{courseid}")
-	@CrossOrigin
-	public Optional<Course> getCourseDetails(@PathVariable String courseid, @PathVariable String universityid) {
-		return cds.findOne(Integer.parseInt(universityid), Integer.parseInt(courseid));
-	}
-
-	@ApiOperation("This service is used to get the list of all the degree types available in the university\n")
-	@GetMapping("/api /university/{universityid}/degreetypes")
-	@CrossOrigin
-	public List<Degree> getDegreeList(@PathVariable String universityId) {
-		return cds.getDegreeList(universityId);
-=======
 	@GetMapping("/api/university/{universityId}/courses/{courseId}")
 	public ResponseEntity<Optional<Course>> getCourseDetails(@PathVariable String courseId, @PathVariable String universityId) {
 
@@ -81,7 +57,6 @@ public class CourseController {
 		List<Degree> list;
 		list = cds.getDegreeList(Integer.parseInt(universityId));
 		return list.isEmpty()? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(list, HttpStatus.OK);
->>>>>>> develop
 	}
 
 	@ApiOperation("This service is used to get the list of reviews in a specific course")

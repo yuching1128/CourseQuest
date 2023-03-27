@@ -18,12 +18,7 @@ export default function App() {
                     <Route exact path="/login" element={<LoginPage />} />
                     <Route exact path="/signup" element={<SignupPage />} />
                     <Route exact path="/university/:universityId/courses" element={<CoursesPage />} />
-<<<<<<< HEAD
                     <Route exact path="/university/:universityId/course/:courseId" element={<SingleCoursePage />} />
-=======
-                    <Route exact path="/university/:universityId/courses/:courseId" element={<SingleCoursePage />} />
->>>>>>> develop
-                    <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
                 <Footer />
             </HashRouter>
