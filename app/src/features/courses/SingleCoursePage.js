@@ -10,7 +10,7 @@ import { RateReview } from '../reviews/RateReviewPage';
 
 export const SingleCoursePage = () => {
 
-    const { courseId } = useParams()
+    const { courseId, universityId } = useParams();
 
     const {
         data: course,
@@ -18,7 +18,7 @@ export const SingleCoursePage = () => {
         isSuccess,
         isError,
         error
-    } = useGetCourseQuery(courseId)
+    } = useGetCourseQuery({universityId: universityId, courseId: courseId})
 
 
     class Bar extends Component {

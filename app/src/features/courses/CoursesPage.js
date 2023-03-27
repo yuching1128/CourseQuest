@@ -5,10 +5,11 @@ import { Spinner } from 'react-bootstrap';
 import {useGetCoursesQuery} from "../api/apiSlice";
 import {SearchComponent} from "../search/search";
 
-let CourseExcerpt = ({ course }) => {
+let CourseExcerpt = ({ course, universityId }) => {
+    console.log(universityId, course);
     return (
         <article className="course-excerpt" key={course.id}>
-            <Link to={`/courses/${course.id}`} className="course-button">
+            <Link to={`/university/${universityId}/course/${course.id}`} className="course-button">
                 <h3>{course.name}</h3>
             </Link>
             <div className="allInfo">
@@ -75,7 +76,9 @@ export const CoursesPage = () => {
     if (isLoading) {
         content = <Spinner text="Loading..."/>;
     } else if (isSuccess) {
-        content = List.map((course) => <CourseExcerpt key={course.id} course={course}/>);
+        console.log(universityId)
+        console.log(content);
+        content = List.map((course) => <CourseExcerpt key={course.id} universityId={universityId} course={course}/>);
     } else if (isError) {
         content = <div>{error.toString()}</div>;
     }

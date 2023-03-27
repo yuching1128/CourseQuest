@@ -11,10 +11,12 @@ export const apiSlice = createApi({
             }
         }),
         getCourse: builder.query({
-            query: courseId => `courses/${courseId}`
+            query: ({universityId,courseId}) => {
+                return `university/${universityId}/course/${courseId}`
+            }
         }),
         getCourseReviews: builder.query({
-            query: courseId => `courses/${courseId}/reviews`
+            query: ({universityId,courseId}) => `university/${universityId}/course/${courseId}/reviews`
         }),
         getDepartments: builder.query({
             query: universityId => `university/${universityId}/departments`
