@@ -2,7 +2,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const apiSlice = createApi({
     reducerPath: 'api',
-    // todo update mocked baseUrl to actual back-end server once available.
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/api/' }),
     endpoints: builder => ({
         getCourses: builder.query({
@@ -11,10 +10,10 @@ export const apiSlice = createApi({
             }
         }),
         getCourse: builder.query({
-            query: courseId => `courses/${courseId}`
+            query: ({universityId, courseId}) => `university/${universityId}/courses/${courseId}`
         }),
         getCourseReviews: builder.query({
-            query: courseId => `courses/${courseId}/reviews`
+            query: ({universityId, courseId}) => `university/${universityId}/courses/${courseId}/review`
         }),
         getDepartments: builder.query({
             query: universityId => `university/${universityId}/departments`
@@ -22,7 +21,14 @@ export const apiSlice = createApi({
         getLevels: builder.query({
             query: universityId => `university/${universityId}/levels`
         }),
+        addNewReview: builder.mutation({
+            query: ({universityId, courseId, newReview, isAnonymous}) => ({
+                url: `university/${universityId}/courses/${courseId}/review`,
+                method: 'POST',
+                body: newReview
+            })
+        })
     })
 })
 
-export const { useGetCoursesQuery, useGetCourseQuery, useGetCourseReviewsQuery, useGetDepartmentsQuery, useGetLevelsQuery } = apiSlice
+export const { useGetCoursesQuery, useGetCourseQuery, useGetCourseReviewsQuery, useGetDepartmentsQuery, useGetLevelsQuery, useAddNewReviewMutation } = apiSlice
