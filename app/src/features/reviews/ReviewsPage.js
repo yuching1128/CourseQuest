@@ -2,17 +2,18 @@ import {Spinner} from "react-bootstrap";
 import {useGetCourseReviewsQuery} from "../api/apiSlice";
 import {useParams} from "react-router-dom";
 import Container from "react-bootstrap/Container";
-import React, {Component} from "react";
+import React, {Component, useMemo} from "react";
 import { faCircleUser} from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import StarRatings from "react-star-ratings";
+import {TimeAgo} from "./TimeAgo";
 
 export const ReviewsPage = () => {
 
     const { universityId, courseId } = useParams()
 
     const {
-        data: reviews,
+        data: reviews = [],
         isLoading,
         isSuccess,
         isError,
@@ -20,6 +21,13 @@ export const ReviewsPage = () => {
     } = useGetCourseReviewsQuery({universityId:universityId, courseId: courseId})
 
     console.log(reviews)
+
+    // Sort in descending chronological order
+    const sortedReviews = useMemo(() => {
+        const sortedReviews = reviews.slice()
+        sortedReviews.sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+        return sortedReviews
+    }, [reviews])
 
     let ReviewExcerpt = ({ review }) => {
         class Bar extends Component {
@@ -40,7 +48,7 @@ export const ReviewsPage = () => {
                 <div className="reviewBlock">
                     <div style={{display: "flex"}}>
                         <FontAwesomeIcon icon={faCircleUser} className="userIcon"/>
-                        <h3 className="poster">{review.poster}</h3>
+                        <h3 className="poster">{review.user.firstName}</h3>
                         <Bar />
 
                     </div>
@@ -50,14 +58,12 @@ export const ReviewsPage = () => {
 
                     <div>
                         <p className="reviewSubQues">Taught by:</p>
-                        <p className="reviewSubAns">{review.professor}</p>
+                        <p className="reviewSubAns">{review.instructor.name}</p>
                         <p className="reviewSubQues">Delivery:</p>
                         <p className="reviewSubAns">{review.delivery}</p>
                         <p className="reviewSubQues">Workload:</p>
                         <p className="reviewSubAns">{review.workload}</p>
-                        <p className="reviewDate">
-                            {review.date_created}
-                        </p>
+                        <p className="reviewDate"><TimeAgo timestamp={review.createdAt} /></p>
                     </div>
                 </div>
             </div>
@@ -70,7 +76,7 @@ export const ReviewsPage = () => {
     if (isLoading) {
         content = <Spinner text="Loading..." />
     } else if (isSuccess) {
-        content = reviews.map(review => <ReviewExcerpt key={review.id} review={review} rating= {review.rating}/>)
+        content = sortedReviews.map(review => <ReviewExcerpt key={review.id} review={review} rating= {review.rating}/>)
     } else if (isError) {
         content = <div>{error.toString()}</div>
     }

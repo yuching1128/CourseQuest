@@ -4,9 +4,9 @@ import Container from 'react-bootstrap/Container';
 import { Spinner } from 'react-bootstrap';
 import {useGetCoursesQuery} from "../api/apiSlice";
 import {SearchComponent} from "../search/search";
+import classnames from 'classnames';
 
 let CourseExcerpt = ({ course }) => {
-    console.log(course)
     return (
         <article className="course-excerpt" key={course.id}>
             <Link to={`/university/${course.universityId}/courses/${course.id}`} className="course-button">
@@ -53,6 +53,7 @@ export const CoursesPage = () => {
         isSuccess,
         isError,
         error,
+        refetch
     } = useGetCoursesQuery({universityId: universityId, page: page, size: size});
 
     useEffect(()=>{
@@ -76,9 +77,11 @@ export const CoursesPage = () => {
     if (isLoading) {
         content = <Spinner text="Loading..."/>;
     } else if (isSuccess) {
-        console.log(universityId)
-        console.log(content);
-        content = List.map((course) => <CourseExcerpt key={course.id} universityId={universityId} course={course}/>);
+        const renderedCourses = List.map((course) => <CourseExcerpt key={course.id} universityId={universityId} course={course}/>);
+        const containerClassname = classnames('posts-container', {
+            disabled: isFetching
+        })
+        content = <div className={containerClassname}>{renderedCourses}</div>
     } else if (isError) {
         content = <div>{error.toString()}</div>;
     }
