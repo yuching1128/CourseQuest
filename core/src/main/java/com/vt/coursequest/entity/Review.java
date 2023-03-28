@@ -59,7 +59,6 @@ public class Review {
     Boolean anonymous;
 
 
-    @JsonIgnore
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;

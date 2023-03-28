@@ -6,7 +6,7 @@ import {useGetCourseQuery} from "../api/apiSlice";
 import {ReviewsPage} from "../reviews/ReviewsPage";
 import StarRatings from 'react-star-ratings';
 import Accordion from 'react-bootstrap/Accordion';
-import { RateReview } from '../reviews/RateReviewPage';
+import { RateReviewForm } from '../reviews/RateReviewForm';
 
 export const SingleCoursePage = () => {
 
@@ -65,7 +65,7 @@ export const SingleCoursePage = () => {
                     <Accordion.Item eventKey="1">
                         <Accordion.Header>Rate and Review</Accordion.Header>
                         <Accordion.Body>
-                            <RateReview courseId={course.id} />
+                            <RateReviewForm universityId={universityId} courseId={courseId} />
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>
