@@ -25,8 +25,8 @@ export const SearchComponent = () => {
     useEffect(() => {
         if (departmentSuccess) {
             const departmentOptions = departmentData.map((dept) => ({
-                value: dept.dept_name,
-                label: dept.dept_name,
+                value: dept.name,
+                label: dept.name,
             }));
             setDepartments([
                 { value: "", label: "-- Select department" },
@@ -38,8 +38,8 @@ export const SearchComponent = () => {
     useEffect(() => {
         if (levelSuccess) {
             const levelOptions = levelData.map((level) => ({
-                value: level.level,
-                label: level.level,
+                value: level.name,
+                label: level.name,
             }));
             setLevels([
                 { value: "", label: "-- Select level" },
