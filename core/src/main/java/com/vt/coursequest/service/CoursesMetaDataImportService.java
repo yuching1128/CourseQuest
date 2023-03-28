@@ -1,5 +1,7 @@
 package com.vt.coursequest.service;
 
+import java.io.IOException;
+
 /**
  * 
  * This service contains all the method used for importing the courses related
@@ -19,7 +21,8 @@ public interface CoursesMetaDataImportService {
 	 * @param isFullImport : true if full data needs to be refreshed, false if only
 	 *                     the differential data should be merged in the existing
 	 *                     data present in the database
+	 * @throws IOException 
 	 */
-	void importCourseMetaData(Integer universityId, boolean isFullImport);
+	void importCourseMetaData(Integer universityId, boolean isFullImport) throws IOException;
 
 }
