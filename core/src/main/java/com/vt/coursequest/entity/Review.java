@@ -26,12 +26,12 @@ public class Review {
     @OneToOne
     User user;
 
-    @JsonIgnore
+
     @JoinColumn(name = "courseId")
     @OneToOne
     Course course;
 
-    @JsonIgnore
+
     @JoinColumn(name = "universityId")
     @OneToOne
     University university;
@@ -58,6 +58,8 @@ public class Review {
     @Column(name = "isAnonymous")
     Boolean anonymous;
 
+
+    @JsonIgnore
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;

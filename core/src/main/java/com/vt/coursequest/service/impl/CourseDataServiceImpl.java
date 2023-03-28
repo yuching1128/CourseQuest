@@ -1,5 +1,6 @@
 package com.vt.coursequest.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,6 +69,7 @@ public class CourseDataServiceImpl implements CourseDataService {
 
 	@Override
 	public Review createReview(Review review) {
+		review.setCreatedAt(new Date());
 		return reviewRepository.save(review);
 	}
 
@@ -83,6 +85,7 @@ public class CourseDataServiceImpl implements CourseDataService {
 					newReview.setWorkload(review.getWorkload());
 					newReview.setInstructor(review.getInstructor());
 					newReview.setRating(review.getRating());
+					newReview.setCreatedAt(new Date());
 					return reviewRepository.save(newReview);
 				})
 				.orElseThrow(() -> new Exception("Review not found with id " + reviewId));
