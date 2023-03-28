@@ -99,3 +99,25 @@ insert into CourseQuest.review (id, content, created_at, delivery, is_anonymous,
 insert into CourseQuest.review (id, content, created_at, delivery, is_anonymous, rating, workload, course_id, instructor_id, university_id, user_id) values (2, 'Nice Course', '2023-03-23 08:04:31', 1, true, 4.2, 0, 2, 2, 1, 1);
 insert into CourseQuest.review (id, content, created_at, delivery, is_anonymous, rating, workload, course_id, instructor_id, university_id, user_id) values (3, 'Bad Course', '2023-03-23 08:04:32', 0, true, 4.4, 1, 1, 1, 1, 2);
 insert into CourseQuest.review (id, content, created_at, delivery, is_anonymous, rating, workload, course_id, instructor_id, university_id, user_id) values (4, 'Bad Bad', '2023-03-23 08:04:33', 0, false, 5, 1, 1, 1, 1, 3);
+
+CREATE TABLE `CourseQuest`.`level` (
+  `id` INT NOT NULL,
+  `university_id` VARCHAR(45) NULL,
+  `name` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`));
+
+CREATE TABLE `CourseQuest`.`department` (
+  `id` INT NOT NULL,
+  `university_id` VARCHAR(45) NULL,
+  `name` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`));
+  
+INSERT INTO `CourseQuest`.`department` (`id`, `university_id`, `name`) VALUES ('1', '1', 'CS');
+
+INSERT INTO `CourseQuest`.`department` (`id`, `university_id`, `name`) VALUES ('2', '1', 'CE');
+INSERT INTO `CourseQuest`.`department` (`id`, `university_id`, `name`) VALUES ('3', '1', 'Civil');
+
+INSERT INTO `CourseQuest`.`level` (`id`, `university_id`, `name`) VALUES ('1', '1', 'UG');
+
+INSERT INTO `CourseQuest`.`level` (`id`, `university_id`, `name`) VALUES ('2', '1', 'Master');
+INSERT INTO `CourseQuest`.`level` (`id`, `university_id`, `name`) VALUES ('3', '1', 'Phd');

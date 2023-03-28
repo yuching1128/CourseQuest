@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * @author: EugeneFeng
  * @date: 3/8/23 11:25 AM
@@ -21,4 +23,9 @@ public class University {
     int id;
 
     String name;
+    
+    @JsonIgnore
+    @JoinColumn(name = "university_id")
+    @OneToOne
+    University university;
 }
