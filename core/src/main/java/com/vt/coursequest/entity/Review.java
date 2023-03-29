@@ -28,7 +28,7 @@ public class Review {
 
 
     @JoinColumn(name = "courseId")
-    @OneToOne
+    @ManyToOne
     Course course;
 
 

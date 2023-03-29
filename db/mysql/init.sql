@@ -17,25 +17,60 @@ create table instructor
 
 create table university
 (
-    id   int auto_increment
+    id            int auto_increment
         primary key,
-    name varchar(255) null
+    name          varchar(255) null,
+    university_id int          null,
+    constraint FK1gjitje5viflnb2bkdin1so2m
+        foreign key (university_id) references university (id)
 );
 
 create table course
 (
     id            int auto_increment
         primary key,
-    crn_number    varchar(255) null,
     description   varchar(255) null,
     name          varchar(255) null,
     rating        float        null,
     degree_id     int          null,
     university_id int          null,
+    instructor_id int          null,
     constraint FK4ag2rc4adjiesa1d0lcvnnq82
         foreign key (university_id) references university (id),
     constraint FKdgomx5qg5fvg9cgyh0sdh0vwo
-        foreign key (degree_id) references degree (id)
+        foreign key (degree_id) references degree (id),
+    constraint FKqk2yq2yk124dhlsilomy36qr9
+        foreign key (instructor_id) references instructor (id)
+);
+
+create table coursecrn
+(
+    id            int auto_increment
+        primary key,
+    crn_number    varchar(255) null,
+    coursecrns_id int          null,
+    constraint FK8ye05xkt7k1f6j29lrawh699g
+        foreign key (coursecrns_id) references course (id)
+);
+
+create table department
+(
+    id            int auto_increment
+        primary key,
+    name          varchar(255) null,
+    university_id int          null,
+    constraint FKh2ap9lv99txektaou64wpx8b2
+        foreign key (university_id) references university (id)
+);
+
+create table level
+(
+    id            int auto_increment
+        primary key,
+    name          varchar(255) null,
+    university_id int          null,
+    constraint FKkvg8900rbtqtvud24vcsnw6rw
+        foreign key (university_id) references university (id)
 );
 
 create table user
@@ -53,19 +88,26 @@ create table review
     id            int auto_increment
         primary key,
     content       varchar(255) null,
+    created_at    datetime(6)  not null,
     delivery      int          null,
+    is_anonymous  bit          null,
     rating        float        null,
     workload      int          null,
     course_id     int          null,
     instructor_id int          null,
+    university_id int          null,
     user_id       int          null,
     constraint FKd3gy0ma4syq3tkgqyje0nbhb2
         foreign key (instructor_id) references instructor (id),
     constraint FKiyf57dy48lyiftdrf7y87rnxi
         foreign key (user_id) references user (id),
+    constraint FKn3q1vv5fmlyv3ouelg9ta0unb
+        foreign key (university_id) references university (id),
     constraint FKprox8elgnr8u5wrq1983degk
         foreign key (course_id) references course (id)
 );
+
+
 
 -- Degrees Data
 INSERT INTO CourseQuest.degree (name) VALUES ('bachelor');
@@ -100,17 +142,6 @@ insert into CourseQuest.review (id, content, created_at, delivery, is_anonymous,
 insert into CourseQuest.review (id, content, created_at, delivery, is_anonymous, rating, workload, course_id, instructor_id, university_id, user_id) values (3, 'Bad Course', '2023-03-23 08:04:32', 0, true, 4.4, 1, 1, 1, 1, 2);
 insert into CourseQuest.review (id, content, created_at, delivery, is_anonymous, rating, workload, course_id, instructor_id, university_id, user_id) values (4, 'Bad Bad', '2023-03-23 08:04:33', 0, false, 5, 1, 1, 1, 1, 3);
 
-CREATE TABLE `CourseQuest`.`level` (
-  `id` INT NOT NULL,
-  `university_id` VARCHAR(45) NULL,
-  `name` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`));
-
-CREATE TABLE `CourseQuest`.`department` (
-  `id` INT NOT NULL,
-  `university_id` VARCHAR(45) NULL,
-  `name` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`));
   
 INSERT INTO `CourseQuest`.`department` (`id`, `university_id`, `name`) VALUES ('1', '1', 'CS');
 
@@ -121,3 +152,12 @@ INSERT INTO `CourseQuest`.`level` (`id`, `university_id`, `name`) VALUES ('1', '
 
 INSERT INTO `CourseQuest`.`level` (`id`, `university_id`, `name`) VALUES ('2', '1', 'Master');
 INSERT INTO `CourseQuest`.`level` (`id`, `university_id`, `name`) VALUES ('3', '1', 'Phd');
+
+INSERT INTO CourseQuest.coursecrn (crn_number, coursecrns_id) VALUES ('CRN1001', 1);
+INSERT INTO CourseQuest.coursecrn (crn_number, coursecrns_id) VALUES ('CRN1001', 1);
+INSERT INTO CourseQuest.coursecrn (crn_number, coursecrns_id) VALUES ('CRN2001', 2);
+INSERT INTO CourseQuest.coursecrn (crn_number, coursecrns_id) VALUES ('CRN2001', 2);
+INSERT INTO CourseQuest.coursecrn (crn_number, coursecrns_id) VALUES ('CRN3001', 3);
+INSERT INTO CourseQuest.coursecrn (crn_number, coursecrns_id) VALUES ('CRN3001', 3);
+INSERT INTO CourseQuest.coursecrn (crn_number, coursecrns_id) VALUES ('CRN4001', 4);
+INSERT INTO CourseQuest.coursecrn (crn_number, coursecrns_id) VALUES ('CRN4002', 4);
