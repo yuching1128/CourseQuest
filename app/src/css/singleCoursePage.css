@@ -1,6 +1,7 @@
 .singleCoursePage {
     padding: 1em;
 }
+
 .courseName{
     color: #630031;
 }
@@ -25,6 +26,7 @@
     font-weight: bold;
     display: inline-block;
 }
+
 .progress-bar{
     background-color: #ED8B00;
 }
@@ -90,9 +92,11 @@
     padding-right: 1em;
     margin-top: 0.5em;
 }
+
 .star-ratings{
     margin-top: 1.2em;
 }
+
 .reviewContent{
     margin-top: 0.5em;
     margin-left: 2em;
@@ -130,6 +134,7 @@
     margin-top: 2em;
     float: right;
 }
+
 .accordion-button {
     background-color: white;
     color: #630031;
@@ -153,5 +158,3 @@
 .accordion-item {
     border: none;
 }
-
-
