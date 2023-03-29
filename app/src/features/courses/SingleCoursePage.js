@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, useRef } from 'react'
 import Container from "react-bootstrap/Container";
 import {useParams} from "react-router-dom";
 import {Spinner} from "react-bootstrap";
@@ -20,7 +20,6 @@ export const SingleCoursePage = () => {
         error
     } = useGetCourseQuery({universityId: universityId, courseId: courseId})
 
-
     class Bar extends Component {
         render() {
             return (
@@ -34,6 +33,11 @@ export const SingleCoursePage = () => {
         }
     }
 
+    const rateReviewRef = useRef(null);
+
+    const handleRateReviewClick = () => {
+        rateReviewRef.current.scrollIntoView({ behavior: 'smooth', block: 'center', inline: "center"});
+    };
 
     let content
 
@@ -51,19 +55,18 @@ export const SingleCoursePage = () => {
                 </div>
                 <Bar/>
                 <div className="functionButtons">
-                    <button className="rate-review-but">Rate and Review</button>
+                    <button onClick={handleRateReviewClick} className="rate-review-but">Rate and Review</button>
                     <button className="rate-review-but">Ask Questions</button>
                 </div>
-                <Accordion>
+                <Accordion alwaysOpen>
                     <Accordion.Item eventKey="0">
                         <Accordion.Header>Reviews</Accordion.Header>
                         <Accordion.Body className="reviewsComponent">
                             <ReviewsPage courseId={course.id} />
                         </Accordion.Body>
-
                     </Accordion.Item>
                     <Accordion.Item eventKey="1">
-                        <Accordion.Header>Rate and Review</Accordion.Header>
+                        <Accordion.Header ref={rateReviewRef}>Rate and Review</Accordion.Header>
                         <Accordion.Body>
                             <RateReviewForm universityId={universityId} courseId={courseId} />
                         </Accordion.Body>
