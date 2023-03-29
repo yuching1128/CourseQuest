@@ -11,12 +11,13 @@ import './css/searchComponent.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './app/store'
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
-    <App />
+    <GoogleOAuthProvider clientId='310536116903-4oolc727rmg62b4qsf58p8a3i76o4pfq.apps.googleusercontent.com'><App /></GoogleOAuthProvider>
   </Provider>
 );
 

@@ -2,11 +2,11 @@
     display: flex;
 }
 
-.welcomeBlock{
+.welcomeBlock {
     display: inline-block;
 }
 
-.welcomeText{
+.welcomeText {
     margin-left: 2em;
     color: #630031;
     font-size: 2.5em;
@@ -14,14 +14,14 @@
     margin-bottom: 1em;
 }
 
-.boxOrange{
+.boxOrange {
     margin-left: 7em;
     border: 3px solid #ED8B00;
     width: 39em;
     height: 9em;
 }
 
-.boxGreen{
+.boxGreen {
     margin-left: -0.5em;
     margin-top: 0.2em;
     border: 3px solid #2CD5C4;
@@ -29,7 +29,7 @@
     height: 9em;
 }
 
-.boxRed{
+.boxRed {
     margin-left: 0.5em;
     margin-top: 0.1em;
     padding-right: 10px;
@@ -38,14 +38,14 @@
     height: 9em;
 }
 
-.loginText{
+.loginText {
     color: #630031;
     font-size: 2em;
     font-weight: bold;
     margin-left: 0.5em;
 }
 
-.loginTextSmall{
+.loginTextSmall {
     color: #ED8B00;
     font-size: 1em;
     font-weight: bold;
@@ -63,14 +63,14 @@
     margin-bottom: -50px;
 }
 
-.loginFromTitle{
+.loginFromTitle {
     font-size: 3em;
     font-weight: bold;
     color: #630031;
     text-align: center;
 }
 
-.login-component{
+.login-component {
     margin-bottom: 1em;
     background: none;
     border: 10px none;
@@ -80,7 +80,7 @@
 
 }
 
-.login-component:focus{
+.login-component:focus {
     margin-bottom: 1em;
     background: none;
     border: 10px none;
@@ -90,20 +90,20 @@
     box-shadow: none;
 }
 
-.login-info{
+.login-info {
     margin-top: 1em;
     color: var(--secondary-color);
     font-size: 1.5em;
     margin-left: 0.5em;
 }
 
-.main-login-button{
+.main-login-button {
     background-color: #630031;
     color: white;
     font-weight: bold;
     border: none;
-    margin-top: 1em;
-    margin-left: 6em;
+    /* margin-top: 1em;
+    margin-left: 6em; */
     font-size: 25px;
     border-radius: 15px;
     padding-left: 15px;
@@ -111,10 +111,17 @@
     padding-bottom: 2px;
 }
 
-.main-login-button:hover{
+.main-login-button:hover {
     background-color: #D83379;
 }
 
 .errorMessage {
     color: red;
+}
+
+.login {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
 }

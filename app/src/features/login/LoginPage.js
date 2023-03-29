@@ -2,11 +2,19 @@ import Container from "react-bootstrap/Container";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useForm } from "react-hook-form";
-import{faAnglesRight} from "@fortawesome/free-solid-svg-icons";
+import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { GoogleLogin } from '@react-oauth/google';
 
 export default function LoginPage() {
+
+    const responseMessage = (response) => {
+        console.log(response);
+    };
+    const errorMessage = (error) => {
+        console.log(error);
+    };
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -42,7 +50,10 @@ export default function LoginPage() {
                         <Form.Control className="login-component" type="password" placeholder="Password"  {...register("password", { required: 'Password is required' })} />
                         {errors.password && <p className="errorMessage">{errors.password?.message}</p>}
                     </Form.Group>
-                    <button variant="primary" type="submit" className="main-login-button">Login</button>
+                    <div className="login">
+                        <button variant="primary" type="submit" className="main-login-button">Login</button>
+                        <GoogleLogin className="google-login" onSuccess={responseMessage} onError={errorMessage} />
+                    </div>
                 </Form>
             </div>
         </Container>
