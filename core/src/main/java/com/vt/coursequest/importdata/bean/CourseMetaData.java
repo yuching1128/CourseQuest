@@ -1,11 +1,31 @@
 package com.vt.coursequest.importdata.bean;
 
-import lombok.Data;
-import lombok.ToString;
-
-@Data
-@ToString
 public class CourseMetaData {
+
+	public String getCourseTitle() {
+		return courseTitle;
+	}
+
+	public String getTerm() {
+		return term;
+	}
+
+	public String getCourseNo() {
+		return courseNo;
+	}
+
+	public String getInstructor() {
+		return instructor;
+	}
+
+	public String getCrn() {
+		return crn;
+	}
+
+	public String getCredits() {
+		return credits;
+	}
+
 	private String courseTitle;
 	private String term;
 	private String courseNo;

@@ -36,4 +36,6 @@ public class Level {
     @JoinColumn(name = "university_id")
 	@ManyToOne
     University university;
+	
+	public Level() {}
 }

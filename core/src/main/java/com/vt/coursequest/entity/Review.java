@@ -1,11 +1,21 @@
 package com.vt.coursequest.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.*;
-import java.util.Date;
+import lombok.Data;
 
 /**
  * @author: EugeneFeng
@@ -17,6 +27,9 @@ import java.util.Date;
 @Entity
 @Table(name = "review")
 public class Review {
+	
+	public Review() {}
+	
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -131,7 +144,23 @@ public class Review {
         return workload;
     }
 
-    public void setWorkload(Workload workload) {
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public void setWorkload(Workload workload) {
         this.workload = workload;
     }
 }

@@ -47,4 +47,6 @@ public class User {
     String phone;
     @JsonIgnore
     String password;
+    
+    public User() {}
 }

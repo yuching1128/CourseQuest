@@ -29,4 +29,6 @@ public class Department {
     @JoinColumn(name = "university_id")
 	@ManyToOne
     University university;
+	
+	public Department() {}
 }

@@ -22,4 +22,6 @@ public class Major {
     int id;
 
     String name;
+    
+    public Major() {}
 }

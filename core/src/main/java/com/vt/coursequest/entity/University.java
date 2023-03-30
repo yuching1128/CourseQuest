@@ -1,10 +1,13 @@
 package com.vt.coursequest.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import lombok.Data;
-
-import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author: EugeneFeng
@@ -17,15 +20,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "university")
 public class University {
 
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    int id;
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	int id;
 
-    String name;
-    
-    @JsonIgnore
-    @JoinColumn(name = "university_id")
-    @OneToOne
-    University university;
+	@Column(name = "name")
+	String name;
+
+	public University(int id) {
+		this.id = id;
+	}
+
+	public University() {
+	}
 }
