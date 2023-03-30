@@ -15,6 +15,13 @@ create table instructor
     name varchar(255) null
 );
 
+create table major
+(
+    id   int auto_increment
+        primary key,
+    name varchar(255) null
+);
+
 create table university
 (
     id            int auto_increment
@@ -75,12 +82,24 @@ create table level
 
 create table user
 (
-    id         int auto_increment
+    id            int auto_increment
         primary key,
-    first_name varchar(255) null,
-    last_name  varchar(255) null,
-    password   varchar(255) null,
-    phone      varchar(255) null
+    first_name    varchar(255) null,
+    last_name     varchar(255) null,
+    password      varchar(255) null,
+    phone         varchar(255) null,
+    concentration varchar(255) null,
+    major         varchar(255) null,
+    email         varchar(255) null,
+    degree_id     int          null,
+    university_id int          null,
+    major_id      int          null,
+    constraint FKc1q9juawhjvqie7wi3p44me9y
+        foreign key (major_id) references major (id),
+    constraint FKfgcbu6cj5oqlmnrocb7ctc7wl
+        foreign key (degree_id) references degree (id),
+    constraint FKic5iffsyggke974jb0jbdb0m
+        foreign key (university_id) references university (id)
 );
 
 create table review
@@ -106,6 +125,7 @@ create table review
     constraint FKprox8elgnr8u5wrq1983degk
         foreign key (course_id) references course (id)
 );
+
 
 
 

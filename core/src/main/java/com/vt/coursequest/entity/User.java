@@ -22,6 +22,23 @@ public class User {
     @Id
     int id;
 
+    @JsonIgnore
+    @JoinColumn(name = "university_id")
+    @OneToOne
+    University university;
+
+    @JsonIgnore
+    @JoinColumn(name = "degree_id")
+    @OneToOne
+    Degree degree;
+
+    @JoinColumn(name = "major_id")
+    @OneToOne
+    Major major;
+
+    String Concentration;
+
+    String email;
 
     String firstName;
 
