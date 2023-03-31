@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author: EugeneFeng
@@ -35,6 +37,12 @@ public class User {
     @JoinColumn(name = "major_id")
     @OneToOne
     Major major;
+
+    @OneToMany
+    Set<Course> course;
+
+    @OneToMany
+    Set<Course> interestedCourse;
 
     String Concentration;
 
