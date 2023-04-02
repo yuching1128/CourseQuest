@@ -2,15 +2,41 @@ import React, {Component, useRef } from 'react'
 import Container from "react-bootstrap/Container";
 import {useParams} from "react-router-dom";
 import {Spinner} from "react-bootstrap";
-import {useGetCourseQuery} from "../api/apiSlice";
+import {useGetCourseQuery, useGetUserReviewsQuery} from "../api/apiSlice";
 import {ReviewsPage} from "../reviews/ReviewsPage";
 import StarRatings from 'react-star-ratings';
 import Accordion from 'react-bootstrap/Accordion';
 import { RateReviewForm } from '../reviews/RateReviewForm';
+import {useSelector} from "react-redux";
+import {EditReviewForm} from "../reviews/EditReviewForm";
 
 export const SingleCoursePage = () => {
 
+    const user = useSelector(state => state.user)
     const { universityId, courseId } = useParams()
+
+    // determine if user has written a review for this course
+    const {
+        data: userReviews = [],
+        isLoading: userReviewsIsLoading,
+        isFetching: userReviewsIsFetching,
+        isSuccess: userReviewsIsSuccess,
+        isError: userReviewsIsError,
+        error: userReviewsError
+    } = useGetUserReviewsQuery(user.id);
+
+    let userWrittenReview = false;
+    let userReviewInfo = null;
+    for (let key = 0; key < userReviews.length; ++key) {
+        console.log(userReviews[key].course.name);
+        if (parseInt(userReviews[key].course.id) === parseInt(courseId)) {
+            userReviewInfo = userReviews[key]
+            userWrittenReview = true
+            break;
+        }
+    }
+
+    console.log(userReviewInfo)
 
     const {
         data: course,
@@ -66,9 +92,10 @@ export const SingleCoursePage = () => {
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="1">
-                        <Accordion.Header ref={rateReviewRef}>Rate and Review</Accordion.Header>
+                        <Accordion.Header>Leave a Review</Accordion.Header>
                         <Accordion.Body>
-                            <RateReviewForm universityId={universityId} courseId={courseId} />
+                            {/* If user has written a review, show EditForm. Else show RateReviewForm*/}
+                            {userWrittenReview ? <EditReviewForm reviewDetails={userReviewInfo}/> : <RateReviewForm universityId={universityId} courseId={courseId} /> }
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>
