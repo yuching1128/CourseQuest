@@ -15,11 +15,13 @@ export const EditReviewForm = ({reviewDetails}) => {
 
     const navigate = useNavigate()
 
+    const [anonymous, setAnonymous] = useState(reviewDetails.anonymous)
     const [rating, setRating] = useState(reviewDetails.rating)
     const [professor, setProfessor] = useState(reviewDetails.instructor.id)
     const [delivery, setDelivery] = useState(reviewDetails.delivery)
     const [workload, setWorkload] = useState(reviewDetails.workload)
     const [content, setContent] = useState(reviewDetails.content)
+    const onAnonymousChanged = (e) => setAnonymous(anonymous => !anonymous)
     const onRatingChanged = (e) => setRating(e.target.value)
     const onProfessorChanged = (e) => setProfessor(e.target.value)
     const onDeliveryChanged = (e) => setDelivery(e.target.value)
@@ -31,7 +33,7 @@ export const EditReviewForm = ({reviewDetails}) => {
         if (content) {
             try {
                 const editReviewDetails = {
-                    anonymous: false,
+                    anonymous: anonymous,
                     content:content,
                     delivery: delivery,
                     id: reviewDetails.id,
@@ -125,10 +127,18 @@ export const EditReviewForm = ({reviewDetails}) => {
                         <Form.Group as={Row} className="mb-3" controlId="workload">
                             <Form.Control as="textarea" aria-label="With textarea" onChange={onContentChanged} value={content} />
                         </Form.Group>
+
+                        <Form.Check
+                            type="checkbox"
+                            label="Anonymous?"
+                            checked={anonymous}
+                            onChange={onAnonymousChanged}
+                        />
+                        <br/>
                     </div>
 
                     <Button type="button" onClick={onEditReviewClicked}>
-                        Save Post
+                        Edit Post
                     </Button>
 
                     <Button type="button" onClick={onDeleteReviewClicked}>

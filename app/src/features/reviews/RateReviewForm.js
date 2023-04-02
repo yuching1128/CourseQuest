@@ -13,6 +13,7 @@ export const RateReviewForm = () => {
     const user = useSelector(state => state.user)
     const { universityId, courseId } = useParams()
 
+    const [anonymous, setAnonymous] = useState(false)
     const [rating, setRating] = useState(0)
     const [professor, setProfessor] = useState(<option disabled selected value> -- select an option -- </option>)
     const [delivery, setDelivery] = useState(<option disabled selected value> -- select an option -- </option>)
@@ -22,6 +23,7 @@ export const RateReviewForm = () => {
 
     const [addNewReview, { isLoading }] = useAddNewReviewMutation()
 
+    const onAnonymousChanged = (e) => setAnonymous(anonymous => !anonymous)
     const onRatingChanged = (e) => setRating(e.target.value)
     const onProfessorChanged = (e) => setProfessor(e.target.value)
     const onDeliveryChanged = (e) => setDelivery(e.target.value)
@@ -29,13 +31,15 @@ export const RateReviewForm = () => {
     const onContentChanged = (e) => setContent(e.target.value)
     const onTakenCourseChanged = () => setTakenCourse(takenCourse => !takenCourse)
 
+    console.log(anonymous)
+
     const canSave = [rating, professor, delivery, workload, content, takenCourse].every(Boolean) && !isLoading
 
     const onSaveReviewClicked = async () => {
         if (canSave) {
             try {
                 const reviewDetails = {
-                    anonymous: false,
+                    anonymous: anonymous,
                     content:content,
                     delivery: delivery,
                     university: {
@@ -127,10 +131,17 @@ export const RateReviewForm = () => {
                 <Form.Group as={Row} className="mb-3" controlId="workload">
                 <Form.Control as="textarea" aria-label="With textarea" placeholder='Things that you want share.' onChange={onContentChanged} />
                 </Form.Group>
+
+                <Form.Check
+                    type="checkbox"
+                    label="Anonymous?"
+                    onChange={onAnonymousChanged}
+                />
+                <br/>
                 </div>
 
                 <Button type="button" onClick={onSaveReviewClicked} disabled={!canSave}>
-                    Save Post
+                    Add Post
                 </Button>
                 {spinner}
                 <Button variant="secondary" type="cancel" className="submit">Cancel</Button>

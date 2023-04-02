@@ -46,7 +46,7 @@ export const ReviewsPage = () => {
                 <div className="reviewBlock">
                     <div style={{display: "flex"}}>
                         <FontAwesomeIcon icon={faCircleUser} className="userIcon"/>
-                        <h3 className="poster">{review.user.firstName}</h3>
+                        <h3 className="poster">{review.anonymous ? "Anonymous user" : review.user.firstName}</h3>
                         <Bar />
 
                     </div>

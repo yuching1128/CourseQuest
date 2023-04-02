@@ -91,7 +91,7 @@ export const SingleCoursePage = () => {
                     <Accordion.Item eventKey="1">
                         <Accordion.Header>{userWrittenReview ? "Edit/Delete Your Review" : "Leave a Review"}</Accordion.Header>
                         <Accordion.Body>
-                            {/* If user has written a review, show EditForm. Else show RateReviewForm*/}
+                            {/* If user written review, show EditForm. Else show RateReviewForm*/}
                             {userWrittenReview ? <EditReviewForm reviewDetails={userReviewInfo}/> : <RateReviewForm universityId={universityId} courseId={courseId} /> }
                         </Accordion.Body>
                     </Accordion.Item>
