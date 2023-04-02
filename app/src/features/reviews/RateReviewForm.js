@@ -14,10 +14,10 @@ export const RateReviewForm = () => {
     const { universityId, courseId } = useParams()
 
     const [rating, setRating] = useState(0)
-    const [professor, setProfessor] = useState('')
-    const [delivery, setDelivery] = useState('')
-    const [workload, setWorkload] = useState('')
-    const [content, setContent] = useState('')
+    const [professor, setProfessor] = useState(<option disabled selected value> -- select an option -- </option>)
+    const [delivery, setDelivery] = useState(<option disabled selected value> -- select an option -- </option>)
+    const [workload, setWorkload] = useState(<option disabled selected value> -- select an option -- </option>)
+    const [content, setContent] = useState(<option disabled selected value> -- select an option -- </option>)
     const [takenCourse, setTakenCourse] = useState(false)
 
     const [addNewReview, { isLoading }] = useAddNewReviewMutation()
@@ -55,11 +55,6 @@ export const RateReviewForm = () => {
                 }
 
                 await addNewReview({ universityId: universityId, courseId: courseId, newReview: reviewDetails}).unwrap()
-                setRating(0)
-                setProfessor('')
-                setDelivery('')
-                setWorkload('')
-                setContent('')
             } catch (err) {
                 console.error('Failed to save the review: ', err)
             }

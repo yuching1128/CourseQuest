@@ -75,7 +75,6 @@ public class CourseDataServiceImpl implements CourseDataService {
 
 	@Override
 	public Review updateReview(Integer reviewId, Review review) throws Exception {
-		System.out.println(review);
 		return reviewRepository.findById(reviewId)
 				.map(newReview -> {
 					newReview.setUser(review.getUser());
