@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 import {Button, Col, Row, Spinner, Stack} from "react-bootstrap";
-import { useEditReviewMutation } from '../api/apiSlice'
+import {useDeleteReviewMutation, useEditReviewMutation} from '../api/apiSlice'
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import StarRatings from "react-star-ratings";
-import {de} from "date-fns/locale";
 
 export const EditReviewForm = ({reviewDetails}) => {
 
     const user = useSelector(state => state.user)
-    const [updateReview, { isLoading }] = useEditReviewMutation()
+    const [updateReview, { isLoadingUpdateReview }] = useEditReviewMutation()
+    const [deleteReview, { isLoadingDeleteReview }] = useDeleteReviewMutation()
 
     const navigate = useNavigate()
 
@@ -25,6 +25,7 @@ export const EditReviewForm = ({reviewDetails}) => {
     const onDeliveryChanged = (e) => setDelivery(e.target.value)
     const onWorkloadChanged = (e) => setWorkload(e.target.value)
     const onContentChanged = (e) => setContent(e.target.value)
+
 
     const onEditReviewClicked = async () => {
         if (content) {
@@ -55,7 +56,16 @@ export const EditReviewForm = ({reviewDetails}) => {
         }
     }
 
-    const spinner = isLoading ? <Spinner text="Saving..." /> : null
+    const onDeleteReviewClicked = async () => {
+        try {
+            await deleteReview({universityId: reviewDetails.university.id, courseId: reviewDetails.course.id, reviewId: reviewDetails.id})
+            navigate(`/university/${reviewDetails.university.id}/courses/${reviewDetails.course.id}`)
+        } catch (err) {
+            console.error('Failed to delete the review: ', err)
+        }
+    }
+
+    const spinner = isLoadingUpdateReview ? <Spinner text="Saving..." /> : null
 
     return (
         <Container className="reviews">
@@ -119,6 +129,10 @@ export const EditReviewForm = ({reviewDetails}) => {
 
                     <Button type="button" onClick={onEditReviewClicked}>
                         Save Post
+                    </Button>
+
+                    <Button type="button" onClick={onDeleteReviewClicked}>
+                        Delete Post
                     </Button>
                     {spinner}
                 </Form>

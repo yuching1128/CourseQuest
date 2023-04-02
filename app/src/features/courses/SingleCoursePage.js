@@ -28,15 +28,12 @@ export const SingleCoursePage = () => {
     let userWrittenReview = false;
     let userReviewInfo = null;
     for (let key = 0; key < userReviews.length; ++key) {
-        console.log(userReviews[key].course.name);
         if (parseInt(userReviews[key].course.id) === parseInt(courseId)) {
             userReviewInfo = userReviews[key]
             userWrittenReview = true
             break;
         }
     }
-
-    console.log(userReviewInfo)
 
     const {
         data: course,
@@ -92,7 +89,7 @@ export const SingleCoursePage = () => {
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="1">
-                        <Accordion.Header>Leave a Review</Accordion.Header>
+                        <Accordion.Header>{userWrittenReview ? "Edit/Delete Your Review" : "Leave a Review"}</Accordion.Header>
                         <Accordion.Body>
                             {/* If user has written a review, show EditForm. Else show RateReviewForm*/}
                             {userWrittenReview ? <EditReviewForm reviewDetails={userReviewInfo}/> : <RateReviewForm universityId={universityId} courseId={courseId} /> }

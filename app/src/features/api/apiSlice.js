@@ -26,7 +26,8 @@ export const apiSlice = createApi({
             query: universityId => `university/${universityId}/levels`
         }),
         getUserReviews: builder.query({
-            query: userId => `/user/${userId}/reviews`
+            query: userId => `/user/${userId}/reviews`,
+            providesTags: ['Review']
         }),
         addNewReview: builder.mutation({
             query: ({universityId, courseId, newReview}) => ({
@@ -43,6 +44,13 @@ export const apiSlice = createApi({
                 body: editedReview
             }),
             invalidatesTags: ['Review']
+        }),
+        deleteReview: builder.mutation({
+            query: ({universityId, courseId, reviewId}) => ({
+                url: `university/${universityId}/courses/${courseId}/review/${reviewId}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: ['Review']
         })
     })
 })
@@ -53,8 +61,8 @@ export const {
     useGetCourseReviewsQuery,
     useGetDepartmentsQuery,
     useGetLevelsQuery,
-    useAddNewReviewMutation,
-    useGetReviewQuery,
     useGetUserReviewsQuery,
-    useEditReviewMutation
+    useAddNewReviewMutation,
+    useEditReviewMutation,
+    useDeleteReviewMutation
 } = apiSlice
