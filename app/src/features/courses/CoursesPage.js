@@ -18,7 +18,6 @@ let CourseExcerpt = ({ course }) => {
                     <div className="rating-point">{course.rating}</div>
                 </div>
                 <div className="courseInfo">
-                    <p className="professorName">Professor: {course.instructor}</p>
                     <p className="des">{course.description.substring(0, 100)}...</p>
                 </div>
             </div>
