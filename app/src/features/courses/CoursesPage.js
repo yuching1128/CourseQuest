@@ -6,7 +6,7 @@ import {useGetCoursesQuery} from "../api/apiSlice";
 import {SearchComponent} from "../search/search";
 import classnames from 'classnames';
 
-let CourseExcerpt = ({ universityId, course }) => {
+let CourseExcerpt = ({ course }) => {
     return (
         <article className="course-excerpt" key={course.id}>
             <Link to={`/university/${universityId}/courses/${course.id}`} className="course-button">
@@ -53,6 +53,7 @@ export const CoursesPage = () => {
         isSuccess,
         isError,
         error,
+        refetch
     } = useGetCoursesQuery({universityId: universityId, page: page, size: size});
 
     useEffect(()=>{

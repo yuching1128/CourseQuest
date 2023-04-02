@@ -115,7 +115,12 @@ public interface CourseDataService {
 	 */
 	void deleteReview(Integer reviewId);
 
-
+	/**
+	 * This function is used to get all reviews written by a user
+	 * @param userId: the unique id of the user
+	 * @return a list of reviews written by a user
+	 */
+	List<Review> findUserReviews(Integer userId);
 
 
 }

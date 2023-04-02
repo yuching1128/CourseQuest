@@ -21,4 +21,6 @@ public interface ReviewRepository extends JpaRepository<Review, Integer>, Paging
     List<Review> findByCourseIdAndUniversityId(int courseId, int universityId);
 
     Optional<Review> findByCourseIdAndUniversityIdAndUserId(int courseId, int universityId, int userId);
+
+    List<Review> findByUserId(int userId);
 }

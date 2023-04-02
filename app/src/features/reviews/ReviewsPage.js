@@ -20,7 +20,12 @@ export const ReviewsPage = () => {
         error
     } = useGetCourseReviewsQuery({universityId:universityId, courseId: courseId})
 
-    console.log(reviews)
+    // Sort in descending chronological order
+    const sortedReviews = useMemo(() => {
+        const sortedReviews = reviews.slice()
+        sortedReviews.sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+        return sortedReviews
+    }, [reviews])
 
     // Sort in descending chronological order
     const sortedReviews = useMemo(() => {
@@ -68,7 +73,6 @@ export const ReviewsPage = () => {
                 </div>
             </div>
         )
-
     }
 
     let content
@@ -84,9 +88,6 @@ export const ReviewsPage = () => {
     return (
         <Container className="reviews">
             {content}
-            <button className="reviews-Load">
-                Load more
-            </button>
         </Container>
 
     )

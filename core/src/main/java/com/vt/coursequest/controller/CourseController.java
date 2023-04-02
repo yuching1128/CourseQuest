@@ -100,9 +100,10 @@ public class CourseController {
 		cds.deleteReview(reviewId);
 	}
 
-
-
-
-
+	@ApiOperation("This service is used to get all reviews written by a user")
+	@GetMapping("/api/user/{userId}/reviews")
+	public ResponseEntity<List<Review>> findUserReviews(@PathVariable Integer userId) {
+		return new ResponseEntity<>(cds.findUserReviews(userId), HttpStatus.OK);
+	}
 
 }

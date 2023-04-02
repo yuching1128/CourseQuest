@@ -11,7 +11,6 @@ import {useSelector} from "react-redux";
 export const RateReviewForm = () => {
 
     const user = useSelector(state => state.user)
-
     const { universityId, courseId } = useParams()
 
     const [rating, setRating] = useState(0)
@@ -29,15 +28,6 @@ export const RateReviewForm = () => {
     const onWorkloadChanged = (e) => setWorkload(e.target.value)
     const onContentChanged = (e) => setContent(e.target.value)
     const onTakenCourseChanged = () => setTakenCourse(takenCourse => !takenCourse)
-
-    // Debugging
-    console.log("Rating state: " + rating)
-    console.log("Professor state: " + professor)
-    console.log("Delivery state: " + delivery)
-    console.log("Workload state: " + workload)
-    console.log("Content state: " + content)
-    console.log("TakenCourse state: " + takenCourse)
-    console.log("--")
 
     const canSave = [rating, professor, delivery, workload, content, takenCourse].every(Boolean) && !isLoading
 

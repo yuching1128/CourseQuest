@@ -1,4 +1,5 @@
-// API Documentation http://localhost:8080/swagger-ui.html#/
+// API Documentation http://localhost:8080/swagger-ui.html
+
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const apiSlice = createApi({
@@ -24,14 +25,22 @@ export const apiSlice = createApi({
         getLevels: builder.query({
             query: universityId => `university/${universityId}/levels`
         }),
-        getReview: builder.query({
-            query: ({universityId, courseId, reviewId}) => `university/${universityId}/courses/${courseId}/review/${reviewId}`
+        getUserReviews: builder.query({
+            query: userId => `/user/${userId}/reviews`
         }),
         addNewReview: builder.mutation({
             query: ({universityId, courseId, newReview}) => ({
                 url: `university/${universityId}/courses/${courseId}/review`,
                 method: 'POST',
                 body: newReview
+            }),
+            invalidatesTags: ['Review']
+        }),
+        editReview: builder.mutation({
+            query: ({universityId, courseId, reviewId, editedReview}) => ({
+                url: `university/${universityId}/courses/${courseId}/review/${reviewId}`,
+                method: 'PUT',
+                body: editedReview
             }),
             invalidatesTags: ['Review']
         })
@@ -46,4 +55,6 @@ export const {
     useGetLevelsQuery,
     useAddNewReviewMutation,
     useGetReviewQuery,
+    useGetUserReviewsQuery,
+    useEditReviewMutation
 } = apiSlice
