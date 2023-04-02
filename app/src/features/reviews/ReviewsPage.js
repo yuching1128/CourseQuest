@@ -27,13 +27,6 @@ export const ReviewsPage = () => {
         return sortedReviews
     }, [reviews])
 
-    // Sort in descending chronological order
-    const sortedReviews = useMemo(() => {
-        const sortedReviews = reviews.slice()
-        sortedReviews.sort((a, b) => b.createdAt.localeCompare(a.createdAt))
-        return sortedReviews
-    }, [reviews])
-
     let ReviewExcerpt = ({ review }) => {
         class Bar extends Component {
             render() {
