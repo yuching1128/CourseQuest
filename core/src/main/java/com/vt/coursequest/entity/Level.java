@@ -19,7 +19,7 @@ import lombok.Data;
  */
 @Data
 @Entity
-@Table(name = "level")
+@Table(name = "level", schema = "CourseQuest")
 public class Level {
 	
 	@JsonProperty
@@ -29,7 +29,7 @@ public class Level {
 	int id;
 
 	@JsonProperty
-	@Column(name = "name")
+	@Column(name = "name", unique = true)
 	String name;
 
 	@JsonIgnore

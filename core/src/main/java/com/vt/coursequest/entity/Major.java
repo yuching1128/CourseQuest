@@ -13,7 +13,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "major")
+@Table(name = "major", schema = "CourseQuest")
 public class Major {
     @JsonProperty
     @Column(name = "id")
@@ -21,6 +21,8 @@ public class Major {
     @Id
     int id;
 
+    @JsonProperty
+	@Column(name = "name", unique = true)
     String name;
     
     public Major() {}

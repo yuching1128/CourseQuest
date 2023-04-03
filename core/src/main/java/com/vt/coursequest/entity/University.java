@@ -17,7 +17,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "university")
+@Table(name = "university", schema = "CourseQuest")
 public class University {
 
 	@Column(name = "id")
@@ -25,7 +25,23 @@ public class University {
 	@Id
 	int id;
 
-	@Column(name = "name")
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Column(name = "name", unique = true)
 	String name;
 
 	public University(int id) {

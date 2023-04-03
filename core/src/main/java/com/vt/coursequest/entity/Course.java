@@ -1,14 +1,18 @@
 package com.vt.coursequest.entity;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,37 +28,37 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "course")
-public class Course {
+@Table(name = "course", schema = "CourseQuest")
+public class Course implements Serializable {
 
 	public Course() {
 	}
 
-	@Column(name = "id")
-	// @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", updatable = false)
 	@Id
 	int id;
 
 	@JsonIgnore
 	@JoinColumn(name = "university_id")
-	@OneToOne
+	@ManyToOne
+	@MapsId
 	University university;
 
 	@JsonIgnore
 	@JoinColumn(name = "degree_id")
-	@OneToOne
+	@ManyToOne
 	Degree degree;
 
 	@JsonIgnore
-	@JoinColumn(name = "instructor_id")
-	@OneToMany
+	@ManyToMany(cascade = CascadeType.ALL)
+	// @JoinColumn(name = "course_instructor_fid")
 	Set<Instructor> instructor = new HashSet<>();
 
-	@JoinColumn(referencedColumnName = "id")
-	@OneToMany
-	Set<CourseCRN> CourseCRNs = new HashSet<>();
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	// @JoinColumn(name = "course_crn_fid")
+	private Set<CourseCRN> courseCRNs = new HashSet<>();
 
-	@Column(name = "name")
+	@Column(name = "name", nullable = false)
 	@JsonProperty
 	String name;
 
@@ -95,15 +99,16 @@ public class Course {
 	}
 
 	public void setInstructor(Set<Instructor> instructor) {
-		this.instructor = instructor;
+		Set<Instructor> uniqueInstructors = new HashSet<>(instructor);
+		this.instructor = uniqueInstructors;
 	}
 
 	public Set<CourseCRN> getCourseCRNs() {
-		return CourseCRNs;
+		return courseCRNs;
 	}
 
 	public void setCourseCRNs(Set<CourseCRN> courseCRNs) {
-		CourseCRNs = courseCRNs;
+		this.courseCRNs = courseCRNs;
 	}
 
 	public String getName() {
@@ -128,6 +133,21 @@ public class Course {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj == this)
+			return true;
+		Course courseObj = (Course) obj;
+		return id == courseObj.id;
+	}
+
+	@Override
+	public int hashCode() {
+		return id;
 	}
 
 }

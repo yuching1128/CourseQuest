@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 
@@ -17,7 +18,12 @@ import org.springframework.stereotype.Service;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.HeaderColumnNameTranslateMappingStrategy;
+import com.vt.coursequest.dao.CourseCRNsRepository;
 import com.vt.coursequest.dao.CourseRepository;
+import com.vt.coursequest.dao.DegreeRepository;
+import com.vt.coursequest.dao.InstructorRepository;
+import com.vt.coursequest.dao.LevelRepository;
+import com.vt.coursequest.dao.UniversityRepository;
 import com.vt.coursequest.entity.Course;
 import com.vt.coursequest.entity.CourseCRN;
 import com.vt.coursequest.entity.Degree;
@@ -36,6 +42,21 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 
 	@Resource
 	private CourseRepository courseRepository;
+
+	@Resource
+	private UniversityRepository universityRepository;
+
+	@Resource
+	private DegreeRepository degreeRepository;
+
+	@Resource
+	private LevelRepository levelRepository;
+
+	@Resource
+	private InstructorRepository instructorRepository;
+
+	@Resource
+	private CourseCRNsRepository courseCRNsRepository;
 
 	@Override
 	public void importCourseMetaData(Integer universityId, boolean isFullImport) throws IOException {
@@ -75,31 +96,114 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 	}
 
 	private void saveToDb(Collection<Course> courses) {
-		courseRepository.saveAll(courses);
+		for (Course c : courses) {
+			Optional<University> uni = universityRepository.findById(c.getUniversity().getId());
+			if (uni.isPresent()) {
+				c.setUniversity(uni.get());
+			}
+			Optional<Course> optionalCourse = courseRepository.findById(c.getId());
+			if (optionalCourse.isPresent()) {
+				Course existingCourse = optionalCourse.get();
+
+				for (CourseCRN crn : c.getCourseCRNs()) {
+					Optional<CourseCRN> optionalCRN = courseCRNsRepository.findByCrnNumber(crn.getCrnNumber());
+					if (!optionalCRN.isPresent()) {
+						crn = courseCRNsRepository.save(crn);
+						existingCourse.getCourseCRNs().add(crn);
+					} else {
+						existingCourse.getCourseCRNs().add(optionalCRN.get());
+					}
+				}
+
+				for (Instructor instructor : c.getInstructor()) {
+					Optional<Instructor> optionalInstructor = instructorRepository.findByName(instructor.getName());
+					if (!optionalInstructor.isPresent()) {
+						instructor = instructorRepository.save(instructor);
+						existingCourse.getInstructor().add(instructor);
+					} else {
+						existingCourse.getInstructor().add(optionalInstructor.get());
+					}
+				}
+
+				if (null != c.getDegree()) {
+					Optional<Degree> optionalDegree = degreeRepository.findByName(c.getDegree().getName());
+					if (optionalDegree.isPresent()) {
+						existingCourse.setDegree(optionalDegree.get());
+					} else {
+						existingCourse.setDegree(degreeRepository.save(c.getDegree()));
+					}
+
+				}
+
+				existingCourse.setName(c.getName());
+				courseRepository.save(existingCourse);
+			} else {
+
+				for (CourseCRN crn : c.getCourseCRNs()) {
+					Optional<CourseCRN> optionalCRN = courseCRNsRepository.findByCrnNumber(crn.getCrnNumber());
+					if (!optionalCRN.isPresent()) {
+						c.getCourseCRNs().add(courseCRNsRepository.save(crn));
+					} else {
+						c.getCourseCRNs().add(optionalCRN.get());
+					}
+				}
+
+				for (Instructor instructor : c.getInstructor()) {
+					Optional<Instructor> optionalInstructor = instructorRepository.findByName(instructor.getName());
+					if (!optionalInstructor.isPresent()) {
+						instructor = instructorRepository.save(instructor);
+						c.getInstructor().add(instructor);
+					} else {
+						c.getInstructor().add(optionalInstructor.get());
+					}
+				}
+
+				if (null != c.getDegree()) {
+					Optional<Degree> optionalDegree = degreeRepository.findByName(c.getDegree().getName());
+					if (optionalDegree.isPresent()) {
+						c.setDegree(optionalDegree.get());
+					} else {
+						c.setDegree(degreeRepository.save(c.getDegree()));
+					}
+
+				}
+
+				courseRepository.save(c);
+			}
+
+		}
 	}
 
 	private Collection<Course> correctlyParseItToSaveInDB(List<CourseMetaData> exhaustiveList, int universityId) {
 		Map<String, Course> map = new HashMap<>();
 		for (CourseMetaData metaCourseData : exhaustiveList) {
 			Course course = new Course();
-			if (!map.containsKey(metaCourseData.getCourseTitle())) {
+			if (!map.containsKey(metaCourseData.getCourseNo())) {
 				course.setId(Integer.parseInt(metaCourseData.getCourseNo()));
 				course.setDegree(getDegree(metaCourseData.getCourseNo()));
 				course.setName(metaCourseData.getCourseTitle());
 				course.setUniversity(new University(universityId));
 			} else {
-				course = map.get(metaCourseData.getCourseTitle());
+				course = map.get(metaCourseData.getCourseNo());
 			}
 			course.getCourseCRNs().add(new CourseCRN(metaCourseData.getCrn()));
-			course.getInstructor().add(new Instructor(metaCourseData.getInstructor()));
-			map.put(metaCourseData.getCourseTitle(), course);
+			Instructor i = new Instructor(metaCourseData.getInstructor());
+			if (!course.getInstructor().contains(i)) {
+				course.getInstructor().add(i);
+			}
+			map.put(metaCourseData.getCourseNo(), course);
 		}
 		return map.values();
 	}
 
 	private Degree getDegree(String courseNo) {
-		// TODO Auto-generated method stub
-		return new Degree("test");
+		String degreeName = "Phd";
+		if (Integer.valueOf(courseNo) <= 4000) {
+			degreeName = "UG";
+		} else if (Integer.valueOf(courseNo) <= 5000) {
+			degreeName = "Master";
+		}
+		return new Degree(degreeName);
 	}
 
 	public static void main(String[] args) {
@@ -107,7 +211,6 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 		try {
 			c.importCourseMetaData(1, false);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

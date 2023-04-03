@@ -1,8 +1,13 @@
 package com.vt.coursequest.entity;
 
-import lombok.Data;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-import javax.persistence.*;
+import lombok.Data;
 
 /**
  * @author: EugeneFeng
@@ -11,21 +16,39 @@ import javax.persistence.*;
  */
 @Data
 @Entity
-@Table(name = "courseCRN")
+@Table(name = "courseCRN", schema = "CourseQuest")
 public class CourseCRN {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
-	int id;
+	Integer id;
 
 	@Column(name = "crnNumber")
 	String crnNumber;
 
-	public CourseCRN(String crnNumber) {
+	public String getCrnNumber() {
+		return crnNumber;
+	}
+
+	public void setCrnNumber(String crnNumber) {
 		this.crnNumber = crnNumber;
 	}
-	
-	public CourseCRN() {}
+
+	public CourseCRN(String crnNumber) {
+		this.crnNumber = crnNumber;
+		id = null;
+	}
+
+//	@ManyToOne(fetch = FetchType.LAZY)
+//    private Course course;
+
+	public CourseCRN() {
+	}
+
+	@Override
+	public int hashCode() {
+		return crnNumber.hashCode();
+	}
 
 	@Override
 	public boolean equals(Object obj) {

@@ -25,7 +25,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "review")
+@Table(name = "review", schema = "CourseQuest")
 public class Review {
 	
 	public Review() {}
@@ -35,7 +35,7 @@ public class Review {
     @Id
     int id;
 
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "userId" ,referencedColumnName = "id", insertable = false, updatable = false)
     @OneToOne
     User user;
 
