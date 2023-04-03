@@ -6,9 +6,11 @@ import java.util.Optional;
 import com.vt.coursequest.entity.Review;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.vt.coursequest.entity.Course;
+import org.springframework.data.repository.query.Param;
 
 /**
  * 
@@ -25,5 +27,8 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, Paging
 	List<Course> findByUniversityId(int universityId, Pageable pageable);
 
 	Optional<Course> findByUniversityIdAndId(int universityId, int id);
+
+	@Query("SELECT AVG(r.rating) FROM Review r WHERE r.course.id = :courseId")
+	Double getAverageRatingForCourse(@Param("courseId") int courseId);
 
 }

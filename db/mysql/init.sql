@@ -1,63 +1,83 @@
 create schema CourseQuest;
 use CourseQuest;
 
+create table coursecrn
+(
+    id         int auto_increment
+        primary key,
+    crn_number varchar(255) null
+);
+
 create table degree
 (
     id   int auto_increment
         primary key,
-    name varchar(255) null
+    name varchar(255) null,
+    constraint UK_by27bbt64p1ria17hy3khpyft
+        unique (name)
 );
 
 create table instructor
 (
     id   int auto_increment
         primary key,
-    name varchar(255) null
+    name varchar(255) not null
 );
 
 create table major
 (
     id   int auto_increment
         primary key,
-    name varchar(255) null
+    name varchar(255) null,
+    constraint UK_oi0ctjbjvktdcfxws9w2exiwb
+        unique (name)
 );
 
 create table university
 (
-    id            int auto_increment
+    id   int auto_increment
         primary key,
-    name          varchar(255) null,
-    university_id int          null,
-    constraint FK1gjitje5viflnb2bkdin1so2m
-        foreign key (university_id) references university (id)
+    name varchar(255) null,
+    constraint UK_ru212k5vib3yvu360fuy3h1g5
+        unique (name)
 );
 
 create table course
 (
-    id            int auto_increment
+    university_id int          not null
         primary key,
     description   varchar(255) null,
-    name          varchar(255) null,
+    name          varchar(255) not null,
     rating        float        null,
     degree_id     int          null,
-    university_id int          null,
-    instructor_id int          null,
     constraint FK4ag2rc4adjiesa1d0lcvnnq82
         foreign key (university_id) references university (id),
     constraint FKdgomx5qg5fvg9cgyh0sdh0vwo
-        foreign key (degree_id) references degree (id),
-    constraint FKqk2yq2yk124dhlsilomy36qr9
-        foreign key (instructor_id) references instructor (id)
+        foreign key (degree_id) references degree (id)
 );
 
-create table coursecrn
+create table course_coursecrns
 (
-    id            int auto_increment
-        primary key,
-    crn_number    varchar(255) null,
-    coursecrns_id int          null,
-    constraint FK8ye05xkt7k1f6j29lrawh699g
-        foreign key (coursecrns_id) references course (id)
+    course_university_id int not null,
+    coursecrns_id        int not null,
+    primary key (course_university_id, coursecrns_id),
+    constraint UK_sg5l6bj5k4pbeule0v9hi7ahd
+        unique (coursecrns_id),
+    constraint FK503m64orid5mj0ivll6oi9l99
+        foreign key (coursecrns_id) references coursecrn (id),
+    constraint FKjnmg2hil9djxoyml1udh9w9f
+        foreign key (course_university_id) references course (university_id)
+);
+
+create table course_instructor
+(
+    courses_university_id int not null,
+    instructor_id         int not null,
+    primary key (courses_university_id, instructor_id),
+    constraint FK4yrginwid5ipfrsjcwbgddcmm
+        foreign key (courses_university_id) references course (university_id),
+    constraint FKltori8qni3ivrlovca4gd9yw3
+        foreign key (instructor_id) references instructor (id)
 );
 
 create table department
@@ -76,40 +96,43 @@ create table level
         primary key,
     name          varchar(255) null,
     university_id int          null,
+    constraint UK_lrjnw0jty1fs19q56u0us8d0n
+        unique (name),
     constraint FKkvg8900rbtqtvud24vcsnw6rw
         foreign key (university_id) references university (id)
 );
 
 create table user
 (
-    id            int auto_increment
+    id             int auto_increment
         primary key,
-    first_name    varchar(255) null,
-    last_name     varchar(255) null,
-    password      varchar(255) null,
-    phone         varchar(255) null,
-    concentration varchar(255) null,
-    major         varchar(255) null,
-    email         varchar(255) null,
-    degree_id     int          null,
-    university_id int          null,
-    major_id      int          null,
-    constraint FKc1q9juawhjvqie7wi3p44me9y
-        foreign key (major_id) references major (id),
-    constraint FKfgcbu6cj5oqlmnrocb7ctc7wl
-        foreign key (degree_id) references degree (id),
-    constraint FKic5iffsyggke974jb0jbdb0m
-        foreign key (university_id) references university (id)
+    concentration  varchar(255) null,
+    email          varchar(255) null,
+    first_name     varchar(255) null,
+    last_name      varchar(255) null,
+    password       varchar(255) null,
+    phone          varchar(255) null,
+    degree_fid     int          null,
+    major_fid      int          null,
+    university_fid int          null,
+    constraint user_email_unique
+        unique (email),
+    constraint FK2e0fnf9jmfw0jmwf9m0hihdst
+        foreign key (university_fid) references university (id),
+    constraint FKfydmmlqn19qnpytrvob21vv4d
+        foreign key (major_fid) references major (id),
+    constraint FKnqnxmrttbx4tqiv2qkcv1ajcx
+        foreign key (degree_fid) references degree (id)
 );
 
 create table review
 (
     id            int auto_increment
         primary key,
+    is_anonymous  bit          null,
     content       varchar(255) null,
     created_at    datetime(6)  not null,
     delivery      int          null,
-    is_anonymous  bit          null,
     rating        float        null,
     workload      int          null,
     course_id     int          null,
@@ -123,8 +146,35 @@ create table review
     constraint FKn3q1vv5fmlyv3ouelg9ta0unb
         foreign key (university_id) references university (id),
     constraint FKprox8elgnr8u5wrq1983degk
-        foreign key (course_id) references course (id)
+        foreign key (course_id) references course (university_id)
 );
+
+create table user_course
+(
+    user_id              int not null,
+    course_university_id int not null,
+    primary key (user_id, course_university_id),
+    constraint UK_ojhtxuq944ptfxntlhrxvcshw
+        unique (course_university_id),
+    constraint FK4xq18kasyvpo8xmpnpfcr754m
+        foreign key (course_university_id) references course (university_id),
+    constraint FKpv8tt3252hb6kyej8p7e7pokl
+        foreign key (user_id) references user (id)
+);
+
+create table user_interested_course
+(
+    user_id                         int not null,
+    interested_course_university_id int not null,
+    primary key (user_id, interested_course_university_id),
+    constraint UK_7g14fn7qjihowhstipo6iy3vd
+        unique (interested_course_university_id),
+    constraint FKcjdnskifislkh57b59bfquop2
+        foreign key (interested_course_university_id) references course (university_id),
+    constraint FKtlxbvteqs80kpgnwhed1w0vir
+        foreign key (user_id) references user (id)
+);
+
 
 
 
@@ -162,7 +212,7 @@ insert into CourseQuest.review (id, content, created_at, delivery, is_anonymous,
 insert into CourseQuest.review (id, content, created_at, delivery, is_anonymous, rating, workload, course_id, instructor_id, university_id, user_id) values (3, 'Bad Course', '2023-03-23 08:04:32', 0, true, 4.4, 1, 1, 1, 1, 2);
 insert into CourseQuest.review (id, content, created_at, delivery, is_anonymous, rating, workload, course_id, instructor_id, university_id, user_id) values (4, 'Bad Bad', '2023-03-23 08:04:33', 0, false, 5, 1, 1, 1, 1, 3);
 
-  
+
 INSERT INTO `CourseQuest`.`department` (`id`, `university_id`, `name`) VALUES ('1', '1', 'CS');
 
 INSERT INTO `CourseQuest`.`department` (`id`, `university_id`, `name`) VALUES ('2', '1', 'CE');
