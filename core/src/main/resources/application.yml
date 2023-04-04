@@ -29,4 +29,11 @@ server:
   port: 8080
 
 application:
-  metadata-file-path: src/main/resources/data.csv
+  metadata-file-path: src/main/resources/static/data.csv
+  webscraping:
+    urls: [https://cs.vt.edu/Undergraduate/courses.html]
+  labels:
+    degreetypes: 
+      phd: Phd
+      pg: Masters
+      ug: UG
