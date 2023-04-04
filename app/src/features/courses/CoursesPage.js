@@ -7,6 +7,7 @@ import {SearchComponent} from "../search/search";
 import classnames from 'classnames';
 
 let CourseExcerpt = ({ course }) => {
+    console.log(course)
     return (
         <article className="course-excerpt" key={course.id}>
             <Link to={`/university/${course.universityId}/courses/${course.id}`} className="course-button">
@@ -15,10 +16,10 @@ let CourseExcerpt = ({ course }) => {
             <div className="allInfo">
                 <div className="ratingBox">
                     <p className="rating-text">Rating</p>
-                    <div className="rating-point">{course.rating}</div>
+                    <div className="rating-point">{course.rating ? course.rating : "N/A"}</div>
                 </div>
                 <div className="courseInfo">
-                    <p className="des">{course.description.substring(0, 100)}...</p>
+                    <p className="des">{course.description ? course.description.substring(0, 100)+"..." : "No Description Available"}</p>
                 </div>
             </div>
             <hr />
@@ -91,7 +92,7 @@ export const CoursesPage = () => {
         localStorage.setItem('noMoreCourses', noMoreCourses.toString());
     }, [page, List, noMoreCourses]);
 
-    const handleLordMoreClick = async () => {
+    const handleLoadMoreClick = async () => {
         setPage(page + 1);
         setShouldLoadMore(true);
     }
@@ -102,7 +103,7 @@ export const CoursesPage = () => {
             <div className="courses-list">{content}</div>
             {!noMoreCourses && (
                 <button className="courseList-Load"
-                        onClick={handleLordMoreClick}
+                        onClick={handleLoadMoreClick}
                         disabled={isFetching}
                 >
                     {isFetching? 'Loading':'Load more'}

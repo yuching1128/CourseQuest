@@ -82,6 +82,5 @@ export const ReviewsPage = () => {
         <Container className="reviews">
             {content}
         </Container>
-
     )
 }
