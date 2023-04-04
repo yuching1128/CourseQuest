@@ -34,12 +34,10 @@ public class User {
 	@Id
 	int id;
 
-	@JsonIgnore
 	@JoinColumn(name = "university_fid", referencedColumnName = "id")
 	@ManyToOne
 	University university;
 
-	@JsonIgnore
 	@JoinColumn(name = "degree_fid", referencedColumnName = "id")
 	@ManyToOne
 	Degree degree;
@@ -67,6 +65,93 @@ public class User {
 	@JsonIgnore
 	String password;
 
+	public University getUniversity() {
+		return university;
+	}
+
+	public void setUniversity(University university) {
+		this.university = university;
+	}
+
+	public Degree getDegree() {
+		return degree;
+	}
+
+	public void setDegree(Degree degree) {
+		this.degree = degree;
+	}
+
+	public Major getMajor() {
+		return major;
+	}
+
+	public void setMajor(Major major) {
+		this.major = major;
+	}
+
+	public Set<Course> getCourse() {
+		return course;
+	}
+
+	public void setCourse(Set<Course> course) {
+		this.course = course;
+	}
+
+	public Set<Course> getInterestedCourse() {
+		return interestedCourse;
+	}
+
+	public void setInterestedCourse(Set<Course> interestedCourse) {
+		this.interestedCourse = interestedCourse;
+	}
+
+	public String getConcentration() {
+		return Concentration;
+	}
+
+	public void setConcentration(String concentration) {
+		Concentration = concentration;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	public User() {
 	}
 }

@@ -15,6 +15,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "major", schema = "CourseQuest")
 public class Major {
+
     @JsonProperty
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +25,25 @@ public class Major {
     @JsonProperty
 	@Column(name = "name", unique = true)
     String name;
-    
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
     public Major() {}
+
+    public Major(int id) {
+        this.id = id;
+    }
 }
