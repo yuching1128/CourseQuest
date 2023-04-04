@@ -54,7 +54,6 @@ public class Course implements Serializable {
 	@ManyToOne
 	University university;
 
-	@JsonIgnore
 	@JoinColumn(name = "degree_id")
 	@ManyToOne
 	Degree degree;
