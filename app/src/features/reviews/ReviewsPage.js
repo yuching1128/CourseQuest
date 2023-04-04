@@ -20,8 +20,6 @@ export const ReviewsPage = () => {
         error
     } = useGetCourseReviewsQuery({universityId:universityId, courseId: courseId})
 
-    console.log(reviews)
-
     // Sort in descending chronological order
     const sortedReviews = useMemo(() => {
         const sortedReviews = reviews.slice()
@@ -48,7 +46,7 @@ export const ReviewsPage = () => {
                 <div className="reviewBlock">
                     <div style={{display: "flex"}}>
                         <FontAwesomeIcon icon={faCircleUser} className="userIcon"/>
-                        <h3 className="poster">{review.user.firstName}</h3>
+                        <h3 className="poster">{review.anonymous ? "Anonymous user" : review.user.firstName}</h3>
                         <Bar />
 
                     </div>
@@ -68,7 +66,6 @@ export const ReviewsPage = () => {
                 </div>
             </div>
         )
-
     }
 
     let content
@@ -84,9 +81,6 @@ export const ReviewsPage = () => {
     return (
         <Container className="reviews">
             {content}
-            <button className="reviews-Load">
-                Load more
-            </button>
         </Container>
 
     )

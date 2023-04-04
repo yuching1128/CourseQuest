@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @Data
 @Entity
-@Table(name = "department")
+@Table(name = "department", schema = "CourseQuest")
 public class Department {
 	
 	@JsonProperty
@@ -29,4 +29,6 @@ public class Department {
     @JoinColumn(name = "university_id")
 	@ManyToOne
     University university;
+	
+	public Department() {}
 }

@@ -1,0 +1,101 @@
+package com.vt.coursequest.service;
+
+import com.vt.coursequest.entity.Course;
+import com.vt.coursequest.entity.Major;
+import com.vt.coursequest.entity.University;
+import com.vt.coursequest.entity.User;
+
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * @author: EugeneFeng
+ * @date: 3/30/23 11:01 PM
+ * @description: some desc
+ */
+public interface UserDataService {
+    /**
+     * This method is to get the user profile information
+     * which includes name, e-mail, university,
+     * degree, major, subject taken, subject interested, concentration interested, mentoring on class.
+     *
+     * @param userId
+     * @return
+     */
+    Optional<User> findUser(Integer userId);
+
+    /**
+     * This method is to get all universities
+     * @return the list of universities
+     */
+    List<University> findAllUniversity();
+
+    /**
+     * This method is to create university for a new user
+     * @param userId: the unique id of user
+     * @param universityId: the unique id of university
+     * @return current user's information
+     */
+    User createUserUniversity(Integer userId, Integer universityId) throws Exception;
+
+    /**
+     * This method is to create degree for a new user
+     * @param userId: the unique id of user
+     * @param degreeId: the unique id of degree
+     * @return current user's information
+     */
+    User createUserDegree(Integer userId, Integer degreeId) throws Exception;
+
+    /**
+     * This method is to get all majors
+     * @return the list of majors
+     */
+    List<Major> findAllMajor();
+
+    /**
+     * This method is to create major for a new user
+     * @param userId: the unique id of user
+     * @param majorId: the unique id of major
+     * @return current user's information
+     */
+    User createUserMajor(Integer userId, Integer majorId) throws Exception;
+
+
+    /**
+     * This method is to create a user's taken courses
+     * @param userId: the unique id of user
+     * @param courseList: the chosen list of courses
+     * @return the chosen course list
+     */
+    User createTakenCourse(Integer userId, List<Course> courseList) throws Exception;
+
+    /**
+     * This method is to update a user's taken courses
+     * @param userId: the unique id of user
+     * @param courseList: the chosen list of courses
+     * @return the chosen course list
+     */
+    List<Course> updateTakenCourse(Integer userId, List<Course> courseList);
+
+
+    /**
+     * This method is to create a user's interested courses
+     * @param userId: the unique id of user
+     * @param courseList: the chosen list of interested courses
+     * @return the interested course list
+     */
+    User createInterestedCourse(Integer userId, List<Course> courseList) throws Exception;
+
+    /**
+     * This method is to update a user's interested courses
+     * @param userId: the unique id of user
+     * @param courseList: the chosen list of interested courses
+     * @return the interested course list
+     */
+    List<Course> updateInterestedCourse(Integer userId, List<Course> courseList);
+
+
+
+
+
+}

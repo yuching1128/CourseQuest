@@ -96,4 +96,9 @@ public class CourseDataServiceImpl implements CourseDataService {
 		reviewRepository.deleteById(reviewId);
 	}
 
+	@Override
+	public List<Review> findUserReviews(Integer userId) {
+		return reviewRepository.findByUserId(userId);
+	}
+
 }

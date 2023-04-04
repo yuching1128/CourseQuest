@@ -7,6 +7,7 @@ import SignupPage from "./features/signup/SignupPage";
 import Footer from "./app/Footer";
 import { SingleCoursePage } from "./features/courses/SingleCoursePage";
 import { CoursesPage } from "./features/courses/CoursesPage";
+import { EditReviewForm } from "./features/reviews/EditReviewForm";
 
 export default function App() {
     return (
@@ -19,6 +20,7 @@ export default function App() {
                     <Route exact path="/signup" element={<SignupPage />} />
                     <Route exact path="/university/:universityId/courses" element={<CoursesPage />} />
                     <Route exact path="/university/:universityId/courses/:courseId" element={<SingleCoursePage />} />
+                    <Route exact path="/university/:universityId/courses/:courseId/review/:reviewId/edit" element={<EditReviewForm />} />
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
                 <Footer />

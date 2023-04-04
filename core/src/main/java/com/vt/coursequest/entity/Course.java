@@ -1,11 +1,20 @@
 package com.vt.coursequest.entity;
+
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -21,43 +30,135 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "course")
-public class Course {
+@Table(name = "course", schema = "CourseQuest")
+public class Course implements Serializable {
 
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    int id;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-    @JsonIgnore
-    @JoinColumn(name = "university_id")
-    @OneToOne
-    University university;
+	public Course() {
+	}
 
-    @JsonIgnore
-    @JoinColumn(name = "degree_id")
-    @OneToOne
-    Degree degree;
+	@Column(name = "id", updatable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	Integer id;
 
-    @JsonIgnore
-    @JoinColumn(name = "instructor_id")
-    @OneToOne
-    Instructor instructor;
+	@Column(name = "courseNum", updatable = false)
+	String courseNum;
 
-    @Column(name = "crnNumber")
-    @JsonProperty
-    String crnNumber;
+	@JsonIgnore
+	@JoinColumn(name = "university_id")
+	@ManyToOne
+	// @MapsId
+	University university;
 
-    @Column(name = "name")
-    @JsonProperty
-    String name;
+	@JsonIgnore
+	@JoinColumn(name = "degree_id")
+	@ManyToOne
+	Degree degree;
 
-    @Column(name = "rating")
-    @JsonProperty
-    Float rating;
+	@JsonIgnore
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	// @JoinColumn(name = "course_instructor_fid")
+	Set<Instructor> instructor = new HashSet<>();
 
-    @Column(name = "description")
-    @JsonProperty
-    String description;
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	// @JoinColumn(name = "course_crn_fid")
+	private Set<CourseCRN> courseCRNs = new HashSet<>();
+
+	@Column(name = "name", nullable = false)
+	@JsonProperty
+	String name;
+
+	@Column(name = "rating")
+	@JsonProperty
+	Float rating;
+
+	@Column(name = "description")
+	@JsonProperty
+	String description;
+
+	public University getUniversity() {
+		return university;
+	}
+
+	public void setUniversity(University university) {
+		this.university = university;
+	}
+
+	public Degree getDegree() {
+		return degree;
+	}
+
+	public void setDegree(Degree degree) {
+		this.degree = degree;
+	}
+
+	public Set<Instructor> getInstructor() {
+		return instructor;
+	}
+
+	public void setInstructor(Set<Instructor> instructor) {
+		Set<Instructor> uniqueInstructors = new HashSet<>(instructor);
+		this.instructor = uniqueInstructors;
+	}
+
+	public Set<CourseCRN> getCourseCRNs() {
+		return courseCRNs;
+	}
+
+	public void setCourseCRNs(Set<CourseCRN> courseCRNs) {
+		this.courseCRNs = courseCRNs;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Float getRating() {
+		return rating;
+	}
+
+	public void setRating(Float rating) {
+		this.rating = rating;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getCourseNum() {
+		return courseNum;
+	}
+
+	public void setCourseNum(String courseNum) {
+		this.courseNum = courseNum;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj == this)
+			return true;
+		Course courseObj = (Course) obj;
+		return courseNum.equals(courseObj.courseNum);
+	}
+
+	@Override
+	public int hashCode() {
+		return id;
+	}
 
 }

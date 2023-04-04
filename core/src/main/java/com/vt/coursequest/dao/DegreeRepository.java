@@ -1,10 +1,10 @@
 package com.vt.coursequest.dao;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.vt.coursequest.entity.Degree;
-
-import java.util.List;
 
 /**
  * @author: EugeneFeng
@@ -12,5 +12,7 @@ import java.util.List;
  * @description: some desc
  */
 public interface DegreeRepository extends JpaRepository<Degree, Integer> {
+	
+	Optional<Degree> findByName(String name);
 
 }

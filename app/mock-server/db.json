@@ -45,9 +45,9 @@
     {"id":  2, "name":  "University of Virginia"}
   ],
   "reviews": [
-    {"id": 1, "coursesId": 1, "poster":  "Jen", "rating": 4, "content":  "This is review #1", "date_created": "[fake time]", "professor":  "Dr. M", "delivery":  "In person", "workload":  "Heavy"},
-    {"id": 2, "coursesId": 1, "poster":  "Pun", "rating": 3, "content":  "This is review #2", "date_created": "[fake time]", "professor":  "Dr. K", "delivery":  "Online", "workload":  "Light"},
-    {"id": 3, "coursesId": 1, "poster":  "Lao", "rating": 2, "content":  "This is review #3", "date_created": "[fake time]", "professor":  "Dr. J", "delivery":  "Hybrid", "workload":  "Moderate"}
+    {"id": 1, "coursesId": 1, "userId": 1, "poster":  "Eugene", "rating": 4, "content":  "This is review #1", "date_created": "[fake time]", "professor":  "Dr. M", "delivery":  "In person", "workload":  "Heavy"},
+    {"id": 2, "coursesId": 1, "userId": 1, "poster":  "Eugene", "rating": 3, "content":  "This is review #2", "date_created": "[fake time]", "professor":  "Dr. K", "delivery":  "Online", "workload":  "Light"},
+    {"id": 3, "coursesId": 1, "userId": 2, "poster":  "Bob", "rating": 2, "content":  "This is review #3", "date_created": "[fake time]", "professor":  "Dr. J", "delivery":  "Hybrid", "workload":  "Moderate"}
   ],
   "departments": [
     {"id": 1, "name": "CS", "universityId": 1},
@@ -58,5 +58,9 @@
     {"id": 1 , "name": "UG", "universityId": 1},
     {"id": 2 , "name": "Master", "universityId": 1},
     {"id": 3 , "name": "Phd", "universityId": 1}
+  ],
+  "user": [
+    {"id":  1, "name": "Eugene"},
+    {"id":  2, "name": "Bob"}
   ]
 }
