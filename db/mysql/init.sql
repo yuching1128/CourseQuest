@@ -199,11 +199,11 @@ INSERT INTO CourseQuest.major (name) VALUES ('CE');
 INSERT INTO CourseQuest.major (name) VALUES ('EE');
 
 -- Courses Data
-INSERT INTO CourseQuest.course (description, name, rating, degree_id, university_id, course_num) VALUES ('', 'SE', '', '1', '1', '');
-INSERT INTO CourseQuest.course (description, name, rating, degree_id, university_id, course_num) VALUES ('', 'Web', '', '1', '1', '');
-INSERT INTO CourseQuest.course (description, name, rating, degree_id, university_id, course_num) VALUES ('', 'Mobile', '', '2', '1', '');
-INSERT INTO CourseQuest.course (description, name, rating, degree_id, university_id, course_num) VALUES ('', 'Database', '', '1', '2', '');
-INSERT INTO CourseQuest.course (description, name, rating, degree_id, university_id, course_num) VALUES ('', 'ML', '', '2', '2', '');
+INSERT INTO CourseQuest.course (name, degree_id, university_id) VALUES ('SE','1', '1');
+INSERT INTO CourseQuest.course (name, degree_id, university_id) VALUES ('Web','1', '1');
+INSERT INTO CourseQuest.course (name, degree_id, university_id) VALUES ('Mobile', '2', '1');
+INSERT INTO CourseQuest.course (name, degree_id, university_id) VALUES ('Database','1', '2');
+INSERT INTO CourseQuest.course (name, degree_id, university_id) VALUES ('ML','2', '2');
 
 -- Instructors Data
 insert into CourseQuest.instructor (name) values ('Dr. M');
