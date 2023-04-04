@@ -44,12 +44,13 @@ create table university
 
 create table course
 (
-    university_id int          not null
+    id            int auto_increment
         primary key,
     description   varchar(255) null,
     name          varchar(255) not null,
     rating        float        null,
     degree_id     int          null,
+    university_id int          null,
     constraint FK4ag2rc4adjiesa1d0lcvnnq82
         foreign key (university_id) references university (id),
     constraint FKdgomx5qg5fvg9cgyh0sdh0vwo
@@ -58,26 +59,26 @@ create table course
 
 create table course_coursecrns
 (
-    course_university_id int not null,
-    coursecrns_id        int not null,
-    primary key (course_university_id, coursecrns_id),
+    course_id     int not null,
+    coursecrns_id int not null,
+    primary key (course_id, coursecrns_id),
     constraint UK_sg5l6bj5k4pbeule0v9hi7ahd
         unique (coursecrns_id),
     constraint FK503m64orid5mj0ivll6oi9l99
         foreign key (coursecrns_id) references coursecrn (id),
-    constraint FKjnmg2hil9djxoyml1udh9w9f
-        foreign key (course_university_id) references course (university_id)
+    constraint FKg7swl4871igbcguayn7jlwobd
+        foreign key (course_id) references course (id)
 );
 
 create table course_instructor
 (
-    courses_university_id int not null,
-    instructor_id         int not null,
-    primary key (courses_university_id, instructor_id),
-    constraint FK4yrginwid5ipfrsjcwbgddcmm
-        foreign key (courses_university_id) references course (university_id),
+    courses_id    int not null,
+    instructor_id int not null,
+    primary key (courses_id, instructor_id),
     constraint FKltori8qni3ivrlovca4gd9yw3
-        foreign key (instructor_id) references instructor (id)
+        foreign key (instructor_id) references instructor (id),
+    constraint FKteff0a8lukm14bmslsh3titiw
+        foreign key (courses_id) references course (id)
 );
 
 create table department
@@ -146,31 +147,31 @@ create table review
     constraint FKn3q1vv5fmlyv3ouelg9ta0unb
         foreign key (university_id) references university (id),
     constraint FKprox8elgnr8u5wrq1983degk
-        foreign key (course_id) references course (university_id)
+        foreign key (course_id) references course (id)
 );
 
 create table user_course
 (
-    user_id              int not null,
-    course_university_id int not null,
-    primary key (user_id, course_university_id),
-    constraint UK_ojhtxuq944ptfxntlhrxvcshw
-        unique (course_university_id),
-    constraint FK4xq18kasyvpo8xmpnpfcr754m
-        foreign key (course_university_id) references course (university_id),
+    user_id   int not null,
+    course_id int not null,
+    primary key (user_id, course_id),
+    constraint UK_bca82qqx1k6y56o7mv7sy7pam
+        unique (course_id),
+    constraint FKka18m18kpimodvy8yg2icu083
+        foreign key (course_id) references course (id),
     constraint FKpv8tt3252hb6kyej8p7e7pokl
         foreign key (user_id) references user (id)
 );
 
 create table user_interested_course
 (
-    user_id                         int not null,
-    interested_course_university_id int not null,
-    primary key (user_id, interested_course_university_id),
-    constraint UK_7g14fn7qjihowhstipo6iy3vd
-        unique (interested_course_university_id),
-    constraint FKcjdnskifislkh57b59bfquop2
-        foreign key (interested_course_university_id) references course (university_id),
+    user_id              int not null,
+    interested_course_id int not null,
+    primary key (user_id, interested_course_id),
+    constraint UK_727ygq5lux6ilf71xgkfnqyh6
+        unique (interested_course_id),
+    constraint FKexsv0pa0ljgpr17d4ry34xaxc
+        foreign key (interested_course_id) references course (id),
     constraint FKtlxbvteqs80kpgnwhed1w0vir
         foreign key (user_id) references user (id)
 );
@@ -179,55 +180,79 @@ create table user_interested_course
 
 
 
--- Degrees Data
-INSERT INTO CourseQuest.degree (name) VALUES ('bachelor');
-INSERT INTO CourseQuest.degree (name) VALUES ('master');
-INSERT INTO CourseQuest.degree (name) VALUES ('doctor');
 
--- Universities Data
+
+-- Degrees Data
+INSERT INTO CourseQuest.degree (name) VALUES ('BS');
+INSERT INTO CourseQuest.degree (name) VALUES ('MS');
+INSERT INTO CourseQuest.degree (name) VALUES ('Phd');
+
+-- University Data
 INSERT INTO CourseQuest.university (name) VALUES ('Virginia Tech');
 INSERT INTO CourseQuest.university (name) VALUES ('New York University');
 INSERT INTO CourseQuest.university (name) VALUES ('Stanford University');
 INSERT INTO CourseQuest.university (name) VALUES ('Columbia University');
 
+-- Major Data
+INSERT INTO CourseQuest.major (name) VALUES ('CS');
+INSERT INTO CourseQuest.major (name) VALUES ('CE');
+INSERT INTO CourseQuest.major (name) VALUES ('EE');
+
 -- Courses Data
-INSERT INTO CourseQuest.course (crn_number, description, name, rating, degree_id, university_id) VALUES ('CRN10001', 'This course teaches you about the power of the Software Development Lifecycle (SDLC) and software development methodologies like Agile. Explore fundamental programming principles and foundations of design, architecture, and deployment. Investigate skills a software engineer needs and identify job opportunities with hands-on projects. You will also learn about programming basics and software development tools and stacks. ', 'Software Engineering', 3.8, 1, 1);
-INSERT INTO CourseQuest.course (crn_number, description, name, rating, degree_id, university_id) VALUES ('CRN10002', 'In computer science, a data structure is a way of organizing and storing data in a computer program so that it can be accessed and used efficiently. Data structures provide a means of managing large amounts of data, enabling efficient searching, sorting, insertion, and deletion of data.', 'Data Structure', 4.1, 2, 1);
-INSERT INTO CourseQuest.course (crn_number, description, name, rating, degree_id, university_id) VALUES ('CRN10003', 'At 65+ hours, this Web Development course is without a doubt the most comprehensive web development course available online. Even if you have zero programming experience, this course will take you from beginner to mastery.', 'Web Development', 4.2, 3, 1);
+INSERT INTO CourseQuest.course (description, name, rating, degree_id, university_id, course_num) VALUES ('', 'SE', '', '1', '1', '');
+INSERT INTO CourseQuest.course (description, name, rating, degree_id, university_id, course_num) VALUES ('', 'Web', '', '1', '1', '');
+INSERT INTO CourseQuest.course (description, name, rating, degree_id, university_id, course_num) VALUES ('', 'Mobile', '', '2', '1', '');
+INSERT INTO CourseQuest.course (description, name, rating, degree_id, university_id, course_num) VALUES ('', 'Database', '', '1', '2', '');
+INSERT INTO CourseQuest.course (description, name, rating, degree_id, university_id, course_num) VALUES ('', 'ML', '', '2', '2', '');
 
 -- Instructors Data
-insert into CourseQuest.instructor (id, name) values (1, 'Dr. M');
-insert into CourseQuest.instructor (id, name) values (2, 'Dr. K');
-insert into CourseQuest.instructor (id, name) values (3, 'Dr. A');
+insert into CourseQuest.instructor (name) values ('Dr. M');
+insert into CourseQuest.instructor (name) values ('Dr. K');
+insert into CourseQuest.instructor (name) values ('Dr. A');
+
+-- Course CRN
+INSERT INTO CourseQuest.coursecrn (crn_number) values ('1001');
+INSERT INTO CourseQuest.coursecrn (crn_number) values ('1002');
+INSERT INTO CourseQuest.coursecrn (crn_number) values ('1003');
+INSERT INTO CourseQuest.coursecrn (crn_number) values ('1004');
+INSERT INTO CourseQuest.coursecrn (crn_number) values ('1005');
+
+-- Department Data
+INSERT INTO CourseQuest.department (name, university_id) values ('CS', 1);
+INSERT INTO CourseQuest.department (name, university_id) values ('EE', 1);
+INSERT INTO CourseQuest.department (name, university_id) values ('CE', 1);
+INSERT INTO CourseQuest.department (name, university_id) values ('CS', 2);
 
 -- User Data
-insert into CourseQuest.user (id, first_name, last_name, password, phone) values (1, 'Eugene', 'Feng', 'sdfgsdfg', '8623579779');
-insert into CourseQuest.user  (id, first_name, last_name, password, phone) values (2, 'Flora', 'Lin', 'sfgsdfg', '15151973561');
-insert into CourseQuest.user  (id, first_name, last_name, password, phone) values (3, 'Jack', 'Lu', 'sdfg', '123');
-insert into CourseQuest.user  (id, first_name, last_name, password, phone) values (4, 'Jake', 'Ma', 'sfg', '2323');
+insert into CourseQuest.user (id, concentration, email, first_name, last_name, password, phone, degree_fid, major_fid, university_fid) values (1, 'SE', 'abdf@vt.edu', 'Eugene', 'Feng', 'fasdf', '8623579779', 1, 1, 2);
+insert into CourseQuest.user (id, concentration, email, first_name, last_name, password, phone, degree_fid, major_fid, university_fid) values (2, null, 'asdfas@vt.edu', 'Jessica', 'L', 'sdfg', '8623579775', 1, 2, 1);
+insert into CourseQuest.user (id, concentration, email, first_name, last_name, password, phone, degree_fid, major_fid, university_fid) values (3, null, 'fsdfasfd@vt.edu', 'Tom', 'Du', 'gsfgagf', '1234567890', 2, 1, 2);
 
--- Reviews Data
-insert into CourseQuest.review (id, content, created_at, delivery, is_anonymous, rating, workload, course_id, instructor_id, university_id, user_id) values (1, 'Good Course', '2023-03-23 08:04:28', 0, true, 4.1, 1, 1, 1, 1, 1);
-insert into CourseQuest.review (id, content, created_at, delivery, is_anonymous, rating, workload, course_id, instructor_id, university_id, user_id) values (2, 'Nice Course', '2023-03-23 08:04:31', 1, true, 4.2, 0, 2, 2, 1, 1);
-insert into CourseQuest.review (id, content, created_at, delivery, is_anonymous, rating, workload, course_id, instructor_id, university_id, user_id) values (3, 'Bad Course', '2023-03-23 08:04:32', 0, true, 4.4, 1, 1, 1, 1, 2);
-insert into CourseQuest.review (id, content, created_at, delivery, is_anonymous, rating, workload, course_id, instructor_id, university_id, user_id) values (4, 'Bad Bad', '2023-03-23 08:04:33', 0, false, 5, 1, 1, 1, 1, 3);
+-- UserCourse Data
+insert into CourseQuest.user_course (user_id, course_id)
+values  (1, 1),
+        (1, 2);
+-- UserInterestedCourse Data
+insert into CourseQuest.user_interested_course (user_id, interested_course_id)
+values  (1, 1);
 
+-- Course_CourseCRNs
+insert into CourseQuest.course_coursecrns (course_id, coursecrns_id)
+values  (1, 1),
+        (2, 2),
+        (3, 3),
+        (4, 4),
+        (5, 5);
 
-INSERT INTO `CourseQuest`.`department` (`id`, `university_id`, `name`) VALUES ('1', '1', 'CS');
-
-INSERT INTO `CourseQuest`.`department` (`id`, `university_id`, `name`) VALUES ('2', '1', 'CE');
-INSERT INTO `CourseQuest`.`department` (`id`, `university_id`, `name`) VALUES ('3', '1', 'Civil');
-
-INSERT INTO `CourseQuest`.`level` (`id`, `university_id`, `name`) VALUES ('1', '1', 'UG');
-
-INSERT INTO `CourseQuest`.`level` (`id`, `university_id`, `name`) VALUES ('2', '1', 'Master');
-INSERT INTO `CourseQuest`.`level` (`id`, `university_id`, `name`) VALUES ('3', '1', 'Phd');
-
-INSERT INTO CourseQuest.coursecrn (crn_number, coursecrns_id) VALUES ('CRN1001', 1);
-INSERT INTO CourseQuest.coursecrn (crn_number, coursecrns_id) VALUES ('CRN1001', 1);
-INSERT INTO CourseQuest.coursecrn (crn_number, coursecrns_id) VALUES ('CRN2001', 2);
-INSERT INTO CourseQuest.coursecrn (crn_number, coursecrns_id) VALUES ('CRN2001', 2);
-INSERT INTO CourseQuest.coursecrn (crn_number, coursecrns_id) VALUES ('CRN3001', 3);
-INSERT INTO CourseQuest.coursecrn (crn_number, coursecrns_id) VALUES ('CRN3001', 3);
-INSERT INTO CourseQuest.coursecrn (crn_number, coursecrns_id) VALUES ('CRN4001', 4);
-INSERT INTO CourseQuest.coursecrn (crn_number, coursecrns_id) VALUES ('CRN4002', 4);
+-- Course_Instructor
+insert into CourseQuest.course_instructor (courses_id, instructor_id)
+values  (1, 1),
+        (4, 1),
+        (2, 2),
+        (5, 2),
+        (3, 3);
+-- Review
+insert into CourseQuest.review (id, is_anonymous, content, created_at, delivery, rating, workload, course_id, instructor_id, university_id, user_id)
+values  (1, null, 'good', '2023-04-03 18:50:43', 0, 4.1, 0, 1, 1, 1, 1),
+        (2, null, 'good', '2023-04-03 18:50:45', 0, 3, 0, 2, 2, 1, 1),
+        (3, null, 'bad', '2023-04-03 18:50:47', 0, 2.5, 1, 1, 1, 1, 2);

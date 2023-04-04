@@ -47,7 +47,7 @@ public class UserDataServiceImpl implements UserDataService {
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
             User curUser = user.get();
-            University university = new University(userId);
+            University university = new University(universityId);
             curUser.setUniversity(university);
             return userRepository.save(curUser);
         }
