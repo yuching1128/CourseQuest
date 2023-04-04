@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -18,6 +19,7 @@ import lombok.Data;
 @Entity
 @Table(name = "courseCRN", schema = "CourseQuest")
 public class CourseCRN {
+	
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
@@ -25,6 +27,7 @@ public class CourseCRN {
 
 	@Column(name = "crnNumber")
 	String crnNumber;
+	
 
 	public String getCrnNumber() {
 		return crnNumber;
@@ -36,7 +39,6 @@ public class CourseCRN {
 
 	public CourseCRN(String crnNumber) {
 		this.crnNumber = crnNumber;
-		id = null;
 	}
 
 //	@ManyToOne(fetch = FetchType.LAZY)

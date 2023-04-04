@@ -7,11 +7,13 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -31,17 +33,26 @@ import lombok.Data;
 @Table(name = "course", schema = "CourseQuest")
 public class Course implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public Course() {
 	}
 
 	@Column(name = "id", updatable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
-	int id;
+	Integer id;
+
+	@Column(name = "courseNum", updatable = false)
+	String courseNum;
 
 	@JsonIgnore
 	@JoinColumn(name = "university_id")
 	@ManyToOne
-	@MapsId
+	// @MapsId
 	University university;
 
 	@JsonIgnore
@@ -50,11 +61,11 @@ public class Course implements Serializable {
 	Degree degree;
 
 	@JsonIgnore
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	// @JoinColumn(name = "course_instructor_fid")
 	Set<Instructor> instructor = new HashSet<>();
 
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	// @JoinColumn(name = "course_crn_fid")
 	private Set<CourseCRN> courseCRNs = new HashSet<>();
 
@@ -69,14 +80,6 @@ public class Course implements Serializable {
 	@Column(name = "description")
 	@JsonProperty
 	String description;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public University getUniversity() {
 		return university;
@@ -135,6 +138,14 @@ public class Course implements Serializable {
 		this.description = description;
 	}
 
+	public String getCourseNum() {
+		return courseNum;
+	}
+
+	public void setCourseNum(String courseNum) {
+		this.courseNum = courseNum;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null)
@@ -142,7 +153,7 @@ public class Course implements Serializable {
 		if (obj == this)
 			return true;
 		Course courseObj = (Course) obj;
-		return id == courseObj.id;
+		return courseNum.equals(courseObj.courseNum);
 	}
 
 	@Override

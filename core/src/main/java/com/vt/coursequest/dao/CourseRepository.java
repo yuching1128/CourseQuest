@@ -30,5 +30,7 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, Paging
 
 	@Query("SELECT AVG(r.rating) FROM Review r WHERE r.course.id = :courseId")
 	Double getAverageRatingForCourse(@Param("courseId") int courseId);
+	
+	Optional<Course> findByCourseNum(String courseNum);
 
 }
