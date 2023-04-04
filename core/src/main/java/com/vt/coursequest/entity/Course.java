@@ -49,10 +49,9 @@ public class Course implements Serializable {
 	@Column(name = "courseNum", updatable = false)
 	String courseNum;
 
-	@JsonIgnore
+	@JsonProperty
 	@JoinColumn(name = "university_id")
 	@ManyToOne
-	// @MapsId
 	University university;
 
 	@JsonIgnore
