@@ -1,17 +1,65 @@
 import Container from "react-bootstrap/Container";
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
 import { useForm } from "react-hook-form";
 import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import { GoogleLogin } from '@react-oauth/google';
+import React, { useEffect, useState } from "react";
+import { GoogleLogin, googleLogout, useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+import { useNavigate } from "react-router-dom";
+
+const CLIENT_ID = "310536116903-4oolc727rmg62b4qsf58p8a3i76o4pfq.apps.googleusercontent.com";
+const CLIENT_SECRET = "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";
 
 export default function LoginPage() {
 
+    const [user, setUser] = useState({});
+    const [profile, setprofile] = useState([]);
+    const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleUniIDCheck = (email) => {
+        if (!email.endsWith("@vt.edu")) {
+            setOpen(true);
+            setUser({});
+        } else {
+            navigate("/");
+        }
+    }
+
+    useEffect(
+        () => {
+            if (user.email) {
+                console.log("triggered use effect");
+                handleUniIDCheck(user.email);
+            }
+        },
+        [user]
+    );
+
+    const logOut = () => {
+        googleLogout();
+        setprofile(null);
+    }
+
     const responseMessage = (response) => {
         console.log(response);
+        let userProfile = jwt_decode(response.credential);
+        console.log("decoded token", userProfile);
+        setUser(userProfile);
     };
+
     const errorMessage = (error) => {
         console.log(error);
     };
@@ -38,8 +86,12 @@ export default function LoginPage() {
             </div>
 
             <div className="LoginForm">
+                <p className="loginFromTitle">Login</p>
+                <div className="google-login">
+                    <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
+                </div>
+                <hr className="login-seperate-hr" />
                 <Form onSubmit={handleSubmit(onSubmit)}>
-                    <p className="loginFromTitle">Login</p>
                     <Form.Group className="mb-3" controlId="loginEmail">
                         <Form.Label className="login-info">Email</Form.Label>
                         <Form.Control className="login-component" placeholder="Enter email" {...register("email", { required: 'Email is required' })} />
@@ -52,10 +104,28 @@ export default function LoginPage() {
                     </Form.Group>
                     <div className="login">
                         <button variant="primary" type="submit" className="main-login-button">Login</button>
-                        <GoogleLogin className="google-login" onSuccess={responseMessage} onError={errorMessage} />
                     </div>
                 </Form>
             </div>
+
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Not a Virginia Tech Email ID"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        This email is not associated with Virginia Tech. Please login using your Virginia Tech Email ID.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} autoFocus>Ok</Button>
+                </DialogActions>
+            </Dialog>
         </Container>
     );
 }

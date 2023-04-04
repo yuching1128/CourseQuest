@@ -125,3 +125,10 @@
     justify-content: space-between;
 
 }
+
+.google-login {
+    padding: 3em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

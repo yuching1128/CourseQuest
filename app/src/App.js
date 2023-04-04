@@ -1,12 +1,12 @@
 import Container from 'react-bootstrap/Container';
-import {HashRouter, Routes, Route, Navigate} from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Header from "./app/Header";
 import HomePage from "./features/homepage/HomePage";
 import LoginPage from "./features/login/LoginPage";
 import SignupPage from "./features/signup/SignupPage";
 import Footer from "./app/Footer";
-import {SingleCoursePage} from "./features/courses/SingleCoursePage";
-import {CoursesPage} from "./features/courses/CoursesPage";
+import { SingleCoursePage } from "./features/courses/SingleCoursePage";
+import { CoursesPage } from "./features/courses/CoursesPage";
 
 export default function App() {
     return (
