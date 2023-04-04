@@ -3,15 +3,16 @@ package com.vt.coursequest.service.impl;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -35,8 +36,6 @@ import com.vt.coursequest.service.CoursesMetaDataImportService;
 
 @Service
 public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportService {
-
-	private static final String ADDRESS_FILE = "core/src/main/resources/static/data.csv";
 
 	@Autowired
 	private Environment environment;
@@ -62,7 +61,7 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 	@Override
 	public void importCourseMetaData(Integer universityId, boolean isFullImport) throws IOException {
 
-		// String fileName = environment.getProperty("application.metadata-file-path");
+		String fileName = environment.getProperty("application.metadata-file-path");
 		Map<String, String> mapping = new HashMap<>(); // csv columnname as key and CourseMetaData property name as
 														// value
 		mapping.put("Term", "term");
@@ -80,7 +79,7 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 		// Create csvtobean and csvreader object
 		CSVReader csvReader = null;
 		try {
-			csvReader = new CSVReader(new FileReader(ADDRESS_FILE));
+			csvReader = new CSVReader(new FileReader(fileName));
 
 			CsvToBean<CourseMetaData> csvToBean = new CsvToBean<>();
 			csvToBean.setCsvReader(csvReader);
@@ -147,19 +146,38 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 	}
 
 	private Degree getDegree(String courseNo) {
-		String degreeName = "Phd";
+
+		String degreeName = environment.getProperty("application.labels.degreetypes.phd");;
 		if (Integer.valueOf(courseNo) <= 4000) {
-			degreeName = "UG";
+			degreeName = environment.getProperty("application.labels.degreetypes.ug");
 		} else if (Integer.valueOf(courseNo) <= 5000) {
-			degreeName = "Master";
+			degreeName = environment.getProperty("application.labels.degreetypes.pg");
 		}
 		return new Degree(degreeName);
 	}
 
 	@Override
 	public void scrapCourseDescriptionMetaData(Integer universityId, boolean isFullImport) throws IOException {
-		// TODO Auto-generated method stub
+		//String[] urlPaths = environment.getProperty("application.webscraping.urls", String[].class);
+		//System.out.println(urlPaths);
+		List<String> urlsToBeScraped = new ArrayList<>();
+		urlsToBeScraped.add("https://cs.vt.edu/Undergraduate/courses.html");
+
+		// parse all the urls
+		for (String url : urlsToBeScraped) {
+			Document document = Jsoup.connect(url).get();
+			System.out.println(document.title());
+		}
 
 	}
 
+	public static void main(String[] args) {
+		CoursesMetaDataImportServiceImpl c = new CoursesMetaDataImportServiceImpl();
+		try {
+			c.scrapCourseDescriptionMetaData(1, true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
