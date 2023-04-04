@@ -6,10 +6,10 @@ import {useGetCoursesQuery} from "../api/apiSlice";
 import {SearchComponent} from "../search/search";
 import classnames from 'classnames';
 
-let CourseExcerpt = ({ course }) => {
+let CourseExcerpt = ({ course, universityId}) => {
     return (
         <article className="course-excerpt" key={course.id}>
-            <Link to={`/university/${course.universityId}/courses/${course.id}`} className="course-button">
+            <Link to={`/university/${universityId}/courses/${course.id}`} className="course-button">
                 <h3>{course.name}</h3>
             </Link>
             <div className="allInfo">

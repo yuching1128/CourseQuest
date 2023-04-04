@@ -51,7 +51,14 @@ export const apiSlice = createApi({
                 method: 'DELETE'
             }),
             invalidatesTags: ['Review']
-        })
+        }),
+        getUserInfo: builder.query({
+            query: ({userId}) => `user/${userId}/profile`
+        }),
+        getUniversity: builder.query({
+            query: () => `university/types`
+        }),
+
     })
 })
 
@@ -64,5 +71,7 @@ export const {
     useGetUserReviewsQuery,
     useAddNewReviewMutation,
     useEditReviewMutation,
-    useDeleteReviewMutation
+    useDeleteReviewMutation,
+    useGetUserInfoQuery,
+    useGetUniversityQuery
 } = apiSlice
