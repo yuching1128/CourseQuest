@@ -36,7 +36,7 @@ import com.vt.coursequest.service.CoursesMetaDataImportService;
 @Service
 public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportService {
 
-	private static final String ADDRESS_FILE = "src/main/resources/static/data.csv";
+	private static final String ADDRESS_FILE = "core/src/main/resources/static/data.csv";
 
 	@Autowired
 	private Environment environment;
