@@ -95,33 +95,6 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 
 	}
 
-	private void saveToDb(Collection<Course> courses) {
-		for (Course c : courses) {
-			Optional<Course> optionalCourse = courseRepository.findByCourseNum(c.getCourseNum());
-			if (optionalCourse.isPresent()) {
-				Course existingCourse = optionalCourse.get();
-
-				for (CourseCRN crn : c.getCourseCRNs()) {
-					existingCourse.getCourseCRNs().add(crn);
-				}
-
-				for (Instructor instructor : c.getInstructor()) {
-					existingCourse.getInstructor().add(instructor);
-				}
-				existingCourse.setDegree(c.getDegree());
-				existingCourse.setName(c.getName());
-				courseRepository.save(existingCourse);
-			} else {
-				Course newCourse = new Course();
-				newCourse.setDegree(c.getDegree());
-				newCourse.setName(c.getName());
-				newCourse.setCourseNum(c.getCourseNum());
-				courseRepository.save(newCourse);
-			}
-
-		}
-	}
-
 	private void correctlyParseItAndSaveInDB(List<CourseMetaData> exhaustiveList, int universityId) {
 		for (CourseMetaData metaCourseData : exhaustiveList) {
 			Optional<Course> optionalCourse = courseRepository.findByCourseNum(metaCourseData.getCourseNo());
@@ -181,15 +154,6 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 			degreeName = "Master";
 		}
 		return new Degree(degreeName);
-	}
-
-	public static void main(String[] args) {
-		CoursesMetaDataImportServiceImpl c = new CoursesMetaDataImportServiceImpl();
-		try {
-			c.importCourseMetaData(1, false);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override
