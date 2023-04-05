@@ -37,6 +37,6 @@ public interface CoursesMetaDataImportService {
 	 * @param isFullImport
 	 * @throws IOException
 	 */
-	List<CourseMetaData> scrapCourseDescriptionMetaData(Integer universityId, boolean isFullImport) throws IOException;
+	void scrapCourseDescriptionMetaData(Integer universityId, boolean isFullImport) throws IOException;
 
 }

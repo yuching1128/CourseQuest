@@ -96,8 +96,9 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 			csvToBean.setMappingStrategy(strategy);
 			// call the parse method of CsvToBean
 			// pass strategy, csvReader to parse method
-			List<CourseMetaData> exhaustiveList = csvToBean.parse();
-			correctlyParseItAndSaveInDB(exhaustiveList, universityId);
+			 List<CourseMetaData> exhaustiveList = csvToBean.parse();
+			 correctlyParseItAndSaveInDB(exhaustiveList, universityId);
+			scrapCourseDescriptionMetaData(universityId, isFullImport);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -106,12 +107,15 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 
 	private void correctlyParseItAndSaveInDB(List<CourseMetaData> exhaustiveList, int universityId) {
 		for (CourseMetaData metaCourseData : exhaustiveList) {
-			Optional<Department> optionalDept = deptRepository.findByNameAndUniversityId(metaCourseData.getDept(),
-					universityId);
+
 			Optional<Course> optionalCourse = null;
-			if (optionalDept.isPresent()) {
-				optionalCourse = courseRepository.findByCourseNumAndDeptIdAndUniversityId(metaCourseData.getCourseNo(),
-						optionalDept.get().getId(), universityId);
+			Optional<Department> optionalDept = null;
+			if (!metaCourseData.getDept().isBlank()) {
+				optionalDept = deptRepository.findByNameAndUniversityId(metaCourseData.getDept(), universityId);
+				if (optionalDept.isPresent()) {
+					optionalCourse = courseRepository.findByCourseNumAndDeptIdAndUniversityId(
+							metaCourseData.getCourseNo(), optionalDept.get().getId(), universityId);
+				}
 			}
 			Course existingCourse = null;
 			if (null != optionalCourse && optionalCourse.isPresent()) {
@@ -136,7 +140,7 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 			}
 
 			existingCourse.setName(metaCourseData.getCourseTitle());
-
+			existingCourse.setDescription(metaCourseData.getDescription());
 			Optional<University> uni = universityRepository.findById(universityId);
 			if (uni.isPresent()) {
 				existingCourse.setUniversity(uni.get());
@@ -151,30 +155,33 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 					existingCourse.setLevel(levelRepository.save(new Level(level, existingCourse.getUniversity())));
 				}
 			}
-			
-			if (optionalDept.isPresent()) {
+
+			if (null != optionalDept && optionalDept.isPresent()) {
 				existingCourse.setDept(optionalDept.get());
 			} else {
 				existingCourse.setDept(
 						deptRepository.save(new Department(metaCourseData.getDept(), existingCourse.getUniversity())));
 			}
-
-			
-			Optional<CourseCRN> optionalCRN = courseCRNsRepository.findByCrnNumber(metaCourseData.getCrn());
-			if (!optionalCRN.isPresent()) {
-				CourseCRN crn1 = courseCRNsRepository.save(new CourseCRN(metaCourseData.getCrn()));
-				existingCourse.getCourseCRNs().add(crn1);
-			} else {
-				existingCourse.getCourseCRNs().add(optionalCRN.get());
+			if (null != metaCourseData.getCrn()) {
+				Optional<CourseCRN> optionalCRN = courseCRNsRepository.findByCrnNumber(metaCourseData.getCrn());
+				if (!optionalCRN.isPresent()) {
+					CourseCRN crn1 = courseCRNsRepository.save(new CourseCRN(metaCourseData.getCrn()));
+					existingCourse.getCourseCRNs().add(crn1);
+				} else {
+					existingCourse.getCourseCRNs().add(optionalCRN.get());
+				}
 			}
 
-			Optional<Instructor> optionalInstructor = instructorRepository.findByName(metaCourseData.getInstructor());
+			if (null != metaCourseData.getInstructor()) {
+				Optional<Instructor> optionalInstructor = instructorRepository
+						.findByName(metaCourseData.getInstructor());
 
-			if (!optionalInstructor.isPresent()) {
-				Instructor instructor = instructorRepository.save(new Instructor(metaCourseData.getInstructor()));
-				existingCourse.getInstructor().add(instructor);
-			} else {
-				existingCourse.getInstructor().add(optionalInstructor.get());
+				if (!optionalInstructor.isPresent()) {
+					Instructor instructor = instructorRepository.save(new Instructor(metaCourseData.getInstructor()));
+					existingCourse.getInstructor().add(instructor);
+				} else {
+					existingCourse.getInstructor().add(optionalInstructor.get());
+				}
 			}
 			courseRepository.save(existingCourse);
 		}
@@ -197,8 +204,7 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 	}
 
 	@Override
-	public List<CourseMetaData> scrapCourseDescriptionMetaData(Integer universityId, boolean isFullImport)
-			throws IOException {
+	public void scrapCourseDescriptionMetaData(Integer universityId, boolean isFullImport) throws IOException {
 		// String[] urlPaths = environment.getProperty("application.webscraping.urls",
 		// String[].class);
 		// System.out.println(urlPaths);
@@ -237,7 +243,8 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 			}
 
 		}
-		return courseMetaDataList;
+
+		correctlyParseItAndSaveInDB(courseMetaDataList, universityId);
 
 	}
 
@@ -246,7 +253,6 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 		try {
 			c.scrapCourseDescriptionMetaData(1, true);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

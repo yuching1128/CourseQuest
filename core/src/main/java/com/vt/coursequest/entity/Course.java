@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -60,7 +61,7 @@ public class Course implements Serializable {
 	@JoinColumn(name = "dept_id")
 	@ManyToOne
 	Department dept;
-	
+
 	@JoinColumn(name = "level_id")
 	@ManyToOne
 	Level level;
@@ -82,10 +83,9 @@ public class Course implements Serializable {
 	@JsonProperty
 	Float rating;
 
-	@Column(name = "description")
+	@Column(name = "description", columnDefinition = "LONGTEXT")
 	@JsonProperty
 	String description;
-
 
 	public Department getDept() {
 		return dept;
@@ -168,7 +168,6 @@ public class Course implements Serializable {
 		this.courseNum = courseNum;
 	}
 
-
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null)
@@ -176,8 +175,8 @@ public class Course implements Serializable {
 		if (obj == this)
 			return true;
 		Course courseObj = (Course) obj;
-		String unique = dept+courseNum+university.id;
-		return courseNum.equals(courseObj.courseNum);
+		String unique = dept + courseNum + university.id;
+		return unique.equals(courseObj.dept + courseObj.courseNum + courseObj.university.id);
 	}
 
 	@Override
