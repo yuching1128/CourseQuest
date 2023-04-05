@@ -8,7 +8,7 @@ import Footer from "./app/Footer";
 import {SingleCoursePage} from "./features/courses/SingleCoursePage";
 import {CoursesPage} from "./features/courses/CoursesPage";
 import {EditReviewForm} from "./features/reviews/EditReviewForm";
-import {MentorPage} from "./features/mentor/MentorPage";
+import {MentorPage} from "./features/advising/MentorPage";
 
 export default function App() {
     return (

@@ -25,4 +25,19 @@ public interface AdvisingDataService {
      * @return the timeslot for the user
      */
     AdvisingTimeslot createTimeslot(AdvisingTimeslot advisingTimeslot);
+
+    /**
+     * This function is used to update the advising timeslot
+     * @param timeslotId: the unique timeslot id
+     * @param timeslot: the timeslot (as a Date)
+     * @return: the timeslot
+     * @throws Exception
+     */
+    AdvisingTimeslot updateTimeslot(Integer timeslotId, AdvisingTimeslot timeslot) throws Exception;
+
+    /**
+     *
+     * @param timeslotId the unique id of the timeslot
+     */
+    void deleteTimeslot(Integer timeslotId);
 }

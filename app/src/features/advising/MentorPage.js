@@ -2,15 +2,17 @@ import React, {useMemo} from 'react';
 import Container from "react-bootstrap/Container";
 import Accordion from "react-bootstrap/Accordion";
 import {useSelector} from "react-redux";
-import {useGetAdvisorTimeslotsQuery} from "../api/apiSlice";
+import {useDeleteTimeslotMutation, useGetAdvisorTimeslotsQuery} from "../api/apiSlice";
 import {AddTimeslotForm} from "./AddTimeslotForm";
-import {Spinner, Stack} from "react-bootstrap";
+import {Button, Spinner, Stack} from "react-bootstrap";
 import {parseISO} from "date-fns";
-
+import {useNavigate} from "react-router-dom";
 
 export const MentorPage = () => {
 
     const user = useSelector(state => state.user)
+    const [deleteTimeslot, { isLoadingDeleteTimeslot }] = useDeleteTimeslotMutation()
+    const navigate = useNavigate()
 
     // get list of already-selected timeslots from advisor
     const selectedTimes = []
@@ -35,6 +37,16 @@ export const MentorPage = () => {
     }, [selectedTimes])
 
     let TimeslotExcerpt = ({ timeslot }) => {
+
+        const onDeleteTimeslotClicked = async () => {
+            try {
+                await deleteTimeslot({timeslotId: timeslot.id})
+                navigate(0)
+            } catch (err) {
+                console.error('Failed to delete the timeslot: ', err)
+            }
+        }
+
         const myDate = parseISO(timeslot.time)
         const formattedDate = myDate.toLocaleString("en-GB", {
             day: "numeric",
@@ -49,6 +61,9 @@ export const MentorPage = () => {
                 <Stack direction="horizontal" gap={2}>
                     <p>{formattedDate}</p>
                     <p>{timeslot.subject}</p>
+                    <Button type="button" onClick={onDeleteTimeslotClicked}>
+                        Delete
+                    </Button>
                 </Stack>
             </div>
         )

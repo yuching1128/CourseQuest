@@ -33,4 +33,15 @@ public class AdvisingController {
         return new ResponseEntity<>(ads.createTimeslot(advisingTimeslot), HttpStatus.OK);
     }
 
+    @ApiOperation("This service is used to update a timeslot for a specific user")
+    @PutMapping("/api/advising/{timeslotId}")
+    public ResponseEntity<AdvisingTimeslot> updateTimeslot(@PathVariable Integer timeslotId, @RequestBody AdvisingTimeslot timeslot) throws Exception {
+        return new ResponseEntity<>(ads.updateTimeslot(timeslotId, timeslot), HttpStatus.OK);
+    }
+
+    @ApiOperation("This service is used to delete a timeslot for a specific user")
+    @DeleteMapping("/api/advising/{timeslotId}")
+    public void deleteTimeslot(@PathVariable Integer timeslotId) {
+        ads.deleteTimeslot(timeslotId);
+    }
 }

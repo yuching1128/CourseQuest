@@ -19,15 +19,23 @@ public class AdvisingDataServiceImpl implements AdvisingDataService {
         return advisingRepository.findByUserId(userid);
     }
 
-    /**
-     * This function is used to create a timeslot associated with an user
-     *
-     * @param advisingTimeslot the provided hour-long time (as Date format)
-     * @return the timeslot for the user
-     */
     @Override
     public AdvisingTimeslot createTimeslot(AdvisingTimeslot advisingTimeslot) {
         return advisingRepository.save(advisingTimeslot);
     }
 
+    @Override
+    public AdvisingTimeslot updateTimeslot(Integer timeslotId, AdvisingTimeslot timeslot) throws Exception {
+        return advisingRepository.findById(timeslotId)
+                .map(newTimeslot -> {
+                    newTimeslot.setTime(timeslot.getTime());
+                    newTimeslot.setSubject(timeslot.getSubject());
+                    return advisingRepository.save(newTimeslot);
+        }).orElseThrow(() -> new Exception("Timeslot not found with id " + timeslotId));
+    }
+
+    @Override
+    public void deleteTimeslot(Integer timeslotId) {
+        advisingRepository.deleteById(timeslotId);
+    }
 }
