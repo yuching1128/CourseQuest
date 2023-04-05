@@ -37,7 +37,7 @@ public class Level {
 	Integer id;
 
 	@JsonProperty
-	@Column(name = "name", unique = true)
+	@Column(name = "name")
 	String name;
 
 	@JsonIgnore
