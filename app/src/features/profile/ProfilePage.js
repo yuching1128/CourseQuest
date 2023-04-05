@@ -22,17 +22,15 @@ export const ProfilePage = () => {
         data: userProfileData,
         isSuccess: userProfileSuccess,
     } = useGetUserInfoQuery({userId: userId});
-    console.log(userProfileData)
 
-    let universityId = 1
-    console.log(userProfileData)
-
-    // if (userProfileData.university !== null) {
-    //     universityId = userProfileData.university_id;
-    // }
+    // useEffect(() => {
+    //     if (userProfileData && userProfileData.university){
+    //         setUniversityId(userProfileData.university.id)
+    //     }
+    // },[userProfileData])
 
     // set course taken and subject interested select options
-    const [courseTaken, setCourseTaken] = useStatmajore([]);
+    const [courseTaken, setCourseTaken] = useState([]);
     const [selectedCourses, setSelectedCourses] = useState([]);
 
     const {
@@ -105,7 +103,7 @@ export const ProfilePage = () => {
                 <Accordion.Item eventKey="1">
                     <Accordion.Header className="profileTitleText"><FontAwesomeIcon icon={faBook} className="profileIcon"/>Program</Accordion.Header>
                     <Accordion.Body>
-                        <UserProgram userId={userId} universityId={universityId}/>
+                        <UserProgram userId={userId} userProfileData={userProfileData}/>
                     </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey="2">
