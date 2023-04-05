@@ -114,7 +114,7 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 						optionalDept.get().getId());
 			}
 			Course existingCourse = null;
-			if (optionalCourse.isPresent()) {
+			if (null != optionalCourse && optionalCourse.isPresent()) {
 				existingCourse = optionalCourse.get();
 			} else {
 				Course newCourse = new Course();
@@ -196,28 +196,47 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 	}
 
 	@Override
-	public void scrapCourseDescriptionMetaData(Integer universityId, boolean isFullImport) throws IOException {
+	public List<CourseMetaData> scrapCourseDescriptionMetaData(Integer universityId, boolean isFullImport)
+			throws IOException {
 		// String[] urlPaths = environment.getProperty("application.webscraping.urls",
 		// String[].class);
 		// System.out.println(urlPaths);
 		List<String> urlsToBeScraped = new ArrayList<>();
 		urlsToBeScraped.add("https://cs.vt.edu/Undergraduate/courses.html");
-
+		List<CourseMetaData> courseMetaDataList = new ArrayList<>();
 		// parse all the urls
 		for (String url : urlsToBeScraped) {
 			Document document = Jsoup.connect(url).get();
-			// System.out.println(document.title());
-			Elements links = document.select("div.vt-vtcontainer-content").select("#text_1026503307_294568169")
-					.select("ul li a");
+			Elements links = document.select("div.vt-vtcontainer-content").select("div.section").first()
+					.nextElementSibling().select("ul li a");
 			Iterator<Element> itr = links.iterator();
 			while (itr.hasNext()) {
+				CourseMetaData courseMetaDataObj = new CourseMetaData();
+
 				Element aTag = itr.next();
-				System.out.println(aTag.text());
-				System.out.println(aTag.attr("href"));
+				String courseInfo = aTag.text();
+				String courseFullId = courseInfo.split(" ")[0];
+				String courseFullName = courseInfo.split(": ")[1];
+				String courseNum = courseFullId.replaceAll("[^\\d]", "");
+				String dept = courseFullId.replaceAll("[\\d:]+", "");
+				String courseUrl = aTag.attr("href");
+				String description = "";
+				courseMetaDataObj.setCourseNo(courseNum);
+				courseMetaDataObj.setCourseTitle(courseFullName);
+				courseMetaDataObj.setDept(dept);
+				Document individualCourseDocument = Jsoup.connect(courseUrl).get();
+				System.out.println(courseFullName);
+				Elements a = individualCourseDocument.select("div.vt-body-col");
+				Element p = a.first().getElementsByClass("vt-text").select("p").first();
+				System.out.println("description");
+				description = p.text();
+				courseMetaDataObj.setDescription(description);
+				System.out.println(description);
+				courseMetaDataList.add(courseMetaDataObj);
 			}
 
-			// System.out.println(links);
 		}
+		return courseMetaDataList;
 
 	}
 
