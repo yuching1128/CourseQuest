@@ -64,6 +64,13 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['Timeslots']
         }),
+        deleteTimeslot: builder.mutation({
+            query: ({timeslotId}) => ({
+                url: `advising/${timeslotId}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: ['Timeslots']
+        }),
     })
 })
 
@@ -78,5 +85,6 @@ export const {
     useEditReviewMutation,
     useDeleteReviewMutation,
     useGetAdvisorTimeslotsQuery,
-    useAddNewTimeslotMutation
+    useAddNewTimeslotMutation,
+    useDeleteTimeslotMutation
 } = apiSlice

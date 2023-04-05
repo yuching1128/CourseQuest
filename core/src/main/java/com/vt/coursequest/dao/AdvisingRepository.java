@@ -3,7 +3,9 @@ package com.vt.coursequest.dao;
 import com.vt.coursequest.entity.AdvisingTimeslot;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
