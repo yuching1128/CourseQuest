@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -13,6 +14,8 @@ import javax.annotation.Resource;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -23,13 +26,16 @@ import com.opencsv.bean.HeaderColumnNameTranslateMappingStrategy;
 import com.vt.coursequest.dao.CourseCRNsRepository;
 import com.vt.coursequest.dao.CourseRepository;
 import com.vt.coursequest.dao.DegreeRepository;
+import com.vt.coursequest.dao.DepartmentRepository;
 import com.vt.coursequest.dao.InstructorRepository;
 import com.vt.coursequest.dao.LevelRepository;
 import com.vt.coursequest.dao.UniversityRepository;
 import com.vt.coursequest.entity.Course;
 import com.vt.coursequest.entity.CourseCRN;
 import com.vt.coursequest.entity.Degree;
+import com.vt.coursequest.entity.Department;
 import com.vt.coursequest.entity.Instructor;
+import com.vt.coursequest.entity.Level;
 import com.vt.coursequest.entity.University;
 import com.vt.coursequest.importdata.bean.CourseMetaData;
 import com.vt.coursequest.service.CoursesMetaDataImportService;
@@ -53,6 +59,9 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 	private LevelRepository levelRepository;
 
 	@Resource
+	private DepartmentRepository deptRepository;
+
+	@Resource
 	private InstructorRepository instructorRepository;
 
 	@Resource
@@ -70,6 +79,7 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 		mapping.put("Instructor", "instructor");
 		mapping.put("CRN", "crn");
 		mapping.put("Credits", "credits");
+		mapping.put("Subject", "dept");
 
 		// HeaderColumnNameTranslateMappingStrategy
 		// for Student class
@@ -96,7 +106,13 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 
 	private void correctlyParseItAndSaveInDB(List<CourseMetaData> exhaustiveList, int universityId) {
 		for (CourseMetaData metaCourseData : exhaustiveList) {
-			Optional<Course> optionalCourse = courseRepository.findByCourseNum(metaCourseData.getCourseNo());
+			Optional<Department> optionalDept = deptRepository.findByNameAndUniversityId(metaCourseData.getDept(),
+					universityId);
+			Optional<Course> optionalCourse = null;
+			if (optionalDept.isPresent()) {
+				optionalCourse = courseRepository.findByCourseNumAndDeptId(metaCourseData.getCourseNo(),
+						optionalDept.get().getId());
+			}
 			Course existingCourse = null;
 			if (optionalCourse.isPresent()) {
 				existingCourse = optionalCourse.get();
@@ -118,6 +134,24 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 				}
 
 			}
+
+			String level = findLevel(metaCourseData.getCourseNo());
+			if (null != level) {
+				Optional<Level> optionalLevel = levelRepository.findByNameAndUniversityId(level, universityId);
+				if (optionalLevel.isPresent()) {
+					existingCourse.setLevel(optionalLevel.get());
+				} else {
+					existingCourse.setLevel(levelRepository.save(new Level(level, existingCourse.getUniversity())));
+				}
+			}
+
+			if (optionalDept.isPresent()) {
+				existingCourse.setDept(optionalDept.get());
+			} else {
+				existingCourse.setDept(
+						deptRepository.save(new Department(metaCourseData.getDept(), existingCourse.getUniversity())));
+			}
+
 			existingCourse.setName(metaCourseData.getCourseTitle());
 
 			Optional<University> uni = universityRepository.findById(universityId);
@@ -145,9 +179,14 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 		}
 	}
 
+	private String findLevel(String courseNo) {
+		Integer num = (Integer.valueOf(courseNo) / 1000) * 1000;
+		return num.toString();
+	}
+
 	private Degree getDegree(String courseNo) {
 
-		String degreeName = environment.getProperty("application.labels.degreetypes.phd");;
+		String degreeName = environment.getProperty("application.labels.degreetypes.phd");
 		if (Integer.valueOf(courseNo) <= 4000) {
 			degreeName = environment.getProperty("application.labels.degreetypes.ug");
 		} else if (Integer.valueOf(courseNo) <= 5000) {
@@ -158,15 +197,26 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 
 	@Override
 	public void scrapCourseDescriptionMetaData(Integer universityId, boolean isFullImport) throws IOException {
-		//String[] urlPaths = environment.getProperty("application.webscraping.urls", String[].class);
-		//System.out.println(urlPaths);
+		// String[] urlPaths = environment.getProperty("application.webscraping.urls",
+		// String[].class);
+		// System.out.println(urlPaths);
 		List<String> urlsToBeScraped = new ArrayList<>();
 		urlsToBeScraped.add("https://cs.vt.edu/Undergraduate/courses.html");
 
 		// parse all the urls
 		for (String url : urlsToBeScraped) {
 			Document document = Jsoup.connect(url).get();
-			System.out.println(document.title());
+			// System.out.println(document.title());
+			Elements links = document.select("div.vt-vtcontainer-content").select("#text_1026503307_294568169")
+					.select("ul li a");
+			Iterator<Element> itr = links.iterator();
+			while (itr.hasNext()) {
+				Element aTag = itr.next();
+				System.out.println(aTag.text());
+				System.out.println(aTag.attr("href"));
+			}
+
+			// System.out.println(links);
 		}
 
 	}

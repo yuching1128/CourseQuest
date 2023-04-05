@@ -41,9 +41,6 @@ public class CourseCRN {
 		this.crnNumber = crnNumber;
 	}
 
-//	@ManyToOne(fetch = FetchType.LAZY)
-//    private Course course;
-
 	public CourseCRN() {
 	}
 
