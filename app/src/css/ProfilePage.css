@@ -69,3 +69,10 @@
     color: #585555;
     font-weight: bold;
 }
+
+.profileMajor{
+    margin-left: 11em;
+    width: 300px;
+    display: inline-block;
+    font-size: 20px;
+}

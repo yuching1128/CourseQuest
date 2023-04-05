@@ -58,7 +58,33 @@ export const apiSlice = createApi({
         getUniversity: builder.query({
             query: () => `university/types`
         }),
-
+        getDegree: builder.query({
+            query: universityId => `university/${universityId}/degreeTypes`
+        }),
+        getMajor: builder.query({
+            query: () => `major/types`
+        }),
+        addUserUniversity: builder.mutation({
+            query: ({ userId, universityId }) => ({
+                url: `user/university`,
+                method: 'POST',
+                params: { userId:userId, universityId: universityId }
+            }),
+        }),
+        addUserDegree: builder.mutation({
+            query: ({ userId, degreeId }) => ({
+                url: `user/degree`,
+                method: 'POST',
+                params: { userId:userId, degreeId: degreeId }
+            }),
+        }),
+        addUserMajor: builder.mutation({
+            query: ({ userId, majorId }) => ({
+                url: `user/major`,
+                method: 'POST',
+                params: { userId:userId, majorId: majorId }
+            }),
+        })
     })
 })
 
@@ -73,5 +99,10 @@ export const {
     useEditReviewMutation,
     useDeleteReviewMutation,
     useGetUserInfoQuery,
-    useGetUniversityQuery
+    useGetUniversityQuery,
+    useGetDegreeQuery,
+    useGetMajorQuery,
+    useAddUserUniversityMutation,
+    useAddUserDegreeMutation,
+    useAddUserMajorMutation
 } = apiSlice
