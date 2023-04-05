@@ -2,6 +2,14 @@ package com.vt.coursequest.importdata.bean;
 
 public class CourseMetaData {
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public String getCourseTitle() {
 		return courseTitle;
 	}
@@ -65,6 +73,7 @@ public class CourseMetaData {
 	private String crn;
 	private String credits;
 	private String dept;
+	private String description;
 
 	@Override
 	public String toString() {

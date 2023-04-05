@@ -1,6 +1,9 @@
 package com.vt.coursequest.service;
 
 import java.io.IOException;
+import java.util.List;
+
+import com.vt.coursequest.importdata.bean.CourseMetaData;
 
 /**
  * 
@@ -34,6 +37,6 @@ public interface CoursesMetaDataImportService {
 	 * @param isFullImport
 	 * @throws IOException
 	 */
-	void scrapCourseDescriptionMetaData(Integer universityId, boolean isFullImport) throws IOException;
+	List<CourseMetaData> scrapCourseDescriptionMetaData(Integer universityId, boolean isFullImport) throws IOException;
 
 }
