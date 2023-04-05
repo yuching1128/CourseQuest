@@ -110,8 +110,8 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 					universityId);
 			Optional<Course> optionalCourse = null;
 			if (optionalDept.isPresent()) {
-				optionalCourse = courseRepository.findByCourseNumAndDeptId(metaCourseData.getCourseNo(),
-						optionalDept.get().getId());
+				optionalCourse = courseRepository.findByCourseNumAndDeptIdAndUniversityId(metaCourseData.getCourseNo(),
+						optionalDept.get().getId(), universityId);
 			}
 			Course existingCourse = null;
 			if (null != optionalCourse && optionalCourse.isPresent()) {
@@ -135,6 +135,13 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 
 			}
 
+			existingCourse.setName(metaCourseData.getCourseTitle());
+
+			Optional<University> uni = universityRepository.findById(universityId);
+			if (uni.isPresent()) {
+				existingCourse.setUniversity(uni.get());
+			}
+
 			String level = findLevel(metaCourseData.getCourseNo());
 			if (null != level) {
 				Optional<Level> optionalLevel = levelRepository.findByNameAndUniversityId(level, universityId);
@@ -144,7 +151,7 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 					existingCourse.setLevel(levelRepository.save(new Level(level, existingCourse.getUniversity())));
 				}
 			}
-
+			
 			if (optionalDept.isPresent()) {
 				existingCourse.setDept(optionalDept.get());
 			} else {
@@ -152,13 +159,7 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 						deptRepository.save(new Department(metaCourseData.getDept(), existingCourse.getUniversity())));
 			}
 
-			existingCourse.setName(metaCourseData.getCourseTitle());
-
-			Optional<University> uni = universityRepository.findById(universityId);
-			if (uni.isPresent()) {
-				existingCourse.setUniversity(uni.get());
-			}
-
+			
 			Optional<CourseCRN> optionalCRN = courseCRNsRepository.findByCrnNumber(metaCourseData.getCrn());
 			if (!optionalCRN.isPresent()) {
 				CourseCRN crn1 = courseCRNsRepository.save(new CourseCRN(metaCourseData.getCrn()));

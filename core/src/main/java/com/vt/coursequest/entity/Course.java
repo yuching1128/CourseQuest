@@ -45,7 +45,7 @@ public class Course implements Serializable {
 	@Id
 	Integer id;
 
-	@Column(name = "courseNum", updatable = false)
+	@Column(name = "courseNum", updatable = false, nullable = false)
 	String courseNum;
 
 	@JsonProperty
@@ -176,6 +176,7 @@ public class Course implements Serializable {
 		if (obj == this)
 			return true;
 		Course courseObj = (Course) obj;
+		String unique = dept+courseNum+university.id;
 		return courseNum.equals(courseObj.courseNum);
 	}
 

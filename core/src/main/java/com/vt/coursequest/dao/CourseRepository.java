@@ -32,6 +32,6 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, Paging
 	
 	Optional<Course> findByCourseNum(String courseNum);
 
-	Optional<Course> findByCourseNumAndDeptId(String courseNo, Integer deptId);
+	Optional<Course> findByCourseNumAndDeptIdAndUniversityId(String courseNo, Integer deptId, int universityId);
 
 }
