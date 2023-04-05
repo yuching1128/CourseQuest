@@ -17,6 +17,7 @@ import {UserProgram} from "./UserProgram";
 export const ProfilePage = () => {
 
     const { userId } = useParams();
+    const [universityId, setUniversityId] = useState(1)
 
     const {
         data: userProfileData,
