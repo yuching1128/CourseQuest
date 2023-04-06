@@ -125,14 +125,25 @@ public class UserDataServiceImpl implements UserDataService {
     }
 
     @Override
-    public User createConcentration(Integer userId, Integer majorId) {
+    public User createConcentration(Integer userId, String concentration) {
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
             User curUser = user.get();
-            Major curMajor = new Major(majorId);
-            curUser.setConcentration(curMajor);
+            curUser.setConcentration(concentration);
             return userRepository.save(curUser);
         }
        return null;
+    }
+
+    @Override
+    public User createMentorCourse(Integer userId, List<Course> courseList) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            User curUser = user.get();
+            Set<Course> curMentorCourse = new HashSet<>(courseList);
+            curUser.setMentorCourse(curMentorCourse);
+            return userRepository.save(curUser);
+        }
+        return null;
     }
 }

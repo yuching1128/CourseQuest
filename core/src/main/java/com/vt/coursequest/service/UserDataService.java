@@ -82,7 +82,7 @@ public interface UserDataService {
      * This method is to create a user's interested courses
      * @param userId: the unique id of user
      * @param courseList: the chosen list of interested courses
-     * @return the interested course list
+     * @return the user information
      */
     User createInterestedCourse(Integer userId, List<Course> courseList) throws Exception;
 
@@ -95,7 +95,21 @@ public interface UserDataService {
     List<Course> updateInterestedCourse(Integer userId, List<Course> courseList);
 
 
-    User createConcentration(Integer userId, Integer majorId);
+    /**
+     * This method is to update a user's concentration
+     * @param userId: the unique id of user
+     * @param concentration: the concentration text
+     * @return user information
+     */
+    User createConcentration(Integer userId, String concentration);
+
+    /**
+     * This method is to update a user's concentration
+     * @param userId
+     * @param courseList
+     * @return user information
+     */
+    User createMentorCourse(Integer userId, List<Course> courseList);
 
 
 
