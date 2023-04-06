@@ -12,13 +12,14 @@ import {
     useAddUserCourseInterestedMutation,
     useAddUserCourseTakenMutation,
     useGetCoursesQuery,
-    useGetMajorQuery,
     useGetUserInfoQuery
 } from "../api/apiSlice";
 import {useParams} from "react-router-dom";
 import Select from "react-select";
 import {UserInfo} from "./UserInfo";
 import {UserProgram} from "./UserProgram";
+import Form from "react-bootstrap/Form";
+import {Row} from "react-bootstrap";
 
 export const ProfilePage = () => {
 
@@ -125,32 +126,11 @@ export const ProfilePage = () => {
     }, [courseTaken]);
 
     // set concentration interested
-    const [concentration, setConcentration] = useState(null);
-    const [selectedConcentration, setSelectedConcentration] = useState(null);
+    const [content, setContent] = useState(<option disabled selected value> -- select an option -- </option>)
+    const onContentChanged = (e) => setContent(e.target.value)
 
-    const {
-        data: concentrationData,
-        isSuccess: concentrationSuccess,
-    } = useGetMajorQuery();
+    console.log(content)
 
-    useEffect(() => {
-        if (concentrationSuccess) {
-            const concentrationOptions = concentrationData.map((concentration) => ({
-                value: concentration.name,
-                label: concentration.name,
-            }));
-            setConcentration([ ,...concentrationOptions,
-            ]);
-        }
-    }, [concentrationSuccess, concentrationData]);
-
-    const handleConcentrationChange = (selectedOption) => {
-        const selectedConcentrationObj = concentrationData.find(
-            (concentration) => concentration.name === selectedOption.value
-        );
-        // Set the selected university ID as the state
-        setSelectedConcentration(selectedConcentrationObj?.id || null);
-    };
 
     // edit and done for each section
     const [interestIsEditing, setInterestIsEditing] = useState(false);
@@ -227,12 +207,11 @@ export const ProfilePage = () => {
                             </div>
                             <div>
                                 <p className="profileText">Concentration Interested: </p>
-                                <Select className="profileConcentration"
-                                        options={concentration}
-                                        placeholder="Select the concentration interested"
-                                        isDisabled={!interestIsEditing}
-                                        onChange={handleConcentrationChange}
-                                />
+                                <Form className="profileConcentration">
+                                    <Form.Group as={Row}>
+                                        <Form.Control as="textarea" aria-label="With textarea" placeholder='Type your concentration interested' onChange={onContentChanged} />
+                                    </Form.Group>
+                                </Form>
                             </div>
                         </div>
                     </Accordion.Body>

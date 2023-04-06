@@ -8,7 +8,7 @@ export const apiSlice = createApi({
     tagTypes: ['Review', 'Timeslots'],
     endpoints: builder => ({
         getCourses: builder.query({
-            query: ({universityId, page, size} ) => {
+            query: ({universityId, page, size}) => {
                 return `university/${universityId}/courses?pageNum=${page}&pageSize=${size}`
             }
         }),
@@ -71,7 +71,6 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['Timeslots']
         }),
-        }),
         getUserInfo: builder.query({
             query: ({userId}) => `user/${userId}/profile`
         }),
@@ -85,42 +84,43 @@ export const apiSlice = createApi({
             query: () => `major/types`
         }),
         addUserUniversity: builder.mutation({
-            query: ({ userId, universityId }) => ({
+            query: ({userId, universityId}) => ({
                 url: `user/university`,
                 method: 'POST',
-                params: { userId:userId, universityId: universityId }
+                params: {userId: userId, universityId: universityId}
             }),
         }),
         addUserDegree: builder.mutation({
-            query: ({ userId, degreeId }) => ({
+            query: ({userId, degreeId}) => ({
                 url: `user/degree`,
                 method: 'POST',
-                params: { userId:userId, degreeId: degreeId }
+                params: {userId: userId, degreeId: degreeId}
             }),
         }),
         addUserMajor: builder.mutation({
-            query: ({ userId, majorId }) => ({
+            query: ({userId, majorId}) => ({
                 url: `user/major`,
                 method: 'POST',
-                params: { userId:userId, majorId: majorId }
+                params: {userId: userId, majorId: majorId}
             }),
         }),
-        addUserCourseTaken:builder.mutation({
-            query: ({ userId, courseList }) => ({
+        addUserCourseTaken: builder.mutation({
+            query: ({userId, courseList}) => ({
                 url: `user/course`,
                 method: 'POST',
-                params: { userId },
+                params: {userId},
                 body: courseList
             }),
         }),
-        addUserCourseInterested:builder.mutation({
-            query: ({ userId, courseList }) => ({
+        addUserCourseInterested: builder.mutation({
+            query: ({userId, courseList}) => ({
                 url: `user/interested`,
                 method: 'POST',
-                params: { userId },
+                params: {userId},
                 body: courseList
             }),
         }),
+    })
 })
 
 export const {
@@ -144,5 +144,5 @@ export const {
     useAddUserDegreeMutation,
     useAddUserMajorMutation,
     useAddUserCourseTakenMutation,
-    useAddUserCourseInterestedMutation
+    useAddUserCourseInterestedMutation,
 } = apiSlice
