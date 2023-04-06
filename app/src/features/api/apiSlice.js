@@ -120,6 +120,21 @@ export const apiSlice = createApi({
                 body: courseList
             }),
         }),
+        addUserConcentration: builder.mutation({
+            query: ({userId, concentration}) => ({
+                url: `user/concentration`,
+                method: 'POST',
+                params: {userId: userId, concentration: concentration}
+            }),
+        }),
+        addUserMentorCourse: builder.mutation({
+            query: ({userId, courseList}) => ({
+                url: `user/mentorCourse`,
+                method: 'POST',
+                params: {userId},
+                body: courseList
+            }),
+        }),
     })
 })
 
@@ -145,4 +160,6 @@ export const {
     useAddUserMajorMutation,
     useAddUserCourseTakenMutation,
     useAddUserCourseInterestedMutation,
+    useAddUserConcentrationMutation,
+    useAddUserMentorCourseMutation
 } = apiSlice

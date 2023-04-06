@@ -9,8 +9,10 @@ import {faPenToSquare} from "@fortawesome/free-regular-svg-icons";
 import {faSquareCheck} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
+    useAddUserConcentrationMutation,
     useAddUserCourseInterestedMutation,
     useAddUserCourseTakenMutation,
+    useAddUserMentorCourseMutation,
     useGetCoursesQuery,
     useGetUserInfoQuery
 } from "../api/apiSlice";
@@ -37,7 +39,7 @@ export const ProfilePage = () => {
     //     }
     // },[userProfileData])
 
-    // set course taken select options
+    // set parameters
     const [courseTaken, setCourseTaken] = useState([]);
     const [selectedCoursesId, setSelectedCoursesId] = useState([]);
     const [addUserCourseTaken, { isLoading: courseTakenIsLoading}] = useAddUserCourseTakenMutation();
@@ -48,7 +50,11 @@ export const ProfilePage = () => {
     const [defaultCourseInterested, setDefaultCourseInterested] = useState([]);
 
     const [mentoringOn, setMentoringOn] = useState([]);
+    const [selectedMentorOnId, setSelectedMentorOnId] = useState([]);
+    const [addMentorOn, { isLoading: mentorOnIsLoading}] = useAddUserMentorCourseMutation()
+    const [defaultMentorOn, setDefaultMentorOn] = useState([]);
 
+    // set default value
     useEffect(() => {
         if (userProfileData && userProfileData.course) {
             const courseTakenOptions = userProfileData.course.map((course) => ({
@@ -73,8 +79,23 @@ export const ProfilePage = () => {
             }));
             setSelectedCoursesInterestedId(selectedCoursesInterestId);
         }
-    }, [userProfileData]);
+        if(userProfileData && userProfileData.concentration) {
+            setContent(userProfileData.concentration)
+        }
+        if(userProfileData && userProfileData.mentorCourse) {
+            const courseMentorOnOptions = userProfileData.mentorCourse.map((course) => ({
+                value: course.id,
+                label: course.name,
+            }));
+            setDefaultMentorOn(courseMentorOnOptions);
+            const selectedMentorOnId = userProfileData.mentorCourse.map((course) => ({
+                id: course.id,
+            }));
+            setSelectedCoursesId(selectedMentorOnId);
+        }
+    }, [userProfileData])
 
+    // set course taken & interested select options
     const {
         data: courseTakenData,
         isSuccess: courseTakenSuccess,
@@ -91,9 +112,6 @@ export const ProfilePage = () => {
         }
     }, [courseTakenSuccess, courseTakenData]);
 
-    // set mentoring on select options based on course taken
-    const [selectedMentorOn, setSelectedMentorOn] = useState([]);
-
     const handleCourseSelection = (selectedOptions) => {
         setDefaultCourseTaken(selectedOptions)
         setSelectedCoursesId(
@@ -101,10 +119,10 @@ export const ProfilePage = () => {
                 id: option.value,
             }))
         );
-        const filteredSelectedMentorOn = selectedMentorOn.filter((option) =>
+        const filteredMentorOn = defaultMentorOn.filter((option) =>
             selectedOptions.some((subject) => subject.value === option.value)
         );
-        setSelectedMentorOn(filteredSelectedMentorOn);
+        setDefaultMentorOn(filteredMentorOn);
         setMentoringOn(selectedOptions);
     };
 
@@ -117,6 +135,12 @@ export const ProfilePage = () => {
         );
     }
 
+    // set concentration interested
+    const [content, setContent] = useState(null)
+    const [addUserConcentration, { isLoading: concentrationIsLoading}] = useAddUserConcentrationMutation();
+    const onContentChanged = (e) => setContent(e.target.value)
+
+    // set mentoring on select options based on course taken
     useEffect(() => {
         // Filter out any selected options that are not in the courseTaken options
         const filteredMentoringOn = mentoringOn.filter((option) =>
@@ -124,13 +148,6 @@ export const ProfilePage = () => {
         );
         setMentoringOn(filteredMentoringOn);
     }, [courseTaken]);
-
-    // set concentration interested
-    const [content, setContent] = useState(<option disabled selected value> -- select an option -- </option>)
-    const onContentChanged = (e) => setContent(e.target.value)
-
-    console.log(content)
-
 
     // edit and done for each section
     const [interestIsEditing, setInterestIsEditing] = useState(false);
@@ -142,6 +159,7 @@ export const ProfilePage = () => {
     const handleInterestDoneClick = async () => {
         await addUserCourseTaken({userId: userId, courseList: selectedCoursesId})
         await addUserCourseInterested({userId: userId, courseList: selectedCoursesInterestId})
+        await addUserConcentration({userId: userId, concentration: content})
         setInterestIsEditing(false);
     };
 
@@ -151,7 +169,8 @@ export const ProfilePage = () => {
         setMentoringIsEditing(true);
     };
 
-    const handleMentoringDoneClick = () => {
+    const handleMentoringDoneClick = async () => {
+        await addMentorOn({userId: userId, courseList: selectedMentorOnId})
         setMentoringIsEditing(false);
     };
 
@@ -209,7 +228,14 @@ export const ProfilePage = () => {
                                 <p className="profileText">Concentration Interested: </p>
                                 <Form className="profileConcentration">
                                     <Form.Group as={Row}>
-                                        <Form.Control as="textarea" aria-label="With textarea" placeholder='Type your concentration interested' onChange={onContentChanged} />
+                                        <Form.Control
+                                            as="textarea"
+                                            aria-label="With textarea"
+                                            placeholder='Type your concentration interested'
+                                            onChange={onContentChanged}
+                                            disabled={!interestIsEditing}
+                                            defaultValue={content}
+                                        />
                                     </Form.Group>
                                 </Form>
                             </div>
@@ -234,11 +260,16 @@ export const ProfilePage = () => {
                                 placeholder="Select the subjects you would like to mentor on"
                                 className="profileMentorOn"
                                 onChange={(selectedOptions) => {
-                                    setSelectedMentorOn(selectedOptions);
+                                    setDefaultMentorOn(selectedOptions);
+                                    setSelectedMentorOnId(
+                                        selectedOptions.map((option) => ({
+                                            id: option.value,
+                                        }))
+                                    );
                                 }}
                                 key={mentoringOn.map((option) => option.value).join(',')}
                                 defaultValue={mentoringOn.filter((option) =>
-                                    selectedMentorOn.some((selectedOption) => selectedOption.value === option.value)
+                                    defaultMentorOn.some((selectedOption) => selectedOption.value === option.value)
                                 )}
                                 isDisabled={!mentoringIsEditing}
                             />
