@@ -73,7 +73,11 @@ export const ReviewsPage = () => {
     if (isLoading) {
         content = <Spinner text="Loading..." />
     } else if (isSuccess) {
-        content = sortedReviews.map(review => <ReviewExcerpt key={review.id} review={review} rating= {review.rating}/>)
+        if (sortedReviews) {
+            content = sortedReviews.map(review => <ReviewExcerpt key={review.id} review={review} rating= {review.rating}/>)
+        } else {
+            content = <p>No Reviews yet.</p>
+        }
     } else if (isError) {
         content = <div>{error.toString()}</div>
     }
@@ -82,6 +86,5 @@ export const ReviewsPage = () => {
         <Container className="reviews">
             {content}
         </Container>
-
     )
 }

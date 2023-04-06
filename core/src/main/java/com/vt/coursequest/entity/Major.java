@@ -20,19 +20,12 @@ public class Major {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    int id;
+    Integer id;
 
     @JsonProperty
 	@Column(name = "name", unique = true)
     String name;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

@@ -123,4 +123,16 @@ public class UserDataServiceImpl implements UserDataService {
     public List<Course> updateInterestedCourse(Integer userId, List<Course> courseList) {
         return null;
     }
+
+    @Override
+    public User createConcentration(Integer userId, List<Major> majorList) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            User curUser = user.get();
+            Set<Major> curMajor = new HashSet<>(majorList);
+            curUser.setConcentration(curMajor);
+            return userRepository.save(curUser);
+        }
+       return null;
+    }
 }

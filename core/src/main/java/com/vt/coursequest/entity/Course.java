@@ -12,9 +12,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -46,7 +46,7 @@ public class Course implements Serializable {
 	@Id
 	Integer id;
 
-	@Column(name = "courseNum", updatable = false)
+	@Column(name = "courseNum", updatable = false, nullable = false)
 	String courseNum;
 
 	@JsonProperty
@@ -54,10 +54,17 @@ public class Course implements Serializable {
 	@ManyToOne
 	University university;
 
-	@JsonIgnore
 	@JoinColumn(name = "degree_id")
 	@ManyToOne
 	Degree degree;
+
+	@JoinColumn(name = "dept_id")
+	@ManyToOne
+	Department dept;
+
+	@JoinColumn(name = "level_id")
+	@ManyToOne
+	Level level;
 
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -76,9 +83,25 @@ public class Course implements Serializable {
 	@JsonProperty
 	Float rating;
 
-	@Column(name = "description")
+	@Column(name = "description", columnDefinition = "LONGTEXT")
 	@JsonProperty
 	String description;
+
+	public Department getDept() {
+		return dept;
+	}
+
+	public void setDept(Department dept) {
+		this.dept = dept;
+	}
+
+	public Level getLevel() {
+		return level;
+	}
+
+	public void setLevel(Level level) {
+		this.level = level;
+	}
 
 	public University getUniversity() {
 		return university;
@@ -152,7 +175,8 @@ public class Course implements Serializable {
 		if (obj == this)
 			return true;
 		Course courseObj = (Course) obj;
-		return courseNum.equals(courseObj.courseNum);
+		String unique = dept + courseNum + university.id;
+		return unique.equals(courseObj.dept + courseObj.courseNum + courseObj.university.id);
 	}
 
 	@Override
