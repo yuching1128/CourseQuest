@@ -125,12 +125,11 @@ public class UserDataServiceImpl implements UserDataService {
     }
 
     @Override
-    public User createConcentration(Integer userId, Major major) {
+    public User createConcentration(Integer userId, Integer majorId) {
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
             User curUser = user.get();
-            Major curMajor = new Major();
-            curMajor.setId(major.getId());
+            Major curMajor = new Major(majorId);
             curUser.setConcentration(curMajor);
             return userRepository.save(curUser);
         }
