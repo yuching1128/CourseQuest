@@ -98,10 +98,10 @@ public interface UserDataService {
     /**
      * This method is to update a user's concentration
      * @param userId: the unique id of user
-     * @param majorId: the unique id of major
+     * @param concentration: the concentration text
      * @return user information
      */
-    User createConcentration(Integer userId, Integer majorId);
+    User createConcentration(Integer userId, String concentration);
 
     /**
      * This method is to update a user's concentration

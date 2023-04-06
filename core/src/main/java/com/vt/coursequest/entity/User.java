@@ -54,17 +54,15 @@ public class User {
 	@ManyToMany
 	Set<Course> interestedCourse;
 
-
-	public Major getConcentration() {
+	public String getConcentration() {
 		return concentration;
 	}
 
-	public void setConcentration(Major concentration) {
+	public void setConcentration(String concentration) {
 		this.concentration = concentration;
 	}
 
-	@OneToOne
-	Major concentration;
+	String concentration;
 
 	@Column(name = "email")
 	String email;
