@@ -49,10 +49,15 @@ public class User {
 	@OneToMany
 	Set<Course> course;
 
+	public void setConcentration(Set<Major> concentration) {
+		this.concentration = concentration;
+	}
+
 	@OneToMany
 	Set<Course> interestedCourse;
 
-	String Concentration;
+	@OneToMany
+	Set<Major> concentration;
 
 	@Column(name = "email")
 	String email;
@@ -103,14 +108,6 @@ public class User {
 
 	public void setInterestedCourse(Set<Course> interestedCourse) {
 		this.interestedCourse = interestedCourse;
-	}
-
-	public String getConcentration() {
-		return Concentration;
-	}
-
-	public void setConcentration(String concentration) {
-		Concentration = concentration;
 	}
 
 	public String getEmail() {

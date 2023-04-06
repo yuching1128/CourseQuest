@@ -73,6 +73,10 @@ public class UserController {
         return new ResponseEntity<>(uds.createInterestedCourse(userId, courseList), HttpStatus.OK);
     }
 
+    @PostMapping("/api/user/concentration")
+    public ResponseEntity<User> addUserConcentration(@RequestParam Integer userId, @RequestBody List<Major> majorList) {
+        return new ResponseEntity<>(uds.createConcentration(userId, majorList), HttpStatus.OK);
+    }
 
 
 
