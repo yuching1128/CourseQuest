@@ -135,4 +135,16 @@ public class UserDataServiceImpl implements UserDataService {
         }
        return null;
     }
+
+    @Override
+    public User createMentorCourse(Integer userId, List<Course> courseList) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            User curUser = user.get();
+            Set<Course> curMentorCourse = new HashSet<>(courseList);
+            curUser.setMentorCourse(curMentorCourse);
+            return userRepository.save(curUser);
+        }
+        return null;
+    }
 }

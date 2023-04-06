@@ -37,13 +37,23 @@ public class User {
 	@ManyToOne()
 	Major major;
 
-	@OneToMany
+	@ManyToMany
 	Set<Course> course;
 
+	@ManyToMany
+	Set<Course> mentorCourse;
 
+	public Set<Course> getMentorCourse() {
+		return mentorCourse;
+	}
 
-	@OneToMany
+	public void setMentorCourse(Set<Course> mentorCourse) {
+		this.mentorCourse = mentorCourse;
+	}
+
+	@ManyToMany
 	Set<Course> interestedCourse;
+
 
 	public Major getConcentration() {
 		return concentration;
