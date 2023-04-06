@@ -74,8 +74,8 @@ public class UserController {
     }
 
     @PostMapping("/api/user/concentration")
-    public ResponseEntity<User> addUserConcentration(@RequestParam Integer userId, @RequestBody List<Major> majorList) {
-        return new ResponseEntity<>(uds.createConcentration(userId, majorList), HttpStatus.OK);
+    public ResponseEntity<User> addUserConcentration(@RequestParam Integer userId, @RequestBody Major major) {
+        return new ResponseEntity<>(uds.createConcentration(userId, major), HttpStatus.OK);
     }
 
 

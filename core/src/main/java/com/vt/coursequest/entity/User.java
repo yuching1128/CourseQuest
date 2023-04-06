@@ -2,16 +2,7 @@ package com.vt.coursequest.entity;
 
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -49,15 +40,21 @@ public class User {
 	@OneToMany
 	Set<Course> course;
 
-	public void setConcentration(Set<Major> concentration) {
-		this.concentration = concentration;
-	}
+
 
 	@OneToMany
 	Set<Course> interestedCourse;
 
-	@OneToMany
-	Set<Major> concentration;
+	public Major getConcentration() {
+		return concentration;
+	}
+
+	public void setConcentration(Major concentration) {
+		this.concentration = concentration;
+	}
+
+	@OneToOne
+	Major concentration;
 
 	@Column(name = "email")
 	String email;
@@ -102,13 +99,7 @@ public class User {
 		this.course = course;
 	}
 
-	public Set<Course> getInterestedCourse() {
-		return interestedCourse;
-	}
 
-	public void setInterestedCourse(Set<Course> interestedCourse) {
-		this.interestedCourse = interestedCourse;
-	}
 
 	public String getEmail() {
 		return email;
