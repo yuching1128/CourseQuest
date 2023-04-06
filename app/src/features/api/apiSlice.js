@@ -84,7 +84,23 @@ export const apiSlice = createApi({
                 method: 'POST',
                 params: { userId:userId, majorId: majorId }
             }),
-        })
+        }),
+        addUserCourseTaken:builder.mutation({
+            query: ({ userId, courseList }) => ({
+                url: `user/course`,
+                method: 'POST',
+                params: { userId },
+                body: courseList
+            }),
+        }),
+        addUserCourseInterested:builder.mutation({
+            query: ({ userId, courseList }) => ({
+                url: `user/interested`,
+                method: 'POST',
+                params: { userId },
+                body: courseList
+            }),
+        }),
     })
 })
 
@@ -104,5 +120,7 @@ export const {
     useGetMajorQuery,
     useAddUserUniversityMutation,
     useAddUserDegreeMutation,
-    useAddUserMajorMutation
+    useAddUserMajorMutation,
+    useAddUserCourseTakenMutation,
+    useAddUserCourseInterestedMutation
 } = apiSlice

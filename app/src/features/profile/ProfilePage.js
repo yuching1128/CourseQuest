@@ -8,7 +8,13 @@ import {faUserGraduate} from"@fortawesome/free-solid-svg-icons"
 import {faPenToSquare} from "@fortawesome/free-regular-svg-icons";
 import {faSquareCheck} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {useGetCoursesQuery, useGetLevelsQuery, useGetUserInfoQuery} from "../api/apiSlice";
+import {
+    useAddUserCourseInterestedMutation,
+    useAddUserCourseTakenMutation,
+    useGetCoursesQuery,
+    useGetMajorQuery,
+    useGetUserInfoQuery
+} from "../api/apiSlice";
 import {useParams} from "react-router-dom";
 import Select from "react-select";
 import {UserInfo} from "./UserInfo";
@@ -30,9 +36,43 @@ export const ProfilePage = () => {
     //     }
     // },[userProfileData])
 
-    // set course taken and subject interested select options
+    // set course taken select options
     const [courseTaken, setCourseTaken] = useState([]);
-    const [selectedCourses, setSelectedCourses] = useState([]);
+    const [selectedCoursesId, setSelectedCoursesId] = useState([]);
+    const [addUserCourseTaken, { isLoading: courseTakenIsLoading}] = useAddUserCourseTakenMutation();
+    const [defaultCourseTaken, setDefaultCourseTaken] = useState([]);
+
+    const [selectedCoursesInterestId, setSelectedCoursesInterestedId] = useState([]);
+    const [addUserCourseInterested, { isLoading: courseInterestedIsLoading}] = useAddUserCourseInterestedMutation();
+    const [defaultCourseInterested, setDefaultCourseInterested] = useState([]);
+
+    const [mentoringOn, setMentoringOn] = useState([]);
+
+    useEffect(() => {
+        if (userProfileData && userProfileData.course) {
+            const courseTakenOptions = userProfileData.course.map((course) => ({
+                value: course.id,
+                label: course.name,
+            }));
+            setDefaultCourseTaken(courseTakenOptions);
+            setMentoringOn(courseTakenOptions);
+            const selectedCoursesId = userProfileData.course.map((course) => ({
+                id: course.id,
+            }));
+            setSelectedCoursesId(selectedCoursesId);
+        }
+        if(userProfileData && userProfileData.interestedCourse) {
+            const courseInterestedOptions = userProfileData.interestedCourse.map((course) => ({
+                value: course.id,
+                label: course.name,
+            }));
+            setDefaultCourseInterested(courseInterestedOptions);
+            const selectedCoursesInterestId = userProfileData.interestedCourse.map((course) => ({
+                id: course.id,
+            }));
+            setSelectedCoursesInterestedId(selectedCoursesInterestId);
+        }
+    }, [userProfileData]);
 
     const {
         data: courseTakenData,
@@ -42,7 +82,7 @@ export const ProfilePage = () => {
     useEffect(() => {
         if (courseTakenSuccess) {
             const courseTakenOptions = courseTakenData.map((courseTaken) => ({
-                value: courseTaken.name,
+                value: courseTaken.id,
                 label: courseTaken.name,
             }));
             setCourseTaken([ ,...courseTakenOptions,
@@ -51,17 +91,30 @@ export const ProfilePage = () => {
     }, [courseTakenSuccess, courseTakenData]);
 
     // set mentoring on select options based on course taken
-    const [mentoringOn, setMentoringOn] = useState([]);
     const [selectedMentorOn, setSelectedMentorOn] = useState([]);
 
     const handleCourseSelection = (selectedOptions) => {
-        setSelectedCourses(selectedOptions);
+        setDefaultCourseTaken(selectedOptions)
+        setSelectedCoursesId(
+            selectedOptions.map((option) => ({
+                id: option.value,
+            }))
+        );
         const filteredSelectedMentorOn = selectedMentorOn.filter((option) =>
             selectedOptions.some((subject) => subject.value === option.value)
         );
         setSelectedMentorOn(filteredSelectedMentorOn);
         setMentoringOn(selectedOptions);
     };
+
+    const handleCourseInterestedSelects = (selectedOptions) => {
+        setDefaultCourseInterested(selectedOptions)
+        setSelectedCoursesInterestedId(
+            selectedOptions.map((option) => ({
+                id: option.value,
+            }))
+        );
+    }
 
     useEffect(() => {
         // Filter out any selected options that are not in the courseTaken options
@@ -71,6 +124,34 @@ export const ProfilePage = () => {
         setMentoringOn(filteredMentoringOn);
     }, [courseTaken]);
 
+    // set concentration interested
+    const [concentration, setConcentration] = useState(null);
+    const [selectedConcentration, setSelectedConcentration] = useState(null);
+
+    const {
+        data: concentrationData,
+        isSuccess: concentrationSuccess,
+    } = useGetMajorQuery();
+
+    useEffect(() => {
+        if (concentrationSuccess) {
+            const concentrationOptions = concentrationData.map((concentration) => ({
+                value: concentration.name,
+                label: concentration.name,
+            }));
+            setConcentration([ ,...concentrationOptions,
+            ]);
+        }
+    }, [concentrationSuccess, concentrationData]);
+
+    const handleConcentrationChange = (selectedOption) => {
+        const selectedConcentrationObj = concentrationData.find(
+            (concentration) => concentration.name === selectedOption.value
+        );
+        // Set the selected university ID as the state
+        setSelectedConcentration(selectedConcentrationObj?.id || null);
+    };
+
     // edit and done for each section
     const [interestIsEditing, setInterestIsEditing] = useState(false);
 
@@ -78,7 +159,9 @@ export const ProfilePage = () => {
         setInterestIsEditing(true);
     };
 
-    const handleInterestDoneClick = () => {
+    const handleInterestDoneClick = async () => {
+        await addUserCourseTaken({userId: userId, courseList: selectedCoursesId})
+        await addUserCourseInterested({userId: userId, courseList: selectedCoursesInterestId})
         setInterestIsEditing(false);
     };
 
@@ -123,9 +206,9 @@ export const ProfilePage = () => {
                                 <Select
                                     isMulti
                                     options={courseTaken}
-                                    value={selectedCourses}
+                                    value={defaultCourseTaken}
                                     placeholder="Select the subjects you have taken"
-                                    className="selectSubjectTaken"
+                                    className="selectCourseTaken"
                                     onChange={handleCourseSelection}
                                     isDisabled={!interestIsEditing}
                                 />
@@ -136,14 +219,21 @@ export const ProfilePage = () => {
                                     isMulti
                                     options={courseTaken}
                                     placeholder="Select the subjects you are interested in"
-                                    className="selectSubjectTaken"
+                                    className="selectCourseInterested"
                                     isDisabled={!interestIsEditing}
+                                    onChange={handleCourseInterestedSelects}
+                                    value={defaultCourseInterested}
                                 />
                             </div>
                             <div>
                                 <p className="profileText">Concentration Interested: </p>
+                                <Select className="profileConcentration"
+                                        options={concentration}
+                                        placeholder="Select the concentration interested"
+                                        isDisabled={!interestIsEditing}
+                                        onChange={handleConcentrationChange}
+                                />
                             </div>
-
                         </div>
                     </Accordion.Body>
                 </Accordion.Item>
@@ -163,7 +253,7 @@ export const ProfilePage = () => {
                                 isMulti
                                 options={mentoringOn}
                                 placeholder="Select the subjects you would like to mentor on"
-                                className="selectSubjectTaken"
+                                className="profileMentorOn"
                                 onChange={(selectedOptions) => {
                                     setSelectedMentorOn(selectedOptions);
                                 }}

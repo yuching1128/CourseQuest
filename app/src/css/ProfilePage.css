@@ -21,19 +21,6 @@
     display: inline-block;
 }
 
-.profileDegree{
-    margin-left: 10em;
-    width: 300px;
-    display: inline-block;
-    font-size: 20px;
-}
-
-.selectSubjectTaken{
-    display: inline-block;
-    width: 500px;
-    margin-left: 5em;
-}
-
 .courseBlockEdit{
     float: right;
     margin-right: 2em;
@@ -45,13 +32,6 @@
     border: none;
     font-size: 1.7em;
     font-weight: bold;
-}
-
-.profileUniversity{
-    margin-left: 8em;
-    width: 300px;
-    display: inline-block;
-    font-size: 20px;
 }
 
 .userName{
@@ -70,9 +50,48 @@
     font-weight: bold;
 }
 
-.profileMajor{
-    margin-left: 11em;
+.profileUniversity{
+    margin-left: 47px;
     width: 300px;
     display: inline-block;
     font-size: 20px;
+}
+
+.profileDegree{
+    margin-left: 90px;
+    width: 300px;
+    display: inline-block;
+    font-size: 20px;
+}
+
+.profileMajor{
+    margin-left: 106px;
+    width: 300px;
+    display: inline-block;
+    font-size: 20px;
+}
+
+.selectCourseTaken{
+    display: inline-block;
+    width: 500px;
+    margin-left: 11em;
+}
+
+.selectCourseInterested{
+    display: inline-block;
+    width: 500px;
+    margin-left: 7em;
+}
+
+.profileConcentration{
+    display: inline-block;
+    width: 500px;
+    margin-left: 1em;
+
+}
+
+.profileMentorOn{
+    display: inline-block;
+    width: 500px;
+    margin-left: 2em;
 }
