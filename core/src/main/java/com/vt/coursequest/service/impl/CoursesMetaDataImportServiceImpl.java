@@ -96,8 +96,8 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 			csvToBean.setMappingStrategy(strategy);
 			// call the parse method of CsvToBean
 			// pass strategy, csvReader to parse method
-			 List<CourseMetaData> exhaustiveList = csvToBean.parse();
-			 correctlyParseItAndSaveInDB(exhaustiveList, universityId);
+			List<CourseMetaData> exhaustiveList = csvToBean.parse();
+			correctlyParseItAndSaveInDB(exhaustiveList, universityId);
 			scrapCourseDescriptionMetaData(universityId, isFullImport);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -208,40 +208,60 @@ public class CoursesMetaDataImportServiceImpl implements CoursesMetaDataImportSe
 		// String[] urlPaths = environment.getProperty("application.webscraping.urls",
 		// String[].class);
 		// System.out.println(urlPaths);
-		List<String> urlsToBeScraped = new ArrayList<>();
-		urlsToBeScraped.add("https://cs.vt.edu/Undergraduate/courses.html");
+		String urlUGCS = "https://cs.vt.edu/Undergraduate/courses.html";
+
 		List<CourseMetaData> courseMetaDataList = new ArrayList<>();
 		// parse all the urls
-		for (String url : urlsToBeScraped) {
-			Document document = Jsoup.connect(url).get();
-			Elements links = document.select("div.vt-vtcontainer-content").select("div.section").first()
-					.nextElementSibling().select("ul li a");
-			Iterator<Element> itr = links.iterator();
-			while (itr.hasNext()) {
-				CourseMetaData courseMetaDataObj = new CourseMetaData();
+		Document document = Jsoup.connect(urlUGCS).get();
+		Elements links = document.select("div.vt-vtcontainer-content").select("div.section").first()
+				.nextElementSibling().select("ul li a");
+		Iterator<Element> itr = links.iterator();
+		while (itr.hasNext()) {
+			CourseMetaData courseMetaDataObj = new CourseMetaData();
 
-				Element aTag = itr.next();
-				String courseInfo = aTag.text();
-				String courseFullId = courseInfo.split(" ")[0];
-				String courseFullName = courseInfo.split(": ")[1];
-				String courseNum = courseFullId.replaceAll("[^\\d]", "");
-				String dept = courseFullId.replaceAll("[\\d:]+", "");
-				String courseUrl = aTag.attr("href");
-				String description = "";
-				courseMetaDataObj.setCourseNo(courseNum);
-				courseMetaDataObj.setCourseTitle(courseFullName);
-				courseMetaDataObj.setDept(dept);
-				Document individualCourseDocument = Jsoup.connect(courseUrl).get();
-				System.out.println(courseFullName);
-				Elements a = individualCourseDocument.select("div.vt-body-col");
-				Element p = a.first().getElementsByClass("vt-text").select("p").first();
-				System.out.println("description");
-				description = p.text();
-				courseMetaDataObj.setDescription(description);
-				System.out.println(description);
-				courseMetaDataList.add(courseMetaDataObj);
-			}
+			Element aTag = itr.next();
+			String courseInfo = aTag.text();
+			String courseFullId = courseInfo.split(" ")[0];
+			String courseFullName = courseInfo.split(": ")[1];
+			String courseNum = courseFullId.replaceAll("[^\\d]", "");
+			String dept = courseFullId.replaceAll("[\\d:]+", "");
+			String courseUrl = aTag.attr("href");
+			String description = "";
+			courseMetaDataObj.setCourseNo(courseNum);
+			courseMetaDataObj.setCourseTitle(courseFullName);
+			courseMetaDataObj.setDept(dept);
+			Document individualCourseDocument = Jsoup.connect(courseUrl).get();
+			System.out.println(courseFullName);
+			Elements a = individualCourseDocument.select("div.vt-body-col");
+			Element p = a.first().getElementsByClass("vt-text").select("p").first();
+			System.out.println("description");
+			description = p.text();
+			courseMetaDataObj.setDescription(description);
+			System.out.println(description);
+			courseMetaDataList.add(courseMetaDataObj);
 
+		}
+
+		correctlyParseItAndSaveInDB(courseMetaDataList, universityId);
+
+		String urlPGCS = "https://website.cs.vt.edu/Graduate/Courses/GradCourseDescriptions.html";
+		courseMetaDataList = new ArrayList<>();
+		document = Jsoup.connect(urlPGCS).get();
+		Elements pgLinks = document.select("div.vt-vtcontainer-content div.vt-text p");
+		itr = pgLinks.iterator();
+		while (itr.hasNext()) {
+			CourseMetaData courseMetaDataObj = new CourseMetaData();
+			Element pTag = itr.next();
+			String courseFullId = pTag.child(0).attr("id");
+			String courseName = pTag.child(1).text().split(" - ")[1];
+			String courseNum = courseFullId.replaceAll("[^\\d]", "");
+			String dept = courseFullId.replaceAll("[\\d:]+", "");
+			String description = pTag.html().split("<br>")[1].replace("</p>", "").replace("&nbsp", " ");
+			courseMetaDataObj.setCourseNo(courseNum);
+			courseMetaDataObj.setCourseTitle(courseName);
+			courseMetaDataObj.setDept(dept);
+			courseMetaDataObj.setDescription(description);
+			courseMetaDataList.add(courseMetaDataObj);
 		}
 
 		correctlyParseItAndSaveInDB(courseMetaDataList, universityId);
