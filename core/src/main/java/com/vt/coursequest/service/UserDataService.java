@@ -95,7 +95,7 @@ public interface UserDataService {
     List<Course> updateInterestedCourse(Integer userId, List<Course> courseList);
 
 
-    User createConcentration(Integer userId, List<Major> majorList);
+    User createConcentration(Integer userId, Major majorList);
 
 
 
