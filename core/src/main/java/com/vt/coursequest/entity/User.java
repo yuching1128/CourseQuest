@@ -2,16 +2,7 @@ package com.vt.coursequest.entity;
 
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -46,13 +37,32 @@ public class User {
 	@ManyToOne()
 	Major major;
 
-	@OneToMany
+	@ManyToMany
 	Set<Course> course;
 
-	@OneToMany
+	@ManyToMany
+	Set<Course> mentorCourse;
+
+	public Set<Course> getMentorCourse() {
+		return mentorCourse;
+	}
+
+	public void setMentorCourse(Set<Course> mentorCourse) {
+		this.mentorCourse = mentorCourse;
+	}
+
+	@ManyToMany
 	Set<Course> interestedCourse;
 
-	String Concentration;
+	public String getConcentration() {
+		return concentration;
+	}
+
+	public void setConcentration(String concentration) {
+		this.concentration = concentration;
+	}
+
+	String concentration;
 
 	@Column(name = "email")
 	String email;
@@ -97,21 +107,7 @@ public class User {
 		this.course = course;
 	}
 
-	public Set<Course> getInterestedCourse() {
-		return interestedCourse;
-	}
 
-	public void setInterestedCourse(Set<Course> interestedCourse) {
-		this.interestedCourse = interestedCourse;
-	}
-
-	public String getConcentration() {
-		return Concentration;
-	}
-
-	public void setConcentration(String concentration) {
-		Concentration = concentration;
-	}
 
 	public String getEmail() {
 		return email;

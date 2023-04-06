@@ -73,10 +73,11 @@ export const SingleCoursePage = () => {
                 <h3>{course.instructor} </h3>
                 <p className="courseDescription">{course.description}</p>
                 <div>
-                    <p className="rating">{course.rating}</p>
-                    <p className="rateOutof">/ 5</p>
+                    {course.rating && <p className="rating">{course.rating}</p> }
+                    {course.rating && <p className="rateOutof">/ 5</p> }
+                    {!course.rating && <p>No Ratings Yet</p> }
                 </div>
-                <Bar/>
+                {course.rating && <Bar/>}
                 <div className="functionButtons">
                     <button onClick={handleRateReviewClick} className="rate-review-but">Rate and Review</button>
                     <button className="rate-review-but">Ask Questions</button>
@@ -89,7 +90,7 @@ export const SingleCoursePage = () => {
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="1">
-                        <Accordion.Header>{userWrittenReview ? "Edit/Delete Your Review" : "Leave a Review"}</Accordion.Header>
+                        <Accordion.Header>{userWrittenReview ? "Your Review" : "Write Review"}</Accordion.Header>
                         <Accordion.Body>
                             {/* If user written review, show EditForm. Else show RateReviewForm*/}
                             {userWrittenReview ? <EditReviewForm reviewDetails={userReviewInfo}/> : <RateReviewForm universityId={universityId} courseId={courseId} /> }

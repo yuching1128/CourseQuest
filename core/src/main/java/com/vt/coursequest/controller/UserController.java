@@ -73,6 +73,17 @@ public class UserController {
         return new ResponseEntity<>(uds.createInterestedCourse(userId, courseList), HttpStatus.OK);
     }
 
+    @ApiOperation("This service is used to add user's concentration")
+    @PostMapping("/api/user/concentration")
+    public ResponseEntity<User> addUserConcentration(@RequestParam Integer userId, @RequestParam String concentration) {
+        return new ResponseEntity<>(uds.createConcentration(userId, concentration), HttpStatus.OK);
+    }
+
+    @ApiOperation("This service is used to add user's mentor courses")
+    @PostMapping("api/user/mentorCourse")
+    public ResponseEntity<User> addUserMentorCourse(@RequestParam Integer userId, @RequestBody List<Course> courseList) {
+        return new ResponseEntity<>(uds.createMentorCourse(userId, courseList), HttpStatus.OK);
+    }
 
 
 

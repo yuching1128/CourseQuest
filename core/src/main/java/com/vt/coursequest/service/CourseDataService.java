@@ -111,7 +111,6 @@ public interface CourseDataService {
 	 * This function is used to delete the review associated with a course in a specific university
 	 *
 	 * @param reviewId: the unique id of the review
-	 * @return Review: for a particular course of university
 	 */
 	void deleteReview(Integer reviewId);
 

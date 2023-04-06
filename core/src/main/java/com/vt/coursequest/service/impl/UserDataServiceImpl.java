@@ -47,7 +47,7 @@ public class UserDataServiceImpl implements UserDataService {
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
             User curUser = user.get();
-            University university = new University(userId);
+            University university = new University(universityId);
             curUser.setUniversity(university);
             return userRepository.save(curUser);
         }
@@ -121,6 +121,29 @@ public class UserDataServiceImpl implements UserDataService {
 
     @Override
     public List<Course> updateInterestedCourse(Integer userId, List<Course> courseList) {
+        return null;
+    }
+
+    @Override
+    public User createConcentration(Integer userId, String concentration) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            User curUser = user.get();
+            curUser.setConcentration(concentration);
+            return userRepository.save(curUser);
+        }
+       return null;
+    }
+
+    @Override
+    public User createMentorCourse(Integer userId, List<Course> courseList) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            User curUser = user.get();
+            Set<Course> curMentorCourse = new HashSet<>(courseList);
+            curUser.setMentorCourse(curMentorCourse);
+            return userRepository.save(curUser);
+        }
         return null;
     }
 }

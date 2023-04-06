@@ -5,7 +5,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/api/' }),
-    tagTypes: ['Review'],
+    tagTypes: ['Review', 'Timeslots'],
     endpoints: builder => ({
         getCourses: builder.query({
             query: ({universityId, page, size} ) => {
@@ -51,7 +51,26 @@ export const apiSlice = createApi({
                 method: 'DELETE'
             }),
             invalidatesTags: ['Review']
-        })
+        }),
+        getAdvisorTimeslots: builder.query({
+            query: userId => `/user/${userId}/advising`,
+            providesTags: ['Timeslots']
+        }),
+        addNewTimeslot: builder.mutation({
+            query: ({newTimeslot}) => ({
+                url: `advising/add`,
+                method: 'POST',
+                body: newTimeslot
+            }),
+            invalidatesTags: ['Timeslots']
+        }),
+        deleteTimeslot: builder.mutation({
+            query: ({timeslotId}) => ({
+                url: `advising/${timeslotId}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: ['Timeslots']
+        }),
     })
 })
 
@@ -64,5 +83,8 @@ export const {
     useGetUserReviewsQuery,
     useAddNewReviewMutation,
     useEditReviewMutation,
-    useDeleteReviewMutation
+    useDeleteReviewMutation,
+    useGetAdvisorTimeslotsQuery,
+    useAddNewTimeslotMutation,
+    useDeleteTimeslotMutation
 } = apiSlice

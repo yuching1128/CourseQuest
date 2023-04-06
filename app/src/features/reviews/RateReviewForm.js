@@ -31,8 +31,6 @@ export const RateReviewForm = () => {
     const onContentChanged = (e) => setContent(e.target.value)
     const onTakenCourseChanged = () => setTakenCourse(takenCourse => !takenCourse)
 
-    console.log(anonymous)
-
     const canSave = [rating, professor, delivery, workload, content, takenCourse].every(Boolean) && !isLoading
 
     const onSaveReviewClicked = async () => {
