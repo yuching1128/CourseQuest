@@ -37,7 +37,7 @@ public class CourseDataServiceImpl implements CourseDataService {
 		List<Course> list = courseRepository.findByUniversityId(universityid);
 		for (Course curCourse : list) {
 			NumberFormat formatter = new DecimalFormat("#0.00");
-			curCourse.setRating(Double.valueOf(formatter.format(courseRepository.getAverageRatingForCourse(curCourse.getId()))));
+			curCourse.setRating(courseRepository.getAverageRatingForCourse(curCourse.getId()));
 		}
 		return courseRepository.findByUniversityId(universityid);
 	}
@@ -48,7 +48,7 @@ public class CourseDataServiceImpl implements CourseDataService {
 		if (course.isPresent()) {
 			Course curCourse = course.get();
 			NumberFormat formatter = new DecimalFormat("#0.00");
-			curCourse.setRating(Double.valueOf(formatter.format(courseRepository.getAverageRatingForCourse(curCourse.getId()))));
+			curCourse.setRating(courseRepository.getAverageRatingForCourse(curCourse.getId()));
 		}
 		return course;
 	}
@@ -80,7 +80,8 @@ public class CourseDataServiceImpl implements CourseDataService {
 		List<Course> list = courseRepository.findByUniversityId(universityId, pageable);
 		for (Course curCourse : list) {
 			NumberFormat formatter = new DecimalFormat("#0.00");
-			curCourse.setRating(courseRepository.getAverageRatingForCourse(curCourse.getId()));
+			Double curVal = courseRepository.getAverageRatingForCourse(curCourse.getId());
+			curCourse.setRating(curVal);
 		}
 		return list;
 	}
