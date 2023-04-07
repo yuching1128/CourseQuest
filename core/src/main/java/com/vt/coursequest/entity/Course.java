@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * @author: EugeneFeng
@@ -79,9 +80,17 @@ public class Course implements Serializable {
 	@JsonProperty
 	String name;
 
+	public Double getRating() {
+		return rating;
+	}
+
+	public void setRating(Double rating) {
+		this.rating = rating;
+	}
+
 	@Column(name = "rating")
 	@JsonProperty
-	Float rating;
+	Double rating;
 
 	@Column(name = "description", columnDefinition = "LONGTEXT")
 	@JsonProperty
@@ -144,13 +153,7 @@ public class Course implements Serializable {
 		this.name = name;
 	}
 
-	public Float getRating() {
-		return rating;
-	}
 
-	public void setRating(Float rating) {
-		this.rating = rating;
-	}
 
 	public String getDescription() {
 		return description;

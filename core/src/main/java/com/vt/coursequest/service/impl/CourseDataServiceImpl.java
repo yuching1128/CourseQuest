@@ -1,5 +1,7 @@
 package com.vt.coursequest.service.impl;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -32,12 +34,23 @@ public class CourseDataServiceImpl implements CourseDataService {
 
 	@Override
 	public List<Course> findAll(Integer universityid) {
+		List<Course> list = courseRepository.findByUniversityId(universityid);
+		for (Course curCourse : list) {
+			NumberFormat formatter = new DecimalFormat("#0.00");
+			curCourse.setRating(Double.valueOf(formatter.format(courseRepository.getAverageRatingForCourse(curCourse.getId()))));
+		}
 		return courseRepository.findByUniversityId(universityid);
 	}
 
 	@Override
 	public Optional<Course> findOne(Integer universityId, Integer courseId) {
-		return courseRepository.findByUniversityIdAndId(universityId, courseId);
+		Optional<Course> course = courseRepository.findByUniversityIdAndId(universityId, courseId);
+		if (course.isPresent()) {
+			Course curCourse = course.get();
+			NumberFormat formatter = new DecimalFormat("#0.00");
+			curCourse.setRating(Double.valueOf(formatter.format(courseRepository.getAverageRatingForCourse(curCourse.getId()))));
+		}
+		return course;
 	}
 
 	@Override
@@ -64,7 +77,12 @@ public class CourseDataServiceImpl implements CourseDataService {
 	@Override
 	public List<Course> getCourseList(Integer universityId, Integer pageNum, Integer pageSize, String orderBy) {
 		Pageable pageable = PageRequest.of(pageNum, pageSize);
-		return courseRepository.findByUniversityId(universityId, pageable);
+		List<Course> list = courseRepository.findByUniversityId(universityId, pageable);
+		for (Course curCourse : list) {
+			NumberFormat formatter = new DecimalFormat("#0.00");
+			curCourse.setRating(courseRepository.getAverageRatingForCourse(curCourse.getId()));
+		}
+		return list;
 	}
 
 	@Override
