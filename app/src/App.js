@@ -7,6 +7,7 @@ import Footer from "./app/Footer";
 import { SingleCoursePage } from "./features/courses/SingleCoursePage";
 import { CoursesPage } from "./features/courses/CoursesPage";
 import { EditReviewForm } from "./features/reviews/EditReviewForm";
+import { ProfilePage } from "./features/profile/ProfilePage";
 import { MentorPage } from "./features/advising/MentorPage";
 import LogoutPage from "./features/logout/LogoutPage";
 
@@ -23,6 +24,7 @@ export default function App() {
                     <Route exact path="/university/:universityId/mentor" element={<MentorPage />} />
                     <Route exact path="/university/:universityId/courses/:courseId" element={<SingleCoursePage />} />
                     <Route exact path="/university/:universityId/courses/:courseId/review/:reviewId/edit" element={<EditReviewForm />} />
+                    <Route exact path="/user/:userId/profile" element={<ProfilePage />} />
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
                 <Footer />

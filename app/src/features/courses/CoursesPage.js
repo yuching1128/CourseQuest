@@ -62,10 +62,10 @@ export const CoursesPage = () => {
             setPage(1);
         }
         if(isSuccess && !noMoreCourses && shouldLoadMore){
-            if(courseList.length > 0){
+            if(courseList && courseList.length > 0){
                 setList((prevList) => [...new Set([...prevList, ...courseList])]);
             }
-            if(courseList.length < size){
+            if(!courseList || courseList.length < size){
                 setNoMoreCourses(true);
             }
             setShouldLoadMore(false);

@@ -27,7 +27,7 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, Paging
 
 	Optional<Course> findByUniversityIdAndId(int universityId, int id);
 
-	@Query("SELECT AVG(r.rating) FROM Review r WHERE r.course.id = :courseId")
+	@Query("SELECT round(AVG(r.rating), 2) FROM Review r WHERE r.course.id = :courseId AND r.rating is not NULL")
 	Double getAverageRatingForCourse(@Param("courseId") int courseId);
 	
 	Optional<Course> findByCourseNum(String courseNum);

@@ -8,6 +8,7 @@ import './css/footer.css';
 import './css/singleCoursePage.css';
 import './css/CoursePage.css';
 import './css/searchComponent.css';
+import './css/ProfilePage.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './app/store'

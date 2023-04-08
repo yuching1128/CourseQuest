@@ -1,0 +1,100 @@
+.profileTitleText{
+    font-size: 3em;
+}
+
+.profileIcon{
+    font-size: 50px;
+    margin-right: 0.5em;
+}
+
+.profileBlock{
+    background-color: #FBF6F6;
+    padding-left: 1.5em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.profileText{
+    font-size: 2em;
+    color: #630031;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.courseBlockEdit{
+    float: right;
+    margin-right: 2em;
+}
+
+.profileEditDone{
+    background-color: transparent;
+    color: #585555;
+    border: none;
+    font-size: 1.7em;
+    font-weight: bold;
+}
+
+.userName{
+    margin-left: 2em;
+    font-size: 2em;
+    display: inline-block;
+    color: #585555;
+    font-weight: bold;
+}
+
+.userEmail{
+    margin-left: 4em;
+    font-size: 2em;
+    display: inline-block;
+    color: #585555;
+    font-weight: bold;
+}
+
+.profileUniversity{
+    margin-left: 47px;
+    width: 300px;
+    display: inline-block;
+    font-size: 20px;
+}
+
+.profileDegree{
+    margin-left: 90px;
+    width: 300px;
+    display: inline-block;
+    font-size: 20px;
+}
+
+.profileMajor{
+    margin-left: 106px;
+    width: 300px;
+    display: inline-block;
+    font-size: 20px;
+}
+
+.selectCourseTaken{
+    display: inline-block;
+    width: 500px;
+    margin-left: 11em;
+}
+
+.selectCourseInterested{
+    display: inline-block;
+    width: 500px;
+    margin-left: 7em;
+}
+
+.profileConcentration{
+    display: inline-block;
+    margin-left: 1.7em;
+}
+
+.profileConcentration textarea {
+    height: 40px;
+    width: 500px;
+}
+
+.profileMentorOn{
+    display: inline-block;
+    width: 500px;
+    margin-left: 2em;
+}
