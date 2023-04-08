@@ -20,7 +20,7 @@ export default function Header() {
                         <Nav.Link as={NavLink} to="/" className="nav-button">Home</Nav.Link>
                         <Nav.Link as={NavLink} to={`/university/${user.universityId}/courses`} className="nav-button">Courses</Nav.Link>
                         <Nav.Link as={NavLink} to={`/university/${user.universityId}/mentor`} className="nav-button">Be a Mentor</Nav.Link>
-                        <Nav.Link as={NavLink} to="/" className="nav-button">Find my Mentor</Nav.Link>
+                        <Nav.Link as={NavLink} to={`/university/${user.universityId}/mentee`} className="nav-button">Find my Mentor</Nav.Link>
                     </Nav>
                     <Nav>
                         <Nav.Link as={NavLink} to="/login" className="button-login">Login</Nav.Link>

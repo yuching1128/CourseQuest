@@ -19,15 +19,20 @@ public class AdvisingTimeslot {
 	@Id
 	int id;
 
-	@JoinColumn(name = "userId")
+	@JoinColumn(name = "advisorId", referencedColumnName = "id")
 	@OneToOne
-	User user;
+	User advisor;
 
 	@Column(name = "time")
 	Date time;
 
-	@Column(name = "subject")
-	String subject;
+	@Enumerated
+	@Column(name = "advisingTimeslotStatus")
+	AdvisingTimeslotStatus advisingTimeslotStatus;
+
+	public User getAdvisor() { return advisor; }
+
+	public void setAdvisor(User advisor) { this.advisor = advisor; }
 
 	public Date getTime() {
 		return time;
@@ -37,11 +42,9 @@ public class AdvisingTimeslot {
 		this.time = time;
 	}
 
-	public String getSubject() {
-		return subject;
-	}
+	public AdvisingTimeslotStatus getAdvisingTimeslotStatus() { return advisingTimeslotStatus; }
 
-	public void setSubject(String subject) {
-		this.subject = subject;
+	public void setAdvisingTimeslotStatus(AdvisingTimeslotStatus advisingTimeslotStatus) {
+		this.advisingTimeslotStatus = advisingTimeslotStatus;
 	}
 }
