@@ -6,17 +6,27 @@ export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/api/' }),
     tagTypes: ['Review', 'Timeslots'],
+    baseQuery: fetchBaseQuery({
+        baseUrl: 'http://localhost:8080/api/', credentials: 'include', prepareHeaders: (headers) => {
+            const token = sessionStorage.getItem("access_token")
+            if (token) {
+                headers.set('authorization', `Bearer ${token}`)
+            }
+            return headers
+        }
+    }),
+    tagTypes: ['Review'],
     endpoints: builder => ({
         getCourses: builder.query({
-            query: ({universityId, page, size} ) => {
+            query: ({ universityId, page, size }) => {
                 return `university/${universityId}/courses?pageNum=${page}&pageSize=${size}`
             }
         }),
         getCourse: builder.query({
-            query: ({universityId, courseId}) => `university/${universityId}/courses/${courseId}`
+            query: ({ universityId, courseId }) => `university/${universityId}/courses/${courseId}`
         }),
         getCourseReviews: builder.query({
-            query: ({universityId, courseId}) => `university/${universityId}/courses/${courseId}/review`,
+            query: ({ universityId, courseId }) => `university/${universityId}/courses/${courseId}/review`,
             providesTags: ['Review']
         }),
         getDepartments: builder.query({
@@ -30,7 +40,7 @@ export const apiSlice = createApi({
             providesTags: ['Review']
         }),
         addNewReview: builder.mutation({
-            query: ({universityId, courseId, newReview}) => ({
+            query: ({ universityId, courseId, newReview }) => ({
                 url: `university/${universityId}/courses/${courseId}/review`,
                 method: 'POST',
                 body: newReview
@@ -38,7 +48,7 @@ export const apiSlice = createApi({
             invalidatesTags: ['Review']
         }),
         editReview: builder.mutation({
-            query: ({universityId, courseId, reviewId, editedReview}) => ({
+            query: ({ universityId, courseId, reviewId, editedReview }) => ({
                 url: `university/${universityId}/courses/${courseId}/review/${reviewId}`,
                 method: 'PUT',
                 body: editedReview
@@ -46,7 +56,7 @@ export const apiSlice = createApi({
             invalidatesTags: ['Review']
         }),
         deleteReview: builder.mutation({
-            query: ({universityId, courseId, reviewId}) => ({
+            query: ({ universityId, courseId, reviewId }) => ({
                 url: `university/${universityId}/courses/${courseId}/review/${reviewId}`,
                 method: 'DELETE'
             }),
@@ -57,7 +67,7 @@ export const apiSlice = createApi({
             providesTags: ['Timeslots']
         }),
         addNewTimeslot: builder.mutation({
-            query: ({newTimeslot}) => ({
+            query: ({ newTimeslot }) => ({
                 url: `advising/add`,
                 method: 'POST',
                 body: newTimeslot
@@ -65,7 +75,7 @@ export const apiSlice = createApi({
             invalidatesTags: ['Timeslots']
         }),
         deleteTimeslot: builder.mutation({
-            query: ({timeslotId}) => ({
+            query: ({ timeslotId }) => ({
                 url: `advising/${timeslotId}`,
                 method: 'DELETE'
             }),

@@ -29,11 +29,13 @@ export default function LoginPage() {
         setOpen(false);
     };
 
-    const handleUniIDCheck = (email) => {
-        if (!email.endsWith("@vt.edu")) {
+    const handleUniIDCheck = (userInfo, access_token) => {
+        if (!userInfo.email.endsWith("@vt.edu")) {
             setOpen(true);
             setUser({});
         } else {
+            sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+            sessionStorage.setItem("access_token", access_token);
             navigate("/");
         }
     }
@@ -41,7 +43,6 @@ export default function LoginPage() {
     useEffect(
         () => {
             if (user.email) {
-                console.log("triggered use effect");
                 handleUniIDCheck(user.email);
             }
         },
@@ -59,6 +60,18 @@ export default function LoginPage() {
         console.log("decoded token", userProfile);
         setUser(userProfile);
     };
+
+    const login = useGoogleLogin({
+        onSuccess: async tokenResponse => {
+            console.log(tokenResponse);
+            const userInfo = await axios.get(
+                'https://www.googleapis.com/oauth2/v3/userinfo',
+                { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } }
+            );
+            handleUniIDCheck(userInfo.data, tokenResponse.access_token);
+        },
+        onError: errorResponse => console.log(errorResponse)
+    })
 
     const errorMessage = (error) => {
         console.log(error);
@@ -88,7 +101,8 @@ export default function LoginPage() {
             <div className="LoginForm">
                 <p className="loginFromTitle">Login</p>
                 <div className="google-login">
-                    <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
+                    {/* <GoogleLogin onSuccess={responseMessage} onError={errorMessage} /> */}
+                    <Button onClick={login} >Login with Google</Button>
                 </div>
                 <hr className="login-seperate-hr" />
                 <Form onSubmit={handleSubmit(onSubmit)}>
@@ -112,8 +126,7 @@ export default function LoginPage() {
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
+                aria-describedby="alert-dialog-description">
                 <DialogTitle id="alert-dialog-title">
                     {"Not a Virginia Tech Email ID"}
                 </DialogTitle>

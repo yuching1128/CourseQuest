@@ -3,12 +3,12 @@ import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Header from "./app/Header";
 import HomePage from "./features/homepage/HomePage";
 import LoginPage from "./features/login/LoginPage";
-import SignupPage from "./features/signup/SignupPage";
 import Footer from "./app/Footer";
 import { SingleCoursePage } from "./features/courses/SingleCoursePage";
 import { CoursesPage } from "./features/courses/CoursesPage";
 import { EditReviewForm } from "./features/reviews/EditReviewForm";
 import { MentorPage } from "./features/advising/MentorPage";
+import LogoutPage from "./features/logout/LogoutPage";
 
 export default function App() {
     return (
@@ -18,7 +18,7 @@ export default function App() {
                 <Routes>
                     <Route exact path="/" element={<HomePage />} />
                     <Route exact path="/login" element={<LoginPage />} />
-                    <Route exact path="/signup" element={<SignupPage />} />
+                    <Route exact path="/logout" element={<LogoutPage />} />
                     <Route exact path="/university/:universityId/courses" element={<CoursesPage />} />
                     <Route exact path="/university/:universityId/mentor" element={<MentorPage />} />
                     <Route exact path="/university/:universityId/courses/:courseId" element={<SingleCoursePage />} />
