@@ -79,4 +79,45 @@ public class AdvisingDataServiceImpl implements AdvisingDataService {
         appointment.setCreatedAt(new Date());
         return appointmentRepository.save(appointment);
     }
+
+
+    @Override
+    public Appointment cancelAppointment(Appointment appointment) {
+        //update advising timeslot status from 'scheduled' to 'expired'
+        advisingTimeslotRepository.findById(appointment.getAdvisingTimeslot().getId()).map(
+                newTimeSlot -> {
+                    newTimeSlot.setAdvisingTimeslotStatus(AdvisingTimeslotStatus.EXPIRED);
+                    return advisingTimeslotRepository.save(newTimeSlot);
+                }
+        );
+        appointment.setCreatedAt(new Date());
+        return appointmentRepository.save(appointment);
+    }
+
+    @Override
+    public void deleteAppointment(Appointment appointment) {
+        //delete the appointment and set the timeslot status from 'scheduled' to 'free'
+        advisingTimeslotRepository.findById(appointment.getAdvisingTimeslot().getId()).map(
+                newTimeSlot -> {
+                    newTimeSlot.setAdvisingTimeslotStatus(AdvisingTimeslotStatus.FREE);
+                    return advisingTimeslotRepository.save(newTimeSlot);
+                }
+        );
+        appointmentRepository.deleteById(appointment.getId());
+    }
+
+    @Override
+    public Appointment updateAppointment(Appointment appointment) throws Exception {
+        appointmentRepository.findById(appointment.getId()).map(
+                newAppointment -> {
+                    newAppointment.setCreatedAt(new Date());
+                    newAppointment.setAdvisor(appointment.getAdvisor());
+                    newAppointment.setAdvisee(appointment.getAdvisee());
+                    newAppointment.setCourse(appointment.getCourse());
+                    newAppointment.setAdvisingTimeslot(appointment.getAdvisingTimeslot());
+                    return appointmentRepository.save(newAppointment);
+                }
+        ).orElseThrow(()-> new Exception("Appointment not found with id " + appointment.getId()));
+        return appointment;
+    }
 }

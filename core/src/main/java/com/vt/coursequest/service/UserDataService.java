@@ -94,7 +94,6 @@ public interface UserDataService {
      */
     List<Course> updateInterestedCourse(Integer userId, List<Course> courseList);
 
-
     /**
      * This method is to update a user's concentration
      * @param userId: the unique id of user

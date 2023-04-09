@@ -70,4 +70,22 @@ public class AdvisingController {
         return new ResponseEntity<>(ads.createAppointment(appointment), HttpStatus.OK);
     }
 
+    @ApiOperation("This service is used to update an appointment")
+    @PutMapping("/api/advising/book")
+    public ResponseEntity<Appointment> updateAppointment(@RequestBody Appointment appointment) throws Exception {
+        return new ResponseEntity<>(ads.updateAppointment(appointment), HttpStatus.OK);
+    }
+
+    @ApiOperation("This service is used to delete an appointment")
+    @DeleteMapping("/api/advising/book")
+    public void deleteAppointment(@RequestBody Appointment appointment) {
+        ads.deleteAppointment(appointment);
+    }
+
+    @ApiOperation("This service is used to cancel an appointment")
+    @PutMapping("/api/advising/book/cancel")
+    public ResponseEntity<Appointment> cancelAppointment(@RequestBody Appointment appointment) {
+        return new ResponseEntity<>(ads.cancelAppointment(appointment), HttpStatus.OK);
+    }
+
 }

@@ -2,6 +2,7 @@ package com.vt.coursequest.service;
 
 import com.vt.coursequest.entity.AdvisingTimeslot;
 import com.vt.coursequest.entity.Appointment;
+import com.vt.coursequest.entity.AppointmentStatus;
 
 import java.util.List;
 
@@ -75,5 +76,24 @@ public interface AdvisingDataService {
      */
     Appointment createAppointment(Appointment appointment);
 
+    /**
+     * This function is used to cancel an appointment between an advisee and advisor
+     * @param appointment
+     * @return
+     */
+    Appointment cancelAppointment(Appointment appointment);
 
+    /**
+     * This function is used to delete an appointment between an advisee and advisor
+     * @param appointment
+     */
+    void deleteAppointment(Appointment appointment);
+
+    /**
+     * This function is used to update an appointment between an advisee and advisor
+     * @param appointment
+     * @return
+     * @throws Exception
+     */
+    Appointment updateAppointment(Appointment appointment) throws Exception;
 }
