@@ -2,24 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import { Spinner } from 'react-bootstrap';
-import {useGetCoursesQuery} from "../api/apiSlice";
-import {SearchComponent} from "../search/search";
+import { useGetCoursesQuery } from "../api/apiSlice";
+import { SearchComponent } from "../search/search";
 import classnames from 'classnames';
 
 let CourseExcerpt = ({ course }) => {
     console.log(course)
     return (
-        <article className="course-excerpt" key={course.id}>
-            <Link to={`/university/${course.university.id}/courses/${course.id}`} className="course-button">
+        <article className="course-excerpt" >
+            {/* <Link to={`/university/${course.university.id}/courses/${course.id}`} className="course-button">
                 <h3>{course.name}</h3>
-            </Link>
+            </Link> */}
+            <h3>{course.name}</h3>
             <div className="allInfo">
                 <div className="ratingBox">
                     <p className="rating-text">Rating</p>
                     <div className="rating-point">{course.rating ? course.rating : "N/A"}</div>
                 </div>
                 <div className="courseInfo">
-                    <p className="des">{course.description ? course.description.substring(0, 100)+"..." : "No Description Available"}</p>
+                    <p className="des">{course.description ? course.description.substring(0, 100) + "..." : "No Description Available"}</p>
                 </div>
             </div>
             <hr />
@@ -54,18 +55,18 @@ export const CoursesPage = () => {
         isError,
         error,
         refetch
-    } = useGetCoursesQuery({universityId: universityId, page: page, size: size});
+    } = useGetCoursesQuery({ universityId: universityId, page: page, size: size });
 
-    useEffect(()=>{
-        if(isSuccess && List.length === 0){
+    useEffect(() => {
+        if (isSuccess && List.length === 0) {
             setList(courseList);
             setPage(1);
         }
-        if(isSuccess && !noMoreCourses && shouldLoadMore){
-            if(courseList && courseList.length > 0){
+        if (isSuccess && !noMoreCourses && shouldLoadMore) {
+            if (courseList && courseList.length > 0) {
                 setList((prevList) => [...new Set([...prevList, ...courseList])]);
             }
-            if(!courseList || courseList.length < size){
+            if (!courseList || courseList.length < size) {
                 setNoMoreCourses(true);
             }
             setShouldLoadMore(false);
@@ -75,9 +76,9 @@ export const CoursesPage = () => {
     let content;
 
     if (isLoading) {
-        content = <Spinner text="Loading..."/>;
+        content = <Spinner text="Loading..." />;
     } else if (isSuccess) {
-        const renderedCourses = List.map((course) => <CourseExcerpt key={course.id} universityId={universityId} course={course}/>);
+        const renderedCourses = List.map((course) => <CourseExcerpt key={course.id} universityId={universityId} course={course} />);
         const containerClassname = classnames('posts-container', {
             disabled: isFetching
         })
@@ -99,14 +100,14 @@ export const CoursesPage = () => {
 
     return (
         <Container>
-            <SearchComponent/>
+            <SearchComponent />
             <div className="courses-list">{content}</div>
             {!noMoreCourses && (
                 <button className="courseList-Load"
-                        onClick={handleLoadMoreClick}
-                        disabled={isFetching}
+                    onClick={handleLoadMoreClick}
+                    disabled={isFetching}
                 >
-                    {isFetching? 'Loading':'Load more'}
+                    {isFetching ? 'Loading' : 'Load more'}
                 </button>
             )}
             {noMoreCourses && <div className="noCourse">No more to load</div>}

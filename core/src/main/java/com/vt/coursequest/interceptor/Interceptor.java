@@ -63,6 +63,7 @@ public class Interceptor implements HandlerInterceptor {
             if(!googleAPIResp.getStatusCode().equals(HttpStatus.OK)){
                 return false;
             }
+//            request.setAttribute("userFirstName",googleAPIResp.getBody().gete);
             return true;
         } catch (HttpClientErrorException e){
             log.error("Http Client Error Exception Occurred: "+ e.getMessage());
@@ -74,3 +75,7 @@ public class Interceptor implements HandlerInterceptor {
     }
 
 }
+
+//public class GoogleApiResponse {
+//    private
+//}

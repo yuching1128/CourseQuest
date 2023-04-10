@@ -10,8 +10,10 @@ import { EditReviewForm } from "./features/reviews/EditReviewForm";
 import { ProfilePage } from "./features/profile/ProfilePage";
 import { MentorPage } from "./features/advising/MentorPage";
 import LogoutPage from "./features/logout/LogoutPage";
+import { useStore } from 'react-redux';
 
 export default function App() {
+    // const [authDetails, setAuthDetails, deleteAuthDetails] = useStore("authDetails", {});
     return (
         <Container fluid className="App">
             <HashRouter>

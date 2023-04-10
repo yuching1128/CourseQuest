@@ -14,6 +14,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUserProfile, setUserProfile } from "../userProfile/userProfileSlice";
 
 const CLIENT_ID = "310536116903-4oolc727rmg62b4qsf58p8a3i76o4pfq.apps.googleusercontent.com";
 const CLIENT_SECRET = "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";
@@ -21,9 +23,11 @@ const CLIENT_SECRET = "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";
 export default function LoginPage() {
 
     const [user, setUser] = useState({});
-    const [profile, setprofile] = useState([]);
+    const userProfile = useSelector(selectUserProfile);
+    // const [profile, setprofile] = useState([]);
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleClose = () => {
         setOpen(false);
@@ -35,6 +39,12 @@ export default function LoginPage() {
             setUser({});
         } else {
             sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+            dispatch(
+                setUserProfile({
+                    type: "userProfile/userProfileSet",
+                    payload: userInfo,
+                })
+            )
             sessionStorage.setItem("access_token", access_token);
             navigate("/");
         }
@@ -51,7 +61,7 @@ export default function LoginPage() {
 
     const logOut = () => {
         googleLogout();
-        setprofile(null);
+        // setprofile(null);
     }
 
     const responseMessage = (response) => {
@@ -102,10 +112,12 @@ export default function LoginPage() {
                 <p className="loginFromTitle">Login</p>
                 <div className="google-login">
                     {/* <GoogleLogin onSuccess={responseMessage} onError={errorMessage} /> */}
-                    <Button onClick={login} >Login with Google</Button>
+
+                    <Button hidden={userProfile.email} onClick={login} >Login with Google</Button>
+                    <p hidden={!userProfile.email}>Already loggedin as {userProfile.given_name} {userProfile.family_name}</p>
                 </div>
-                <hr className="login-seperate-hr" />
-                <Form onSubmit={handleSubmit(onSubmit)}>
+                <hr hidden={userProfile.email} className="login-seperate-hr" />
+                <Form hidden={userProfile.email} onSubmit={handleSubmit(onSubmit)}>
                     <Form.Group className="mb-3" controlId="loginEmail">
                         <Form.Label className="login-info">Email</Form.Label>
                         <Form.Control className="login-component" placeholder="Enter email" {...register("email", { required: 'Email is required' })} />

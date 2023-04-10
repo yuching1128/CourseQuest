@@ -1,26 +1,35 @@
-import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Navbar, Container, Nav, Image } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { googleLogout } from "@react-oauth/google";
+import { selectUserProfile, setUserProfile } from "../features/userProfile/userProfileSlice";
 
 export default function Header() {
 
-    const user = useSelector(state => state.user)
-    const [userInfo, setUserInfo] = useState({})
-    const [loggedIn, setLoggedIn] = useState(false);
+    const user = useSelector(state => state.user);
+    const userProfile = useSelector(selectUserProfile);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        setUserInfo(JSON.parse(sessionStorage.getItem("userInfo")));
-        setLoggedIn(Boolean(userInfo.name));
     }, [])
 
     const logout = () => {
         googleLogout();
-        setUserInfo(null);
-        setLoggedIn(null);
+        dispatch(
+            setUserProfile({
+                type: "userProfile/userProfileSet",
+                payload: {
+                    given_name: null,
+                    family_name: null,
+                    email: null,
+                },
+            })
+        )
         sessionStorage.setItem("userInfo", null);
         sessionStorage.setItem("access_token", null);
+        navigate("/login")
     }
 
     return (
@@ -40,8 +49,8 @@ export default function Header() {
                         <Nav.Link as={NavLink} to="/" className="nav-button">Find my Mentor</Nav.Link>
                     </Nav>
                     <Nav>
-                        <Nav.Link hidden={loggedIn} as={NavLink} to="/login" className="button-login">Sign In</Nav.Link>
-                        <button hidden={!loggedIn} onClick={logout} className="button-signup">Logout</button>
+                        <Nav.Link hidden={userProfile.email} as={NavLink} to="/login" className="button-login">Sign In</Nav.Link>
+                        <button hidden={!userProfile.email} onClick={logout} className="button-signup">Logout</button>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
