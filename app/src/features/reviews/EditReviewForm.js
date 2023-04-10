@@ -7,7 +7,9 @@ import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import StarRatings from "react-star-ratings";
 
-export const EditReviewForm = ({reviewDetails}) => {
+export const EditReviewForm = ({reviewDetails, courseInstructors}) => {
+
+    console.log(courseInstructors)
 
     const user = useSelector(state => state.user)
     const [updateReview, { isLoadingUpdateReview }] = useEditReviewMutation()

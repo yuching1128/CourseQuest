@@ -43,6 +43,8 @@ export const SingleCoursePage = () => {
         error
     } = useGetCourseQuery({universityId: universityId, courseId: courseId})
 
+    console.log(course)
+
     class Bar extends Component {
         render() {
             return (
@@ -70,7 +72,7 @@ export const SingleCoursePage = () => {
         content = (
             <Container className="singleCoursePage">
                 <h2 className="courseName">{course.name}</h2>
-                <h3>{course.instructor} </h3>
+                {/*<h3>{course.instructor} </h3>*/}
                 <p className="courseDescription">{course.description}</p>
                 <div>
                     {course.rating && <p className="rating">{course.rating}</p> }
@@ -93,7 +95,7 @@ export const SingleCoursePage = () => {
                         <Accordion.Header>{userWrittenReview ? "Your Review" : "Write Review"}</Accordion.Header>
                         <Accordion.Body>
                             {/* If user written review, show EditForm. Else show RateReviewForm*/}
-                            {userWrittenReview ? <EditReviewForm reviewDetails={userReviewInfo}/> : <RateReviewForm universityId={universityId} courseId={courseId} /> }
+                            {userWrittenReview ? <EditReviewForm reviewDetails={userReviewInfo} courseInstructors={course.instructor}/> : <RateReviewForm universityId={universityId} courseId={courseId} courseInstructors={course.instructor} /> }
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>
