@@ -35,7 +35,7 @@ public class Review {
     @Id
     int id;
 
-    @JoinColumn(name = "userId" ,referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "userId" ,referencedColumnName = "id", updatable = false)
     @OneToOne
      User user;
 
@@ -104,13 +104,13 @@ public class Review {
         this.course = course;
     }
 
-    public University getUniversity() {
-        return university;
-    }
-
-    public void setUniversity(University university) {
-        this.university = university;
-    }
+//    public University getUniversity() {
+//        return university;
+//    }
+//
+//    public void setUniversity(University university) {
+//        this.university = university;
+//    }
 
     public Boolean getAnonymous() {
         return anonymous;

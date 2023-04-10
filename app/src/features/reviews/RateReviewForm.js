@@ -8,7 +8,7 @@ import '../../css/rateReviewPage.css';
 import {useAddNewReviewMutation} from "../api/apiSlice";
 import {useSelector} from "react-redux";
 
-export const RateReviewForm = () => {
+export const RateReviewForm = ({courseInstructors}) => {
 
     const user = useSelector(state => state.user)
     const { universityId, courseId } = useParams()
@@ -47,7 +47,7 @@ export const RateReviewForm = () => {
                         id: courseId
                     },
                     instructor: {
-                        id: 1,
+                        id: professor,
                     },
                     rating: rating,
                     user: {
@@ -62,6 +62,13 @@ export const RateReviewForm = () => {
             }
         }
     }
+
+    // generate list of instructors for reviewer to select
+    const instructorOptions = courseInstructors.map((instructor) => (
+        <option key={instructor.id} value={instructor.id}>
+            {instructor.name}
+        </option>
+    ))
 
     const spinner = isLoading ? <Spinner size="30px" /> : null
     
@@ -97,7 +104,7 @@ export const RateReviewForm = () => {
                     <Col sm={10}>
                         <Form.Select onChange={onProfessorChanged}>
                             <option disabled selected value> -- select an option -- </option>
-                            <option>[TEST] Dr. K</option>
+                            {instructorOptions}
                         </Form.Select>
                     </Col>
                 </Form.Group>

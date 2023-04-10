@@ -67,7 +67,8 @@ public class Course implements Serializable {
 	@ManyToOne
 	Level level;
 
-	@JsonIgnore
+
+
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	// @JoinColumn(name = "course_instructor_fid")
 	Set<Instructor> instructor = new HashSet<>();

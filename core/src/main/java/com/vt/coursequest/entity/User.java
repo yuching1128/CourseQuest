@@ -23,7 +23,7 @@ public class User {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
-	int id;
+	Integer id;
 
 	@JoinColumn(name = "university_fid", referencedColumnName = "id")
 	@ManyToOne
@@ -33,9 +33,21 @@ public class User {
 	@ManyToOne
 	Degree degree;
 
-	@JoinColumn(name = "major_fid", referencedColumnName = "id")
-	@ManyToOne()
-	Major major;
+//	@JoinColumn(name = "major_fid", referencedColumnName = "id")
+//	@ManyToOne()
+//	Major major;
+
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+
+	@JoinColumn(name = "department_fid", referencedColumnName = "id")
+	@ManyToOne
+	Department department;
 
 	@ManyToMany
 	Set<Course> course;
@@ -91,13 +103,13 @@ public class User {
 		this.degree = degree;
 	}
 
-	public Major getMajor() {
-		return major;
-	}
-
-	public void setMajor(Major major) {
-		this.major = major;
-	}
+//	public Major getMajor() {
+//		return major;
+//	}
+//
+//	public void setMajor(Major major) {
+//		this.major = major;
+//	}
 
 	public Set<Course> getCourse() {
 		return course;

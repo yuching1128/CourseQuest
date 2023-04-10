@@ -1,23 +1,27 @@
 package com.vt.coursequest.service.impl;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.Resource;
 
-import com.vt.coursequest.dao.ReviewRepository;
-import com.vt.coursequest.entity.Review;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.vt.coursequest.dao.CourseRepository;
 import com.vt.coursequest.dao.DegreeRepository;
+import com.vt.coursequest.dao.InstructorRepository;
+import com.vt.coursequest.dao.ReviewRepository;
+import com.vt.coursequest.dao.UniversityRepository;
+import com.vt.coursequest.dao.UserRepository;
 import com.vt.coursequest.entity.Course;
 import com.vt.coursequest.entity.Degree;
+import com.vt.coursequest.entity.Instructor;
+import com.vt.coursequest.entity.Review;
+import com.vt.coursequest.entity.University;
+import com.vt.coursequest.entity.User;
 import com.vt.coursequest.service.CourseDataService;
 
 @Service
@@ -32,11 +36,19 @@ public class CourseDataServiceImpl implements CourseDataService {
 	@Resource
 	private ReviewRepository reviewRepository;
 
+	@Resource
+	private UserRepository userRepository;
+
+	@Resource
+	private InstructorRepository instructorRepository;
+
+	@Resource
+	private UniversityRepository universityRepository;
+
 	@Override
 	public List<Course> findAll(Integer universityid) {
 		List<Course> list = courseRepository.findByUniversityId(universityid);
 		for (Course curCourse : list) {
-			NumberFormat formatter = new DecimalFormat("#0.00");
 			curCourse.setRating(courseRepository.getAverageRatingForCourse(curCourse.getId()));
 		}
 		return courseRepository.findByUniversityId(universityid);
@@ -47,7 +59,6 @@ public class CourseDataServiceImpl implements CourseDataService {
 		Optional<Course> course = courseRepository.findByUniversityIdAndId(universityId, courseId);
 		if (course.isPresent()) {
 			Course curCourse = course.get();
-			NumberFormat formatter = new DecimalFormat("#0.00");
 			curCourse.setRating(courseRepository.getAverageRatingForCourse(curCourse.getId()));
 		}
 		return course;
@@ -59,7 +70,8 @@ public class CourseDataServiceImpl implements CourseDataService {
 	}
 
 	@Override
-	public List<Review> getReviewList(Integer universityId, Integer courseId, Integer pageNum, Integer pageSize, String orderBy) {
+	public List<Review> getReviewList(Integer universityId, Integer courseId, Integer pageNum, Integer pageSize,
+			String orderBy) {
 		Pageable pageable = PageRequest.of(pageNum, pageSize);
 		return reviewRepository.findByCourseIdAndUniversityId(courseId, universityId, pageable);
 	}
@@ -79,7 +91,6 @@ public class CourseDataServiceImpl implements CourseDataService {
 		Pageable pageable = PageRequest.of(pageNum, pageSize);
 		List<Course> list = courseRepository.findByUniversityId(universityId, pageable);
 		for (Course curCourse : list) {
-			NumberFormat formatter = new DecimalFormat("#0.00");
 			Double curVal = courseRepository.getAverageRatingForCourse(curCourse.getId());
 			curCourse.setRating(curVal);
 		}
@@ -88,26 +99,53 @@ public class CourseDataServiceImpl implements CourseDataService {
 
 	@Override
 	public Review createReview(Review review) {
+		if (null != review.getCourse() && null != review.getCourse().getId()) {
+			Optional<Course> course = courseRepository.findById(review.getCourse().getId());
+			if (course.isPresent()) {
+				review.setCourse(course.get());
+			}
+		}
+
+		if (null != review.getUser() && null != review.getUser().getId()) {
+			Optional<User> user = userRepository.findById(review.getUser().getId());
+			if (user.isPresent()) {
+				userRepository.save(user.get());
+				review.setUser(user.get());
+			}
+		}
+
+		if (null != review.getUniversity() && null != review.getUniversity().getId()) {
+			Optional<University> university = universityRepository.findById(review.getUniversity().getId());
+			if (university.isPresent()) {
+				review.setUniversity(university.get());
+			}
+		}
+
+		if (null != review.getInstructor() && null != review.getInstructor().getId()) {
+			Optional<Instructor> instructor = instructorRepository.findById(review.getInstructor().getId());
+			if (instructor.isPresent()) {
+				review.setInstructor(instructor.get());
+			}
+		}
+
 		review.setCreatedAt(new Date());
 		return reviewRepository.save(review);
 	}
 
 	@Override
 	public Review updateReview(Integer reviewId, Review review) throws Exception {
-		return reviewRepository.findById(reviewId)
-				.map(newReview -> {
-					newReview.setUser(review.getUser());
-					newReview.setUniversity(review.getUniversity());
-					newReview.setAnonymous(review.getAnonymous());
-					newReview.setContent(review.getContent());
-					newReview.setDelivery(review.getDelivery());
-					newReview.setWorkload(review.getWorkload());
-					newReview.setInstructor(review.getInstructor());
-					newReview.setRating(review.getRating());
-					newReview.setCreatedAt(new Date());
-					return reviewRepository.save(newReview);
-				})
-				.orElseThrow(() -> new Exception("Review not found with id " + reviewId));
+		return reviewRepository.findById(reviewId).map(newReview -> {
+			newReview.setUser(review.getUser());
+			// newReview.setUniversity(review.getUniversity());
+			newReview.setAnonymous(review.getAnonymous());
+			newReview.setContent(review.getContent());
+			newReview.setDelivery(review.getDelivery());
+			newReview.setWorkload(review.getWorkload());
+			newReview.setInstructor(review.getInstructor());
+			newReview.setRating(review.getRating());
+			newReview.setCreatedAt(new Date());
+			return reviewRepository.save(newReview);
+		}).orElseThrow(() -> new Exception("Review not found with id " + reviewId));
 	}
 
 	@Override

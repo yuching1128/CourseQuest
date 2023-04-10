@@ -1,7 +1,7 @@
 package com.vt.coursequest.service;
 
 import com.vt.coursequest.entity.Course;
-import com.vt.coursequest.entity.Major;
+import com.vt.coursequest.entity.Department;
 import com.vt.coursequest.entity.University;
 import com.vt.coursequest.entity.User;
 import com.vt.coursequest.interceptor.UserDetailsFromGoogle;
@@ -49,18 +49,18 @@ public interface UserDataService {
     User createUserDegree(Integer userId, Integer degreeId) throws Exception;
 
     /**
-     * This method is to get all majors
-     * @return the list of majors
+     * This method is to get all departments
+     * @return the list of departments
      */
-    List<Major> findAllMajor();
+    List<Department> findAllMajor();
 
     /**
      * This method is to create major for a new user
      * @param userId: the unique id of user
-     * @param majorId: the unique id of major
+     * @param departmentId: the unique id of department
      * @return current user's information
      */
-    User createUserMajor(Integer userId, Integer majorId) throws Exception;
+    User createUserDepartment(Integer userId, Integer departmentId) throws Exception;
 
 
     /**
