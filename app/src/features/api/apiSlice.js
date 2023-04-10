@@ -3,15 +3,17 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/api/' }),
-    tagTypes: ['Review', 'Timeslots', 'Appointments'],
+    tagTypes: ['Review', 'Timeslots', 'Appointments', 'Courses'],
     endpoints: builder => ({
         getCourses: builder.query({
             query: ({universityId, page, size}) => {
                 return `university/${universityId}/courses?pageNum=${page}&pageSize=${size}`
-            }
+            },
+            providesTags: ['Courses']
         }),
         getCourse: builder.query({
-            query: ({universityId, courseId}) => `university/${universityId}/courses/${courseId}`
+            query: ({universityId, courseId}) => `university/${universityId}/courses/${courseId}`,
+            providesTags: ['Courses']
         }),
         getCourseReviews: builder.query({
             query: ({universityId, courseId}) => `university/${universityId}/courses/${courseId}/review`,
@@ -33,7 +35,7 @@ export const apiSlice = createApi({
                 method: 'POST',
                 body: newReview
             }),
-            invalidatesTags: ['Review']
+            invalidatesTags: ['Review', 'Courses']
         }),
         editReview: builder.mutation({
             query: ({universityId, courseId, reviewId, editedReview}) => ({
@@ -41,14 +43,14 @@ export const apiSlice = createApi({
                 method: 'PUT',
                 body: editedReview
             }),
-            invalidatesTags: ['Review']
+            invalidatesTags: ['Review', 'Courses']
         }),
         deleteReview: builder.mutation({
             query: ({universityId, courseId, reviewId}) => ({
                 url: `university/${universityId}/courses/${courseId}/review/${reviewId}`,
                 method: 'DELETE'
             }),
-            invalidatesTags: ['Review']
+            invalidatesTags: ['Review', 'Courses']
         }),
         getAdvisorTimeslots: builder.query({
             query: advisorId => `/advisor/${advisorId}/all`,
