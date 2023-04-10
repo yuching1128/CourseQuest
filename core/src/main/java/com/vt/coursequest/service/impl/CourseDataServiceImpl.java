@@ -109,6 +109,7 @@ public class CourseDataServiceImpl implements CourseDataService {
 		if (null != review.getUser() && null != review.getUser().getId()) {
 			Optional<User> user = userRepository.findById(review.getUser().getId());
 			if (user.isPresent()) {
+				userRepository.save(user.get());
 				review.setUser(user.get());
 			}
 		}
