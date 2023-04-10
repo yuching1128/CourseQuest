@@ -30,6 +30,12 @@ export const EditReviewForm = ({reviewDetails, courseInstructors}) => {
     const onWorkloadChanged = (e) => setWorkload(e.target.value)
     const onContentChanged = (e) => setContent(e.target.value)
 
+    // generate list of instructors for reviewer to select
+    const instructorOptions = courseInstructors.map((instructor) => (
+        <option key={instructor.id} value={instructor.id}>
+            {instructor.name}
+        </option>
+    ))
 
     const onEditReviewClicked = async () => {
         if (content) {
@@ -40,7 +46,7 @@ export const EditReviewForm = ({reviewDetails, courseInstructors}) => {
                     delivery: delivery,
                     id: reviewDetails.id,
                     instructor: {
-                        id: reviewDetails.instructor.id,
+                        id: professor,
                     },
                     rating: rating,
                     university: {
@@ -95,9 +101,9 @@ export const EditReviewForm = ({reviewDetails, courseInstructors}) => {
                         <Form.Group as={Row} className="mb-3" controlId="taughtBy">
                             <Form.Label column sm={2}>Taught by</Form.Label>
                             <Col sm={10}>
-                                <Form.Select onChange={onProfessorChanged}>
+                                <Form.Select onChange={onProfessorChanged} defaultValue={professor}>
                                     <option disabled selected value> -- select an option -- </option>
-                                    <option>[TEST] Dr. K</option>
+                                    {instructorOptions}
                                 </Form.Select>
                             </Col>
                         </Form.Group>
