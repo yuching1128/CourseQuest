@@ -3,14 +3,9 @@ package com.vt.coursequest.entity;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 /**
@@ -29,9 +24,9 @@ public class Instructor {
 	@Id
 	Integer id;
 
+
 	@Column(name = "name", nullable = false)
 	String name;
-
 	public String getName() {
 		return name;
 	}
@@ -40,6 +35,7 @@ public class Instructor {
 		this.name = name;
 	}
 
+	@JsonIgnore
 	@ManyToMany(mappedBy = "instructor")
 	private Set<Course> courses = new HashSet<>();
 
