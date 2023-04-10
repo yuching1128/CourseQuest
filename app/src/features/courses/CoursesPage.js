@@ -7,7 +7,6 @@ import { SearchComponent } from "../search/search";
 import classnames from 'classnames';
 
 let CourseExcerpt = ({ course }) => {
-    console.log(course)
     return (
         <article className="course-excerpt" >
             {/* <Link to={`/university/${course.university.id}/courses/${course.id}`} className="course-button">

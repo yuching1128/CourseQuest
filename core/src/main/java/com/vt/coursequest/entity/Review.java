@@ -37,7 +37,7 @@ public class Review {
 
     @JoinColumn(name = "userId" ,referencedColumnName = "id", insertable = false, updatable = false)
     @OneToOne
-    User user;
+     User user;
 
 
     @JoinColumn(name = "courseId")

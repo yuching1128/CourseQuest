@@ -32,11 +32,11 @@ export const AddTimeslotForm = ({selectedTimeslots}) => {
         setScheduleErr('');
 
         const timeslotDetails = {
-            subject: "TEST - subject",
             time: dateTime,
-            user: {
+            advisor: {
                 id: user.id,
             },
+            advisingTimeslotStatus: "FREE"
         }
 
         try {

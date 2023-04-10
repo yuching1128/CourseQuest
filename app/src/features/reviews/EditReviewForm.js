@@ -75,7 +75,7 @@ export const EditReviewForm = ({reviewDetails}) => {
                 <Stack direction="horizontal" gap={3} className="RateReviewContent"></Stack>
                 <Form className="RateReviewForm">
                     <div className="stars-rating">
-                        <h3>Rate the Course</h3>
+                        <h3>Edit Your Rating</h3>
                         <StarRatings
                             rating={rating}
                             changeRating={(newRating)=>{
@@ -89,7 +89,7 @@ export const EditReviewForm = ({reviewDetails}) => {
                     </div>
                     <br/>
                     <div>
-                        <h3>Write a Review</h3>
+                        <h3>Edit Your Review</h3>
                         <Form.Group as={Row} className="mb-3" controlId="taughtBy">
                             <Form.Label column sm={2}>Taught by</Form.Label>
                             <Col sm={10}>

@@ -1,21 +1,9 @@
-// API Documentation http://localhost:8080/swagger-ui.html
-
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/api/' }),
-    tagTypes: ['Review', 'Timeslots'],
-    baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:8080/api/', credentials: 'include', prepareHeaders: (headers) => {
-            const token = sessionStorage.getItem("access_token")
-            if (token) {
-                headers.set('authorization', `Bearer ${token}`)
-            }
-            return headers
-        }
-    }),
-    tagTypes: ['Review'],
+    tagTypes: ['Review', 'Timeslots', 'Appointments'],
     endpoints: builder => ({
         getCourses: builder.query({
             query: ({ universityId, page, size }) => {
@@ -63,12 +51,16 @@ export const apiSlice = createApi({
             invalidatesTags: ['Review']
         }),
         getAdvisorTimeslots: builder.query({
-            query: userId => `/user/${userId}/advising`,
+            query: advisorId => `/advisor/${advisorId}/all`,
+            providesTags: ['Timeslots']
+        }),
+        getFreeAdvisorTimeslots: builder.query({
+            query: () => `/advising/free`,
             providesTags: ['Timeslots']
         }),
         addNewTimeslot: builder.mutation({
             query: ({ newTimeslot }) => ({
-                url: `advising/add`,
+                url: `advising/timeslot/add`,
                 method: 'POST',
                 body: newTimeslot
             }),
@@ -76,7 +68,7 @@ export const apiSlice = createApi({
         }),
         deleteTimeslot: builder.mutation({
             query: ({ timeslotId }) => ({
-                url: `advising/${timeslotId}`,
+                url: `advising/${timeslotId}/delete`,
                 method: 'DELETE'
             }),
             invalidatesTags: ['Timeslots']
@@ -145,6 +137,22 @@ export const apiSlice = createApi({
                 body: courseList
             }),
         }),
+        addNewAppointment: builder.mutation({
+            query: ({ newAppointment }) => ({
+                url: `advising/book`,
+                method: 'POST',
+                body: newAppointment
+            }),
+            invalidatesTags: ['Timeslots']
+        }),
+        getAdvisorAppointments: builder.query({
+            query: advisorId => `/advising/advisor/${advisorId}/appointments`,
+            providesTags: ['Timeslots']
+        }),
+        getAdviseeAppointments: builder.query({
+            query: adviseeId => `/advising/advisee/${adviseeId}/appointments`,
+            providesTags: ['Timeslots']
+        })
     })
 })
 
@@ -159,8 +167,12 @@ export const {
     useEditReviewMutation,
     useDeleteReviewMutation,
     useGetAdvisorTimeslotsQuery,
+    useGetFreeAdvisorTimeslotsQuery,
     useAddNewTimeslotMutation,
     useDeleteTimeslotMutation,
+    useAddNewAppointmentMutation,
+    useGetAdvisorAppointmentsQuery,
+    useGetAdviseeAppointmentsQuery,
     useGetUserInfoQuery,
     useGetUniversityQuery,
     useGetDegreeQuery,

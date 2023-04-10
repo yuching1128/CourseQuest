@@ -2,7 +2,7 @@ import React, {useMemo} from 'react';
 import Container from "react-bootstrap/Container";
 import Accordion from "react-bootstrap/Accordion";
 import {useSelector} from "react-redux";
-import {useDeleteTimeslotMutation, useGetAdvisorTimeslotsQuery} from "../api/apiSlice";
+import {useDeleteTimeslotMutation, useGetAdvisorAppointmentsQuery, useGetAdvisorTimeslotsQuery} from "../api/apiSlice";
 import {AddTimeslotForm} from "./AddTimeslotForm";
 import {Button, Spinner, Stack} from "react-bootstrap";
 import {parseISO} from "date-fns";
@@ -13,6 +13,16 @@ export const MentorPage = () => {
     const user = useSelector(state => state.user)
     const [deleteTimeslot, { isLoadingDeleteTimeslot }] = useDeleteTimeslotMutation()
     const navigate = useNavigate()
+
+    // get list of appointments by an advisor
+    const {
+        data: appointmentsByAdvisor = [],
+        isLoading: isLoadingAdvisor,
+        isFetching: isFetchingAdvisor,
+        isSuccess: isSuccessAdvisor,
+        isError: isErrorAdvisor,
+        error: errorAdvisor
+    } = useGetAdvisorAppointmentsQuery(user.id);
 
     // get list of already-selected timeslots from advisor
     const selectedTimes = []
@@ -60,10 +70,29 @@ export const MentorPage = () => {
             <div className="timeslotExcerpt">
                 <Stack direction="horizontal" gap={2}>
                     <p>{formattedDate}</p>
-                    <p>{timeslot.subject}</p>
-                    <Button type="button" onClick={onDeleteTimeslotClicked}>
-                        Delete
-                    </Button>
+                    <p>{timeslot.advisingTimeslotStatus}</p>
+                    {timeslot.advisingTimeslotStatus==="FREE" && <Button type="button" onClick={onDeleteTimeslotClicked}>Delete</Button>}
+                </Stack>
+            </div>
+        )
+    }
+
+    let AppointmentExcerpt = ({ appointment }) => {
+        const myDate = parseISO(appointment.advisingTimeslot.time)
+        const formattedDate = myDate.toLocaleString("en-GB", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+            hour: "numeric",
+            minute: "2-digit"
+        });
+
+        return (
+            <div className="appointmentExcerpt">
+                <Stack direction="horizontal" gap={2}>
+                    <p>Advisee's Name: {appointment.advisee.firstName} {appointment.advisee.lastName}</p>
+                    <p>Appointment Time: {formattedDate}</p>
+                    <p>Subject: {appointment.course.name}</p>
                 </Stack>
             </div>
         )
@@ -82,8 +111,8 @@ export const MentorPage = () => {
                     <Accordion.Body className="reviewsComponent">
                         <Stack direction="horizontal" gap={2}>
                             <div className="ms-auto">
-                                <h5>Your Available Times</h5>
-                                { !selectedTimeslots && <p>You have set any advising timeslots!</p>}
+                                <h5>Your Timeslots</h5>
+                                { !selectedTimeslots && <p>You have not set any advising timeslots!</p>}
                                 { selectedTimeslots.map(timeslot => <TimeslotExcerpt key={timeslot.id} timeslot={timeslot} />) }
                             </div>
                             <AddTimeslotForm selectedTimeslots={selectedTimes} />
@@ -93,7 +122,9 @@ export const MentorPage = () => {
                 <Accordion.Item eventKey="1">
                     <Accordion.Header>Upcoming Appointments</Accordion.Header>
                     <Accordion.Body>
-                        TEXT
+                        <div>
+                            { appointmentsByAdvisor.map(appointment => <AppointmentExcerpt key={appointment.id} appointment={appointment} />) }
+                        </div>
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>

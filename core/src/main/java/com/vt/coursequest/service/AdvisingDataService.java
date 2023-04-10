@@ -1,6 +1,8 @@
 package com.vt.coursequest.service;
 
 import com.vt.coursequest.entity.AdvisingTimeslot;
+import com.vt.coursequest.entity.Appointment;
+import com.vt.coursequest.entity.AppointmentStatus;
 
 import java.util.List;
 
@@ -14,10 +16,22 @@ public interface AdvisingDataService {
      * This function is used to get exhaustive list of all the time slots specific
      * to an user
      *
-     * @param userid : the unique id of the user
+     * @param advisorId : the unique id of the user
      * @return List<TimeSlot> for a particular user
      */
-    List<AdvisingTimeslot> findAll(Integer userid);
+    List<AdvisingTimeslot> findAdvisingTimeslotsByAdvisorId(Integer advisorId);
+
+    /**
+     * This function is used to get all timeslots.
+     * @return list of all timeslots
+     */
+    List<AdvisingTimeslot> findAllAdvisingTimeslots();
+
+    /**
+     * This function is used to get all free timeslots
+     * @return list of all free timeslots
+     */
+    List<AdvisingTimeslot> findFreeAdvisingTimeslots();
 
     /**
      * This function is used to create a timeslot associated with an user
@@ -40,4 +54,46 @@ public interface AdvisingDataService {
      * @param timeslotId the unique id of the timeslot
      */
     void deleteTimeslot(Integer timeslotId);
+
+    /**
+     * This function is used to get a list of all appointments from an advisor
+     * @param advisorId the advisor's id
+     * @return the list of Appointments from an advisor
+     */
+    List<Appointment> findAppointmentsByAdvisor(Integer advisorId);
+
+    /**
+     * This function is used to get a list of all appointments from an advisee
+     * @param adviseeId the advisee's id
+     * @return the list of Appointments from an advisee
+     */
+    List<Appointment> findAppointmentsByAdvisee(Integer adviseeId);
+
+    /**
+     * This function is used to book an appointment between an advisee and advisor
+     * @param appointment: the appointment
+     * @return the appointment
+     */
+    Appointment createAppointment(Appointment appointment);
+
+    /**
+     * This function is used to cancel an appointment between an advisee and advisor
+     * @param appointment
+     * @return
+     */
+    Appointment cancelAppointment(Appointment appointment);
+
+    /**
+     * This function is used to delete an appointment between an advisee and advisor
+     * @param appointment
+     */
+    void deleteAppointment(Appointment appointment);
+
+    /**
+     * This function is used to update an appointment between an advisee and advisor
+     * @param appointment
+     * @return
+     * @throws Exception
+     */
+    Appointment updateAppointment(Appointment appointment) throws Exception;
 }

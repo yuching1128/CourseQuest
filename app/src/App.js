@@ -10,7 +10,7 @@ import { EditReviewForm } from "./features/reviews/EditReviewForm";
 import { ProfilePage } from "./features/profile/ProfilePage";
 import { MentorPage } from "./features/advising/MentorPage";
 import LogoutPage from "./features/logout/LogoutPage";
-import { useStore } from 'react-redux';
+import { MenteePage } from "./features/advising/MenteePage";
 
 export default function App() {
     // const [authDetails, setAuthDetails, deleteAuthDetails] = useStore("authDetails", {});
@@ -24,6 +24,7 @@ export default function App() {
                     <Route exact path="/logout" element={<LogoutPage />} />
                     <Route exact path="/university/:universityId/courses" element={<CoursesPage />} />
                     <Route exact path="/university/:universityId/mentor" element={<MentorPage />} />
+                    <Route exact path="/university/:universityId/mentee" element={<MenteePage />} />
                     <Route exact path="/university/:universityId/courses/:courseId" element={<SingleCoursePage />} />
                     <Route exact path="/university/:universityId/courses/:courseId/review/:reviewId/edit" element={<EditReviewForm />} />
                     <Route exact path="/user/:userId/profile" element={<ProfilePage />} />
