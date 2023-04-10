@@ -2,8 +2,16 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const apiSlice = createApi({
     reducerPath: 'api',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/api/' }),
     tagTypes: ['Review', 'Timeslots', 'Appointments'],
+    baseQuery: fetchBaseQuery({
+        baseUrl: 'http://localhost:8080/api/', credentials: 'include', prepareHeaders: (headers) => {
+            const token = sessionStorage.getItem("access_token")
+            if (token) {
+                headers.set('authorization', `Bearer ${token}`)
+            }
+            return headers
+        }
+    }),
     endpoints: builder => ({
         getCourses: builder.query({
             query: ({ universityId, page, size }) => {
@@ -74,7 +82,7 @@ export const apiSlice = createApi({
             invalidatesTags: ['Timeslots']
         }),
         getUserInfo: builder.query({
-            query: ({ userId }) => `user/${userId}/profile`
+            query: () => `user/profile`
         }),
         getUniversity: builder.query({
             query: () => `university/types`
@@ -86,47 +94,45 @@ export const apiSlice = createApi({
             query: () => `major/types`
         }),
         addUserUniversity: builder.mutation({
-            query: ({ userId, universityId }) => ({
+            query: ({ universityId }) => ({
                 url: `user/university`,
                 method: 'POST',
-                params: { userId: userId, universityId: universityId }
+                params: { universityId: universityId }
             }),
         }),
         addUserDegree: builder.mutation({
-            query: ({ userId, degreeId }) => ({
+            query: ({ degreeId }) => ({
                 url: `user/degree`,
                 method: 'POST',
-                params: { userId: userId, degreeId: degreeId }
+                params: { degreeId: degreeId }
             }),
         }),
         addUserMajor: builder.mutation({
-            query: ({ userId, majorId }) => ({
+            query: ({ majorId }) => ({
                 url: `user/major`,
                 method: 'POST',
-                params: { userId: userId, majorId: majorId }
+                params: { majorId: majorId }
             }),
         }),
         addUserCourseTaken: builder.mutation({
-            query: ({ userId, courseList }) => ({
+            query: ({ courseList }) => ({
                 url: `user/course`,
                 method: 'POST',
-                params: { userId },
                 body: courseList
             }),
         }),
         addUserCourseInterested: builder.mutation({
-            query: ({ userId, courseList }) => ({
+            query: ({ courseList }) => ({
                 url: `user/interested`,
                 method: 'POST',
-                params: { userId },
                 body: courseList
             }),
         }),
         addUserConcentration: builder.mutation({
-            query: ({ userId, concentration }) => ({
+            query: ({ concentration }) => ({
                 url: `user/concentration`,
                 method: 'POST',
-                params: { userId: userId, concentration: concentration }
+                params: { concentration: concentration }
             }),
         }),
         addUserMentorCourse: builder.mutation({

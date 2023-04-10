@@ -1,13 +1,13 @@
 import Container from "react-bootstrap/Container";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Accordion from "react-bootstrap/Accordion";
-import {faCircleUser} from "@fortawesome/free-regular-svg-icons";
-import {faBook} from"@fortawesome/free-solid-svg-icons"
-import {faHeart} from "@fortawesome/free-regular-svg-icons";
-import {faUserGraduate} from"@fortawesome/free-solid-svg-icons"
-import {faPenToSquare} from "@fortawesome/free-regular-svg-icons";
-import {faSquareCheck} from "@fortawesome/free-regular-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faCircleUser } from "@fortawesome/free-regular-svg-icons";
+import { faBook } from "@fortawesome/free-solid-svg-icons"
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faUserGraduate } from "@fortawesome/free-solid-svg-icons"
+import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import { faSquareCheck } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     useAddUserConcentrationMutation,
     useAddUserCourseInterestedMutation,
@@ -16,12 +16,12 @@ import {
     useGetCoursesQuery,
     useGetUserInfoQuery
 } from "../api/apiSlice";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Select from "react-select";
-import {UserInfo} from "./UserInfo";
-import {UserProgram} from "./UserProgram";
+import { UserInfo } from "./UserInfo";
+import { UserProgram } from "./UserProgram";
 import Form from "react-bootstrap/Form";
-import {Row} from "react-bootstrap";
+import { Row } from "react-bootstrap";
 
 export const ProfilePage = () => {
 
@@ -31,7 +31,7 @@ export const ProfilePage = () => {
     const {
         data: userProfileData,
         isSuccess: userProfileSuccess,
-    } = useGetUserInfoQuery({userId: userId});
+    } = useGetUserInfoQuery();
 
     // useEffect(() => {
     //     if (userProfileData && userProfileData.university){
@@ -42,16 +42,16 @@ export const ProfilePage = () => {
     // set parameters
     const [courseTaken, setCourseTaken] = useState([]);
     const [selectedCoursesId, setSelectedCoursesId] = useState([]);
-    const [addUserCourseTaken, { isLoading: courseTakenIsLoading}] = useAddUserCourseTakenMutation();
+    const [addUserCourseTaken, { isLoading: courseTakenIsLoading }] = useAddUserCourseTakenMutation();
     const [defaultCourseTaken, setDefaultCourseTaken] = useState([]);
 
     const [selectedCoursesInterestId, setSelectedCoursesInterestedId] = useState([]);
-    const [addUserCourseInterested, { isLoading: courseInterestedIsLoading}] = useAddUserCourseInterestedMutation();
+    const [addUserCourseInterested, { isLoading: courseInterestedIsLoading }] = useAddUserCourseInterestedMutation();
     const [defaultCourseInterested, setDefaultCourseInterested] = useState([]);
 
     const [mentoringOn, setMentoringOn] = useState([]);
     const [selectedMentorOnId, setSelectedMentorOnId] = useState([]);
-    const [addMentorOn, { isLoading: mentorOnIsLoading}] = useAddUserMentorCourseMutation()
+    const [addMentorOn, { isLoading: mentorOnIsLoading }] = useAddUserMentorCourseMutation()
     const [defaultMentorOn, setDefaultMentorOn] = useState([]);
 
     // set default value
@@ -68,7 +68,7 @@ export const ProfilePage = () => {
             }));
             setSelectedCoursesId(selectedCoursesId);
         }
-        if(userProfileData && userProfileData.interestedCourse) {
+        if (userProfileData && userProfileData.interestedCourse) {
             const courseInterestedOptions = userProfileData.interestedCourse.map((course) => ({
                 value: course.id,
                 label: course.name,
@@ -79,10 +79,10 @@ export const ProfilePage = () => {
             }));
             setSelectedCoursesInterestedId(selectedCoursesInterestId);
         }
-        if(userProfileData && userProfileData.concentration) {
+        if (userProfileData && userProfileData.concentration) {
             setContent(userProfileData.concentration)
         }
-        if(userProfileData && userProfileData.mentorCourse) {
+        if (userProfileData && userProfileData.mentorCourse) {
             const courseMentorOnOptions = userProfileData.mentorCourse.map((course) => ({
                 value: course.id,
                 label: course.name,
@@ -99,7 +99,7 @@ export const ProfilePage = () => {
     const {
         data: courseTakenData,
         isSuccess: courseTakenSuccess,
-    } = useGetCoursesQuery({universityId: universityId, page: "", size: ""});
+    } = useGetCoursesQuery({ universityId: universityId, page: "", size: "" });
 
     useEffect(() => {
         if (courseTakenSuccess) {
@@ -107,7 +107,7 @@ export const ProfilePage = () => {
                 value: courseTaken.id,
                 label: courseTaken.name,
             }));
-            setCourseTaken([ ,...courseTakenOptions,
+            setCourseTaken([, ...courseTakenOptions,
             ]);
         }
     }, [courseTakenSuccess, courseTakenData]);
@@ -137,7 +137,7 @@ export const ProfilePage = () => {
 
     // set concentration interested
     const [content, setContent] = useState(null)
-    const [addUserConcentration, { isLoading: concentrationIsLoading}] = useAddUserConcentrationMutation();
+    const [addUserConcentration, { isLoading: concentrationIsLoading }] = useAddUserConcentrationMutation();
     const onContentChanged = (e) => setContent(e.target.value)
 
     // set mentoring on select options based on course taken
@@ -157,9 +157,9 @@ export const ProfilePage = () => {
     };
 
     const handleInterestDoneClick = async () => {
-        await addUserCourseTaken({userId: userId, courseList: selectedCoursesId})
-        await addUserCourseInterested({userId: userId, courseList: selectedCoursesInterestId})
-        await addUserConcentration({userId: userId, concentration: content})
+        await addUserCourseTaken({ courseList: selectedCoursesId })
+        await addUserCourseInterested({ courseList: selectedCoursesInterestId })
+        await addUserConcentration({ concentration: content })
         setInterestIsEditing(false);
     };
 
@@ -170,7 +170,7 @@ export const ProfilePage = () => {
     };
 
     const handleMentoringDoneClick = async () => {
-        await addMentorOn({userId: userId, courseList: selectedMentorOnId})
+        await addMentorOn({ courseList: selectedMentorOnId })
         setMentoringIsEditing(false);
     };
 
@@ -178,19 +178,19 @@ export const ProfilePage = () => {
         <Container>
             <Accordion alwaysOpen>
                 <Accordion.Item eventKey="0">
-                    <Accordion.Header className="profileTitleText"><FontAwesomeIcon icon={faCircleUser} className="profileIcon"/>Information</Accordion.Header>
+                    <Accordion.Header className="profileTitleText"><FontAwesomeIcon icon={faCircleUser} className="profileIcon" />Information</Accordion.Header>
                     <Accordion.Body>
-                        <UserInfo userProfileData={userProfileData}/>
+                        <UserInfo userProfileData={userProfileData} />
                     </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey="1">
-                    <Accordion.Header className="profileTitleText"><FontAwesomeIcon icon={faBook} className="profileIcon"/>Program</Accordion.Header>
+                    <Accordion.Header className="profileTitleText"><FontAwesomeIcon icon={faBook} className="profileIcon" />Program</Accordion.Header>
                     <Accordion.Body>
-                        <UserProgram userId={userId} userProfileData={userProfileData}/>
+                        <UserProgram userProfileData={userProfileData} />
                     </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey="2">
-                    <Accordion.Header className="profileTitleText"><FontAwesomeIcon icon={faHeart} className="profileIcon"/>Interest</Accordion.Header>
+                    <Accordion.Header className="profileTitleText"><FontAwesomeIcon icon={faHeart} className="profileIcon" />Interest</Accordion.Header>
                     <Accordion.Body>
                         <div className="profileBlock">
                             <div className="courseBlockEdit">
@@ -243,7 +243,7 @@ export const ProfilePage = () => {
                     </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey="3">
-                    <Accordion.Header className="profileTitleText"><FontAwesomeIcon icon={faUserGraduate} className="profileIcon"/>Mentoring on</Accordion.Header>
+                    <Accordion.Header className="profileTitleText"><FontAwesomeIcon icon={faUserGraduate} className="profileIcon" />Mentoring on</Accordion.Header>
                     <Accordion.Body>
                         <div className="profileBlock">
                             <div className="courseBlockEdit">

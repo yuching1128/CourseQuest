@@ -58,12 +58,17 @@ public class Interceptor implements HandlerInterceptor {
         headers.set("Authorization","Bearer "+parts[1]);
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
         try{
-            ResponseEntity googleAPIResp = restTemplate.exchange(userInfoUri, HttpMethod.GET, requestEntity, String.class);
+            ResponseEntity<GoogleAPIResponse> googleAPIResp = restTemplate.exchange(userInfoUri, HttpMethod.GET, requestEntity, GoogleAPIResponse.class);
             log.info(String.valueOf(googleAPIResp));
             if(!googleAPIResp.getStatusCode().equals(HttpStatus.OK)){
                 return false;
             }
-//            request.setAttribute("userFirstName",googleAPIResp.getBody().gete);
+            UserDetailsFromGoogle userDetails = new UserDetailsFromGoogle();
+            userDetails.setEmail(googleAPIResp.getBody().getEmail());
+            userDetails.setFirstName(googleAPIResp.getBody().getGiven_name());
+            userDetails.setLastName(googleAPIResp.getBody().getFamily_name());
+            userDetails.setSub(googleAPIResp.getBody().getSub());
+            request.getSession().setAttribute("user_details",userDetails);
             return true;
         } catch (HttpClientErrorException e){
             log.error("Http Client Error Exception Occurred: "+ e.getMessage());
@@ -75,7 +80,3 @@ public class Interceptor implements HandlerInterceptor {
     }
 
 }
-
-//public class GoogleApiResponse {
-//    private
-//}

@@ -6,6 +6,9 @@ import java.util.Optional;
 
 import com.vt.coursequest.dao.ReviewRepository;
 import com.vt.coursequest.entity.Review;
+import com.vt.coursequest.entity.User;
+import com.vt.coursequest.interceptor.UserDetailsFromGoogle;
+import com.vt.coursequest.service.UserDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,8 @@ import com.vt.coursequest.service.CourseDataService;
 
 import io.swagger.annotations.ApiOperation;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * @author: EugeneFeng
  * @date: 3/3/23 5:02 PM
@@ -29,6 +34,12 @@ public class CourseController {
 
 	@Autowired
 	private CourseDataService cds;
+
+	@Autowired
+	private HttpSession session;
+
+	@Autowired
+	private UserDataService uds;
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@ApiOperation("This service is used to get the list of all the courses available in the university")
@@ -118,9 +129,11 @@ public class CourseController {
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@ApiOperation("This service is used to get all reviews written by a user")
-	@GetMapping("/api/user/{userId}/reviews")
-	public ResponseEntity<List<Review>> findUserReviews(@PathVariable Integer userId) {
-		return new ResponseEntity<>(cds.findUserReviews(userId), HttpStatus.OK);
+	@GetMapping("/api/user/reviews")
+	public ResponseEntity<List<Review>> findUserReviews() {
+		UserDetailsFromGoogle userDetails = (UserDetailsFromGoogle) session.getAttribute("user_details");
+		User user = uds.findOrCreateUser(userDetails);
+		return new ResponseEntity<>(cds.findUserReviews(user.getId()), HttpStatus.OK);
 	}
 
 }

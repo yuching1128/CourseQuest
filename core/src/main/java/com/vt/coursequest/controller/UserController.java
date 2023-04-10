@@ -4,13 +4,17 @@ import com.vt.coursequest.entity.Course;
 import com.vt.coursequest.entity.Major;
 import com.vt.coursequest.entity.University;
 import com.vt.coursequest.entity.User;
+import com.vt.coursequest.interceptor.UserDetailsFromGoogle;
 import com.vt.coursequest.service.UserDataService;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,14 +24,20 @@ import java.util.Optional;
  * @description: some desc
  */
 @RestController
+@Slf4j
 public class UserController {
     @Autowired
     private UserDataService uds;
 
+    @Autowired
+    private HttpSession session;
+
     @ApiOperation("This service is used to get a specific user's profile info")
-    @GetMapping("/api/user/{userId}/profile")
-    public ResponseEntity<Optional<User>> getUserProfile(@PathVariable String userId) {
-        return new ResponseEntity<>(uds.findUser(Integer.parseInt(userId)), HttpStatus.OK);
+    @GetMapping("/api/user/profile")
+    public ResponseEntity<Optional<User>> getUserProfile() {
+        UserDetailsFromGoogle userDetails = (UserDetailsFromGoogle) session.getAttribute("user_details");
+        User user = uds.findOrCreateUser(userDetails);
+        return new ResponseEntity<>(uds.findUser(Integer.parseInt(String.valueOf(user.getId()))), HttpStatus.OK);
     }
 
     @ApiOperation("This service is used to get all universities")
@@ -38,14 +48,18 @@ public class UserController {
 
     @ApiOperation("This service is used to add user's university")
     @PostMapping("/api/user/university")
-    public ResponseEntity<User> addUserUniversity(@RequestParam Integer userId, @RequestParam Integer universityId) throws Exception {
-        return new ResponseEntity<>(uds.createUserUniversity(userId, universityId), HttpStatus.OK);
+    public ResponseEntity<User> addUserUniversity(@RequestParam Integer universityId) throws Exception {
+        UserDetailsFromGoogle userDetails = (UserDetailsFromGoogle) session.getAttribute("user_details");
+        User user = uds.findOrCreateUser(userDetails);
+        return new ResponseEntity<>(uds.createUserUniversity(user.getId(), universityId), HttpStatus.OK);
     }
 
     @ApiOperation("This service is used to add user's degree")
     @PostMapping("/api/user/degree")
-    public ResponseEntity<User> addUserDegree(@RequestParam Integer userId, @RequestParam Integer degreeId) throws Exception {
-        return new ResponseEntity<>(uds.createUserDegree(userId, degreeId), HttpStatus.OK);
+    public ResponseEntity<User> addUserDegree(@RequestParam Integer degreeId) throws Exception {
+        UserDetailsFromGoogle userDetails = (UserDetailsFromGoogle) session.getAttribute("user_details");
+        User user = uds.findOrCreateUser(userDetails);
+        return new ResponseEntity<>(uds.createUserDegree(user.getId(), degreeId), HttpStatus.OK);
     }
 
     @ApiOperation("This service is used to get all majors")
@@ -56,36 +70,42 @@ public class UserController {
 
     @ApiOperation("This service is used to add user's major")
     @PostMapping("/api/user/major")
-    public ResponseEntity<User> addUserMajor(@RequestParam Integer userId, @RequestParam Integer majorId) throws Exception {
-        return new ResponseEntity<>(uds.createUserMajor(userId, majorId), HttpStatus.OK);
+    public ResponseEntity<User> addUserMajor(@RequestParam Integer majorId) throws Exception {
+        UserDetailsFromGoogle userDetails = (UserDetailsFromGoogle) session.getAttribute("user_details");
+        User user = uds.findOrCreateUser(userDetails);
+        return new ResponseEntity<>(uds.createUserMajor(user.getId(), majorId), HttpStatus.OK);
     }
 
 
     @ApiOperation("This service is used to add user's taken courses")
     @PostMapping("/api/user/course")
-    public ResponseEntity<User> addUserTakenCourse(@RequestParam Integer userId, @RequestBody List<Course> courseList) throws Exception {
-        return new ResponseEntity<>(uds.createTakenCourse(userId, courseList), HttpStatus.OK);
+    public ResponseEntity<User> addUserTakenCourse(@RequestBody List<Course> courseList) throws Exception {
+        UserDetailsFromGoogle userDetails = (UserDetailsFromGoogle) session.getAttribute("user_details");
+        User user = uds.findOrCreateUser(userDetails);
+        return new ResponseEntity<>(uds.createTakenCourse(user.getId(), courseList), HttpStatus.OK);
     }
 
     @ApiOperation("This service is used to add user's interested courses")
     @PostMapping("/api/user/interested")
-    public ResponseEntity<User> addUserInterestedCourse(@RequestParam Integer userId, @RequestBody List<Course> courseList) throws Exception {
-        return new ResponseEntity<>(uds.createInterestedCourse(userId, courseList), HttpStatus.OK);
+    public ResponseEntity<User> addUserInterestedCourse(@RequestBody List<Course> courseList) throws Exception {
+        UserDetailsFromGoogle userDetails = (UserDetailsFromGoogle) session.getAttribute("user_details");
+        User user = uds.findOrCreateUser(userDetails);
+        return new ResponseEntity<>(uds.createInterestedCourse(user.getId(), courseList), HttpStatus.OK);
     }
 
     @ApiOperation("This service is used to add user's concentration")
     @PostMapping("/api/user/concentration")
-    public ResponseEntity<User> addUserConcentration(@RequestParam Integer userId, @RequestParam String concentration) {
-        return new ResponseEntity<>(uds.createConcentration(userId, concentration), HttpStatus.OK);
+    public ResponseEntity<User> addUserConcentration(@RequestParam String concentration) {
+        UserDetailsFromGoogle userDetails = (UserDetailsFromGoogle) session.getAttribute("user_details");
+        User user = uds.findOrCreateUser(userDetails);
+        return new ResponseEntity<>(uds.createConcentration(user.getId(), concentration), HttpStatus.OK);
     }
 
     @ApiOperation("This service is used to add user's mentor courses")
     @PostMapping("api/user/mentorCourse")
-    public ResponseEntity<User> addUserMentorCourse(@RequestParam Integer userId, @RequestBody List<Course> courseList) {
-        return new ResponseEntity<>(uds.createMentorCourse(userId, courseList), HttpStatus.OK);
+    public ResponseEntity<User> addUserMentorCourse(@RequestBody List<Course> courseList) {
+        UserDetailsFromGoogle userDetails = (UserDetailsFromGoogle) session.getAttribute("user_details");
+        User user = uds.findOrCreateUser(userDetails);
+        return new ResponseEntity<>(uds.createMentorCourse(user.getId(), courseList), HttpStatus.OK);
     }
-
-
-
-
 }

@@ -56,7 +56,7 @@ export default function LoginPage() {
                 handleUniIDCheck(user.email);
             }
         },
-        [user]
+        [user, sessionStorage.getItem("userInfo")]
     );
 
     const logOut = () => {

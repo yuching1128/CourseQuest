@@ -27,7 +27,7 @@ export default function App() {
                     <Route exact path="/university/:universityId/mentee" element={<MenteePage />} />
                     <Route exact path="/university/:universityId/courses/:courseId" element={<SingleCoursePage />} />
                     <Route exact path="/university/:universityId/courses/:courseId/review/:reviewId/edit" element={<EditReviewForm />} />
-                    <Route exact path="/user/:userId/profile" element={<ProfilePage />} />
+                    <Route exact path="/user/profile" element={<ProfilePage />} />
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
                 <Footer />

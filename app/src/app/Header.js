@@ -9,11 +9,13 @@ export default function Header() {
 
     const user = useSelector(state => state.user);
     const userProfile = useSelector(selectUserProfile);
+    const [loggedIn, setLoggedIn] = useState(Boolean(sessionStorage.getItem("access_token")));
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
-    }, [])
+        setLoggedIn(Boolean(sessionStorage.getItem("access_token")));
+    }, [sessionStorage])
 
     const logout = () => {
         googleLogout();

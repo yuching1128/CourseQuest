@@ -8,11 +8,10 @@ import classnames from 'classnames';
 
 let CourseExcerpt = ({ course }) => {
     return (
-        <article className="course-excerpt" >
-            {/* <Link to={`/university/${course.university.id}/courses/${course.id}`} className="course-button">
+        <article className="course-excerpt" key={course.id} >
+            <Link to={`/university/${course.university.id}/courses/${course.id}`} className="course-button">
                 <h3>{course.name}</h3>
-            </Link> */}
-            <h3>{course.name}</h3>
+            </Link>
             <div className="allInfo">
                 <div className="ratingBox">
                     <p className="rating-text">Rating</p>
@@ -77,7 +76,8 @@ export const CoursesPage = () => {
     if (isLoading) {
         content = <Spinner text="Loading..." />;
     } else if (isSuccess) {
-        const renderedCourses = List.map((course) => <CourseExcerpt key={course.id} universityId={universityId} course={course} />);
+        const renderedCourses = List.map((course) =>
+            <CourseExcerpt key={course.id} universityId={universityId} course={course} />);
         const containerClassname = classnames('posts-container', {
             disabled: isFetching
         })
