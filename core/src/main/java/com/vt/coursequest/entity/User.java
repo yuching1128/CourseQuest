@@ -23,7 +23,7 @@ public class User {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
-	int id;
+	Integer id;
 
 	@JoinColumn(name = "university_fid", referencedColumnName = "id")
 	@ManyToOne

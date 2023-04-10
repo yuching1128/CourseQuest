@@ -104,13 +104,13 @@ public class Review {
         this.course = course;
     }
 
-    public University getUniversity() {
-        return university;
-    }
-
-    public void setUniversity(University university) {
-        this.university = university;
-    }
+//    public University getUniversity() {
+//        return university;
+//    }
+//
+//    public void setUniversity(University university) {
+//        this.university = university;
+//    }
 
     public Boolean getAnonymous() {
         return anonymous;
