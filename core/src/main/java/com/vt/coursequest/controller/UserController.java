@@ -1,7 +1,7 @@
 package com.vt.coursequest.controller;
 
 import com.vt.coursequest.entity.Course;
-import com.vt.coursequest.entity.Major;
+import com.vt.coursequest.entity.Department;
 import com.vt.coursequest.entity.University;
 import com.vt.coursequest.entity.User;
 import com.vt.coursequest.service.UserDataService;
@@ -50,14 +50,14 @@ public class UserController {
 
     @ApiOperation("This service is used to get all majors")
     @GetMapping("/api/major/types")
-    public ResponseEntity<List<Major>> getAllMajor() {
+    public ResponseEntity<List<Department>> getAllDepartment() {
         return new ResponseEntity<>(uds.findAllMajor(), HttpStatus.OK);
     }
 
     @ApiOperation("This service is used to add user's major")
     @PostMapping("/api/user/major")
-    public ResponseEntity<User> addUserMajor(@RequestParam Integer userId, @RequestParam Integer majorId) throws Exception {
-        return new ResponseEntity<>(uds.createUserMajor(userId, majorId), HttpStatus.OK);
+    public ResponseEntity<User> addUserDepartment(@RequestParam Integer userId, @RequestParam Integer departmentId) throws Exception {
+        return new ResponseEntity<>(uds.createUserDepartment(userId, departmentId), HttpStatus.OK);
     }
 
 

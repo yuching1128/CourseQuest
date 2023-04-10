@@ -1,12 +1,11 @@
 package com.vt.coursequest.service.impl;
 
-import com.vt.coursequest.dao.MajorRepository;
+import com.vt.coursequest.dao.DepartmentRepository;
 import com.vt.coursequest.dao.UniversityRepository;
 import com.vt.coursequest.dao.UserRepository;
 import com.vt.coursequest.entity.*;
 
 import com.vt.coursequest.service.UserDataService;
-import io.swagger.models.auth.In;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -30,7 +29,7 @@ public class UserDataServiceImpl implements UserDataService {
     private UniversityRepository universityRepository;
 
     @Resource
-    private MajorRepository majorRepository;
+    private DepartmentRepository departmentRepository;
 
     @Override
     public Optional<User> findUser(Integer userId) {
@@ -74,17 +73,17 @@ public class UserDataServiceImpl implements UserDataService {
     }
 
     @Override
-    public List<Major> findAllMajor() {
-        return majorRepository.findAll();
+    public List<Department> findAllMajor() {
+        return departmentRepository.findAll();
     }
 
     @Override
-    public User createUserMajor(Integer userId, Integer majorId) throws Exception {
+    public User createUserDepartment(Integer userId, Integer departmentId) throws Exception {
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
             User curUser = user.get();
-            Major major = new Major(majorId);
-            curUser.setMajor(major);
+            Optional<Department> curUserDepartment = departmentRepository.findById(departmentId);
+            curUserDepartment.ifPresent(curUser::setDepartment);
             return userRepository.save(curUser);
         }
         else throw new Exception("user not found with id " + userId + " ------------------------------");

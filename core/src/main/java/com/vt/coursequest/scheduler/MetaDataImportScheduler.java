@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.vt.coursequest.service.CoursesMetaDataImportService;
 
 @Service
-//@EnableScheduling
+@EnableScheduling
 public class MetaDataImportScheduler {
 
 	@Autowired
