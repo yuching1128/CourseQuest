@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.vt.coursequest.entity.Course;
 import com.vt.coursequest.entity.Degree;
 import com.vt.coursequest.entity.Review;
+import com.vt.coursequest.entity.User;
 
 /**
  * 
@@ -93,7 +94,7 @@ public interface CourseDataService {
 	 * @param review: the review body
 	 * @return Review: for a particular course of university
 	 */
-	Review createReview(Review review);
+	Review createReview(Review review, User user);
 
 	/**
 	 *

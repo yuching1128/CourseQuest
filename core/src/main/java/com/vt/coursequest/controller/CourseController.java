@@ -9,6 +9,7 @@ import com.vt.coursequest.entity.Review;
 import com.vt.coursequest.entity.User;
 import com.vt.coursequest.interceptor.UserDetailsFromGoogle;
 import com.vt.coursequest.service.UserDataService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,7 @@ import javax.servlet.http.HttpSession;
  */
 
 @RestController
+@Slf4j
 public class CourseController {
 
 	@Autowired
@@ -109,7 +111,15 @@ public class CourseController {
 	@ApiOperation("This service is used to create a review for a specific course")
 	@PostMapping("/api/university/{universityId}/courses/{courseId}/review")
 	public ResponseEntity<Review> addReview(@RequestBody Review review) {
-		return new ResponseEntity<>(cds.createReview(review), HttpStatus.OK);
+		Review reviewResponse = new Review();
+		try{
+			UserDetailsFromGoogle userDetails = (UserDetailsFromGoogle) session.getAttribute("user_details");
+			User user = uds.findOrCreateUser(userDetails);
+			reviewResponse = cds.createReview(review, user);
+		} catch(Exception e){
+			log.error(e.getMessage());
+		}
+		return new ResponseEntity<>(reviewResponse, HttpStatus.OK);
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")

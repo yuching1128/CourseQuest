@@ -6,10 +6,10 @@ import {
     useGetAdviseeAppointmentsQuery,
     useGetFreeAdvisorTimeslotsQuery
 } from "../api/apiSlice";
-import {Button, Spinner, Stack} from "react-bootstrap";
-import {parseISO} from "date-fns";
-import {useNavigate} from "react-router-dom";
-import {useSelector} from "react-redux";
+import { Button, Spinner, Stack } from "react-bootstrap";
+import { parseISO } from "date-fns";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const MenteePage = () => {
 
@@ -25,7 +25,7 @@ export const MenteePage = () => {
         isSuccess: isSuccessAdvisee,
         isError: isErrorAdvisee,
         error: errorAdvisee
-    } = useGetAdviseeAppointmentsQuery(user.id);
+    } = useGetAdviseeAppointmentsQuery();
 
     // get all available appointment timeslots
     const {
@@ -59,7 +59,7 @@ export const MenteePage = () => {
                     }
                 }
 
-                await addAppointment({newAppointment: appointmentDetails}).unwrap()
+                await addAppointment({ newAppointment: appointmentDetails }).unwrap()
                 navigate(0)
             } catch (err) {
                 console.error('Failed to book the appointment: ', err)
@@ -113,16 +113,16 @@ export const MenteePage = () => {
 
     if (isLoading) {
         content = <Spinner text="Loading..." />
-    }  else if (isSuccess) {
+    } else if (isSuccess) {
         content = (
             <Accordion alwaysOpen>
                 <Accordion.Item eventKey="0">
                     <Accordion.Header>Interested In</Accordion.Header>
                     <Accordion.Body className="reviewsComponent">
-                        { allAdvisorTimeslots && <h3> Available Appointment Times: </h3>}
-                        { !allAdvisorTimeslots && <h3> No Available Appointment Times At This Time. </h3>}
+                        {allAdvisorTimeslots && <h3> Available Appointment Times: </h3>}
+                        {!allAdvisorTimeslots && <h3> No Available Appointment Times At This Time. </h3>}
                         <div>
-                            { allAdvisorTimeslots.map(timeslot => <TimeslotExcerpt key={timeslot.id} timeslot={timeslot} />) }
+                            {allAdvisorTimeslots.map(timeslot => <TimeslotExcerpt key={timeslot.id} timeslot={timeslot} />)}
                         </div>
                     </Accordion.Body>
                 </Accordion.Item>
@@ -130,7 +130,7 @@ export const MenteePage = () => {
                     <Accordion.Header>Upcoming Appointments</Accordion.Header>
                     <Accordion.Body>
                         <div>
-                            { appointmentsByAdvisee.map(appointment => <AppointmentExcerpt key={appointment.id} appointment={appointment} />) }
+                            {appointmentsByAdvisee.map(appointment => <AppointmentExcerpt key={appointment.id} appointment={appointment} />)}
                         </div>
                     </Accordion.Body>
                 </Accordion.Item>

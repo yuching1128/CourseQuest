@@ -32,7 +32,7 @@ export const apiSlice = createApi({
             query: universityId => `university/${universityId}/levels`
         }),
         getUserReviews: builder.query({
-            query: userId => `/user/${userId}/reviews`,
+            query: () => `/user/reviews`,
             providesTags: ['Review']
         }),
         addNewReview: builder.mutation({
@@ -59,7 +59,7 @@ export const apiSlice = createApi({
             invalidatesTags: ['Review']
         }),
         getAdvisorTimeslots: builder.query({
-            query: advisorId => `/advisor/${advisorId}/all`,
+            query: () => `/advisor/all`,
             providesTags: ['Timeslots']
         }),
         getFreeAdvisorTimeslots: builder.query({
@@ -136,10 +136,9 @@ export const apiSlice = createApi({
             }),
         }),
         addUserMentorCourse: builder.mutation({
-            query: ({ userId, courseList }) => ({
+            query: ({ courseList }) => ({
                 url: `user/mentorCourse`,
                 method: 'POST',
-                params: { userId },
                 body: courseList
             }),
         }),
@@ -152,11 +151,11 @@ export const apiSlice = createApi({
             invalidatesTags: ['Timeslots']
         }),
         getAdvisorAppointments: builder.query({
-            query: advisorId => `/advising/advisor/${advisorId}/appointments`,
+            query: () => `/advising/advisor/appointments`,
             providesTags: ['Timeslots']
         }),
         getAdviseeAppointments: builder.query({
-            query: adviseeId => `/advising/advisee/${adviseeId}/appointments`,
+            query: () => `/advising/advisee/appointments`,
             providesTags: ['Timeslots']
         })
     })

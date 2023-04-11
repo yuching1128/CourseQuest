@@ -1,14 +1,14 @@
 import React from 'react';
 import { useState } from 'react';
 import { useParams } from "react-router-dom";
-import {Stack, Form, Button, Row, Col, Spinner} from "react-bootstrap";
+import { Stack, Form, Button, Row, Col, Spinner } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import StarRatings from 'react-star-ratings';
 import '../../css/rateReviewPage.css';
-import {useAddNewReviewMutation} from "../api/apiSlice";
-import {useSelector} from "react-redux";
+import { useAddNewReviewMutation } from "../api/apiSlice";
+import { useSelector } from "react-redux";
 
-export const RateReviewForm = ({courseInstructors}) => {
+export const RateReviewForm = ({ courseInstructors }) => {
 
     const user = useSelector(state => state.user)
     const { universityId, courseId } = useParams()
@@ -38,7 +38,6 @@ export const RateReviewForm = ({courseInstructors}) => {
             try {
                 const reviewDetails = {
                     anonymous: anonymous,
-                    content:content,
                     delivery: delivery,
                     university: {
                         id: universityId
@@ -50,13 +49,11 @@ export const RateReviewForm = ({courseInstructors}) => {
                         id: professor,
                     },
                     rating: rating,
-                    user: {
-                        id: user.id,
-                    },
+                    user: {},
                     workload: workload
                 }
 
-                await addNewReview({ universityId: universityId, courseId: courseId, newReview: reviewDetails}).unwrap()
+                await addNewReview({ universityId: universityId, courseId: courseId, newReview: reviewDetails }).unwrap()
             } catch (err) {
                 console.error('Failed to save the review: ', err)
             }
@@ -71,86 +68,86 @@ export const RateReviewForm = ({courseInstructors}) => {
     ))
 
     const spinner = isLoading ? <Spinner size="30px" /> : null
-    
+
     return (
-    <Container className="reviews">
-        <Container className="RateReviewPage">
-            <Stack direction="horizontal" gap={3} className="RateReviewContent"></Stack>
-            <Form className="RateReviewForm">
-                <div className="stars-rating">
-                    <h3>Rate the Course</h3>
-                    <Form.Check
-                        type="checkbox"
-                        label="Taken Course?"
-                        value="yes"
-                        onChange={onTakenCourseChanged}
-                    />
-                    <StarRatings
-                        rating={rating}
-                        changeRating={(newRating)=>{
-                            setRating(newRating);
-                        }}
-                        starDimension="3em"
-                        starSpacing="2em"
-                        starRatedColor ='rgb(237, 139, 0)'
-                        onChange={onRatingChanged}
-                    />
-                </div>
-                <br/>
-                <div>
-                <h3>Write a Review</h3>
-                <Form.Group as={Row} className="mb-3" controlId="taughtBy">
-                    <Form.Label column sm={2}>Taught by</Form.Label>
-                    <Col sm={10}>
-                        <Form.Select onChange={onProfessorChanged}>
-                            <option disabled selected value> -- select an option -- </option>
-                            {instructorOptions}
-                        </Form.Select>
-                    </Col>
-                </Form.Group>
+        <Container className="reviews">
+            <Container className="RateReviewPage">
+                <Stack direction="horizontal" gap={3} className="RateReviewContent"></Stack>
+                <Form className="RateReviewForm">
+                    <div className="stars-rating">
+                        <h3>Rate the Course</h3>
+                        <Form.Check
+                            type="checkbox"
+                            label="Taken Course?"
+                            value="yes"
+                            onChange={onTakenCourseChanged}
+                        />
+                        <StarRatings
+                            rating={rating}
+                            changeRating={(newRating) => {
+                                setRating(newRating);
+                            }}
+                            starDimension="3em"
+                            starSpacing="2em"
+                            starRatedColor='rgb(237, 139, 0)'
+                            onChange={onRatingChanged}
+                        />
+                    </div>
+                    <br />
+                    <div>
+                        <h3>Write a Review</h3>
+                        <Form.Group as={Row} className="mb-3" controlId="taughtBy">
+                            <Form.Label column sm={2}>Taught by</Form.Label>
+                            <Col sm={10}>
+                                <Form.Select onChange={onProfessorChanged}>
+                                    <option disabled selected value> -- select an option -- </option>
+                                    {instructorOptions}
+                                </Form.Select>
+                            </Col>
+                        </Form.Group>
 
-                <Form.Group as={Row} className="mb-3" controlId="delivery">
-                    <Form.Label column sm={2}>Delivery</Form.Label>
-                    <Col sm={10}>
-                        <Form.Select onChange={onDeliveryChanged}>
-                            <option disabled selected value> -- select an option -- </option>
-                            <option>INPERSON</option>
-                            <option>ONLINE</option>
-                            <option>HYBRID</option>
-                        </Form.Select>
-                    </Col>
-                </Form.Group>
+                        <Form.Group as={Row} className="mb-3" controlId="delivery">
+                            <Form.Label column sm={2}>Delivery</Form.Label>
+                            <Col sm={10}>
+                                <Form.Select onChange={onDeliveryChanged}>
+                                    <option disabled selected value> -- select an option -- </option>
+                                    <option>INPERSON</option>
+                                    <option>ONLINE</option>
+                                    <option>HYBRID</option>
+                                </Form.Select>
+                            </Col>
+                        </Form.Group>
 
-                <Form.Group as={Row} className="mb-3" controlId="workload">
-                    <Form.Label column sm={2}>Workload</Form.Label>
-                    <Col sm={10}>
-                        <Form.Select onChange={onWorkloadChanged}>
-                            <option disabled selected value> -- select an option -- </option>
-                            <option>LIGHT</option>
-                            <option>MODERATE</option>
-                            <option>HEAVY</option>
-                        </Form.Select>
-                    </Col>
-                </Form.Group>
+                        <Form.Group as={Row} className="mb-3" controlId="workload">
+                            <Form.Label column sm={2}>Workload</Form.Label>
+                            <Col sm={10}>
+                                <Form.Select onChange={onWorkloadChanged}>
+                                    <option disabled selected value> -- select an option -- </option>
+                                    <option>LIGHT</option>
+                                    <option>MODERATE</option>
+                                    <option>HEAVY</option>
+                                </Form.Select>
+                            </Col>
+                        </Form.Group>
 
-                <Form.Group as={Row} className="mb-3" controlId="workload">
-                <Form.Control as="textarea" aria-label="With textarea" placeholder='Things that you want share.' onChange={onContentChanged} />
-                </Form.Group>
+                        <Form.Group as={Row} className="mb-3" controlId="workload">
+                            <Form.Control as="textarea" aria-label="With textarea" placeholder='Things that you want share.' onChange={onContentChanged} />
+                        </Form.Group>
 
-                <Form.Check
-                    type="checkbox"
-                    label="Anonymous?"
-                    onChange={onAnonymousChanged}
-                />
-                <br/>
-                </div>
+                        <Form.Check
+                            type="checkbox"
+                            label="Anonymous?"
+                            onChange={onAnonymousChanged}
+                        />
+                        <br />
+                    </div>
 
-                <Button type="button" onClick={onSaveReviewClicked} disabled={!canSave}>
-                    Add Post
-                </Button>
-                {spinner}
-                <Button variant="secondary" type="cancel" className="submit">Cancel</Button>
-            </Form>
-        </Container>
-    </Container>)
+                    <Button type="button" onClick={onSaveReviewClicked} disabled={!canSave}>
+                        Add Post
+                    </Button>
+                    {spinner}
+                    <Button variant="secondary" type="cancel" className="submit">Cancel</Button>
+                </Form>
+            </Container>
+        </Container>)
 }

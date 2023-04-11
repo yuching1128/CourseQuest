@@ -2,13 +2,17 @@ package com.vt.coursequest.controller;
 
 import com.vt.coursequest.entity.AdvisingTimeslot;
 import com.vt.coursequest.entity.Appointment;
+import com.vt.coursequest.entity.User;
+import com.vt.coursequest.interceptor.UserDetailsFromGoogle;
 import com.vt.coursequest.service.AdvisingDataService;
+import com.vt.coursequest.service.UserDataService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -22,10 +26,18 @@ public class AdvisingController {
     @Autowired
     private AdvisingDataService ads;
 
+    @Autowired
+    private HttpSession session;
+
+    @Autowired
+    private UserDataService uds;
+
     @ApiOperation("This service is used to get all timeslots for an advisor")
-    @GetMapping("/api/advisor/{advisorId}/all")
-    public ResponseEntity<List<AdvisingTimeslot>> getTimeslotList(@PathVariable Integer advisorId) {
-        return new ResponseEntity<>(ads.findAdvisingTimeslotsByAdvisorId(advisorId), HttpStatus.OK);
+    @GetMapping("/api/advisor/all")
+    public ResponseEntity<List<AdvisingTimeslot>> getTimeslotList() {
+        UserDetailsFromGoogle userDetails = (UserDetailsFromGoogle) session.getAttribute("user_details");
+        User user = uds.findOrCreateUser(userDetails);
+        return new ResponseEntity<>(ads.findAdvisingTimeslotsByAdvisorId(user.getId()), HttpStatus.OK);
     }
 
     @ApiOperation("This service is used to get all free advising timeslots from all advisors")
@@ -53,15 +65,19 @@ public class AdvisingController {
     }
 
     @ApiOperation("This service is used to get all appointments for an advisor")
-    @GetMapping("/api/advising/advisor/{advisorId}/appointments")
-    public ResponseEntity<List<Appointment>> getAdvisorAppointments(@PathVariable Integer advisorId) {
-        return new ResponseEntity<>(ads.findAppointmentsByAdvisor(advisorId), HttpStatus.OK);
+    @GetMapping("/api/advising/advisor/appointments")
+    public ResponseEntity<List<Appointment>> getAdvisorAppointments() {
+        UserDetailsFromGoogle userDetails = (UserDetailsFromGoogle) session.getAttribute("user_details");
+        User user = uds.findOrCreateUser(userDetails);
+        return new ResponseEntity<>(ads.findAppointmentsByAdvisor(user.getId()), HttpStatus.OK);
     }
 
     @ApiOperation("This service is used to get all appointments for an advisee")
-    @GetMapping("/api/advising/advisee/{adviseeId}/appointments")
-    public ResponseEntity<List<Appointment>> getAdviseeAppointments(@PathVariable Integer adviseeId) {
-        return new ResponseEntity<>(ads.findAppointmentsByAdvisee(adviseeId), HttpStatus.OK);
+    @GetMapping("/api/advising/advisee/appointments")
+    public ResponseEntity<List<Appointment>> getAdviseeAppointments() {
+        UserDetailsFromGoogle userDetails = (UserDetailsFromGoogle) session.getAttribute("user_details");
+        User user = uds.findOrCreateUser(userDetails);
+        return new ResponseEntity<>(ads.findAppointmentsByAdvisee(user.getId()), HttpStatus.OK);
     }
 
     @ApiOperation("This service is used by an advisee to book an appointment with an advisor at a timeslot")
