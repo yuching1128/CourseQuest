@@ -119,9 +119,17 @@ public class CourseController {
 
 	@ApiOperation("This service is used to update a review for a specific course")
 	@PutMapping("/api/university/{universityId}/courses/{courseId}/review/{reviewId}")
-	public ResponseEntity<Review> updateReview(@PathVariable Integer reviewId, @RequestBody Review review)
-			throws Exception {
-		return new ResponseEntity<>(cds.updateReview(reviewId, review), HttpStatus.OK);
+	public ResponseEntity<Review> updateReview(@PathVariable Integer reviewId, @RequestBody Review review) {
+		Review reviewResponse = new Review();
+		try{
+			UserDetailsFromGoogle userDetails = (UserDetailsFromGoogle) session.getAttribute("user_details");
+			User user = uds.findOrCreateUser(userDetails);
+			review.setUser(user);
+			reviewResponse = cds.updateReview(reviewId, review);
+		}catch(Exception e){
+			log.error(e.getMessage());
+		}
+		return new ResponseEntity<>(reviewResponse, HttpStatus.OK);
 	}
 
 	@ApiOperation("This service is used to delete a review for a specific course")

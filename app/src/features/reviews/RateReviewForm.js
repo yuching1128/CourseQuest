@@ -134,7 +134,7 @@ export const RateReviewForm = ({ courseInstructors }) => {
                                 </Col>
                             </Form.Group>
 
-                            <Form.Group as={Row} className="mb-3" controlId="workload">
+                            <Form.Group as={Row} className="mb-3" controlId="content">
                                 <Form.Control as="textarea" aria-label="With textarea" placeholder='Things that you want share.' onChange={onContentChanged} style={{ width: '90%', marginLeft: '10px' }} />
                             </Form.Group>
 
