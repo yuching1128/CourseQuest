@@ -29,6 +29,8 @@ server:
   port: 8080
 
 application:
+  jobs:
+    cronSchedule: 0 * * * * *
   metadata-file-path: src/main/resources/static/data.csv
   webscraping:
     urls: [https://cs.vt.edu/Undergraduate/courses.html]
