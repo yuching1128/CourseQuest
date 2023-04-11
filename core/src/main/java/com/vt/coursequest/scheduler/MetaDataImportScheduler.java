@@ -18,7 +18,7 @@ public class MetaDataImportScheduler {
 	@Autowired
 	private CoursesMetaDataImportService importService;
 
-	@Scheduled(cron = "* * * * * *")
+	@Scheduled(cron = "${application.jobs.cronSchedule}")
 	public void cronJobSch() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		Date now = new Date();

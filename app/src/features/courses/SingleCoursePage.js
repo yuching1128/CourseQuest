@@ -69,6 +69,12 @@ export const SingleCoursePage = () => {
     if (isLoading) {
         content = <Spinner text="Loading..." />
     } else if (isSuccess) {
+        // update local storage course rating
+        const storedList = JSON.parse(localStorage.getItem('list')) || [];
+        const updatedCourseIndex = storedList.findIndex((option) => option.id === course.id);
+        storedList[updatedCourseIndex].rating = course.rating;
+        localStorage.setItem('list', JSON.stringify(storedList));
+
         content = (
             <Container className="singleCoursePage">
                 <h2 className="courseName">{course.name}</h2>
