@@ -82,76 +82,76 @@ export const EditReviewForm = ({reviewDetails, courseInstructors}) => {
             <Container className="RateReviewPage">
                 <Stack direction="horizontal" gap={3} className="RateReviewContent"></Stack>
                 <Form className="RateReviewForm">
-                    <div className="stars-rating">
-                        <h3>Edit Your Rating</h3>
-                        <StarRatings
-                            rating={rating}
-                            changeRating={(newRating)=>{
-                                setRating(newRating);
-                            }}
-                            starDimension="3em"
-                            starSpacing="2em"
-                            starRatedColor ='rgb(237, 139, 0)'
-                            onChange={onRatingChanged}
-                        />
+                    <div className="reviewBoxes">
+                        <div className="reviewBoxes">
+                            <p className="courseTaken">Edit Your Rating</p>
+                            <StarRatings
+                                rating={rating}
+                                changeRating={(newRating)=>{
+                                    setRating(newRating);
+                                }}
+                                starDimension="3em"
+                                starSpacing="2em"
+                                starRatedColor ='rgb(237, 139, 0)'
+                                onChange={onRatingChanged}
+                            />
+                        </div>
+                        <div className="reviewBoxes">
+                            <p className="courseTaken">Edit Your Review</p>
+                            <Form.Group as={Row} className="mb-3" controlId="taughtBy">
+                                <Form.Label column sm={2}>Taught by</Form.Label>
+                                <Col sm={10} style={{ maxWidth: '400px' }}>
+                                    <Form.Select onChange={onProfessorChanged} defaultValue={professor}>
+                                        <option disabled selected value> -- select an option -- </option>
+                                        {instructorOptions}
+                                    </Form.Select>
+                                </Col>
+                            </Form.Group>
+
+                            <Form.Group as={Row} className="mb-3" controlId="delivery">
+                                <Form.Label column sm={2}>Delivery</Form.Label>
+                                <Col sm={10} style={{ maxWidth: '400px' }}>
+                                    <Form.Select onChange={onDeliveryChanged} value={delivery}>
+                                        <option disabled selected value> -- select an option -- </option>
+                                        <option>INPERSON</option>
+                                        <option>ONLINE</option>
+                                        <option>HYBRID</option>
+                                    </Form.Select>
+                                </Col>
+                            </Form.Group>
+
+                            <Form.Group as={Row} className="mb-3" controlId="workload">
+                                <Form.Label column sm={2}>Workload</Form.Label>
+                                <Col sm={10} style={{ maxWidth: '400px' }}>
+                                    <Form.Select onChange={onWorkloadChanged} value={workload}>
+                                        <option disabled selected value> -- select an option -- </option>
+                                        <option>LIGHT</option>
+                                        <option>MODERATE</option>
+                                        <option>HEAVY</option>
+                                    </Form.Select>
+                                </Col>
+                            </Form.Group>
+
+                            <Form.Group as={Row} className="mb-3" controlId="workload">
+                                <Form.Control as="textarea" aria-label="With textarea" onChange={onContentChanged} value={content} style={{width: '90%', marginLeft: '10px'}}/>
+                            </Form.Group>
+
+                            <Form.Check
+                                type="checkbox"
+                                label="Anonymous"
+                                checked={anonymous}
+                                onChange={onAnonymousChanged}
+                            />
+                        </div>
                     </div>
-                    <br/>
-                    <div>
-                        <h3>Edit Your Review</h3>
-                        <Form.Group as={Row} className="mb-3" controlId="taughtBy">
-                            <Form.Label column sm={2}>Taught by</Form.Label>
-                            <Col sm={10}>
-                                <Form.Select onChange={onProfessorChanged} defaultValue={professor}>
-                                    <option disabled selected value> -- select an option -- </option>
-                                    {instructorOptions}
-                                </Form.Select>
-                            </Col>
-                        </Form.Group>
 
-                        <Form.Group as={Row} className="mb-3" controlId="delivery">
-                            <Form.Label column sm={2}>Delivery</Form.Label>
-                            <Col sm={10}>
-                                <Form.Select onChange={onDeliveryChanged} value={delivery}>
-                                    <option disabled selected value> -- select an option -- </option>
-                                    <option>INPERSON</option>
-                                    <option>ONLINE</option>
-                                    <option>HYBRID</option>
-                                </Form.Select>
-                            </Col>
-                        </Form.Group>
-
-                        <Form.Group as={Row} className="mb-3" controlId="workload">
-                            <Form.Label column sm={2}>Workload</Form.Label>
-                            <Col sm={10}>
-                                <Form.Select onChange={onWorkloadChanged} value={workload}>
-                                    <option disabled selected value> -- select an option -- </option>
-                                    <option>LIGHT</option>
-                                    <option>MODERATE</option>
-                                    <option>HEAVY</option>
-                                </Form.Select>
-                            </Col>
-                        </Form.Group>
-
-                        <Form.Group as={Row} className="mb-3" controlId="workload">
-                            <Form.Control as="textarea" aria-label="With textarea" onChange={onContentChanged} value={content} />
-                        </Form.Group>
-
-                        <Form.Check
-                            type="checkbox"
-                            label="Anonymous?"
-                            checked={anonymous}
-                            onChange={onAnonymousChanged}
-                        />
-                        <br/>
-                    </div>
-
-                    <Button type="button" onClick={onEditReviewClicked}>
+                    <button type="button" className="reviewAddBtn" onClick={onEditReviewClicked}>
                         Edit Post
-                    </Button>
+                    </button>
 
-                    <Button type="button" onClick={onDeleteReviewClicked}>
+                    <button type="button" className="reviewDeleteBtn" onClick={onDeleteReviewClicked}>
                         Delete Post
-                    </Button>
+                    </button>
                     {spinner}
                 </Form>
             </Container>

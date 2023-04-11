@@ -29,7 +29,7 @@ let CourseExcerpt = ({ course }) => {
 export const CoursesPage = () => {
     const { universityId } = useParams();
 
-    const size = 2;
+    const size = 10;
 
     const [page, setPage] = useState(
         localStorage.getItem('curpage') ? parseInt(localStorage.getItem('curpage')) : 0
@@ -52,7 +52,6 @@ export const CoursesPage = () => {
         isSuccess,
         isError,
         error,
-        refetch
     } = useGetCoursesQuery({universityId: universityId, page: page, size: size});
 
     useEffect(()=>{

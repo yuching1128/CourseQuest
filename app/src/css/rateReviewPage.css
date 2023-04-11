@@ -1,3 +1,75 @@
 .star-rating {
     padding: 0.25em;
 }
+
+.courseTaken{
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+
+.reviewFormBox{
+    border: 3px solid #D9D9D9;
+    padding: 10px 20px 20px 20px;
+    margin-bottom: 30px;
+}
+
+.reviewBoxes{
+    border: 3px solid #D9D9D9;
+    padding: 20px 20px 20px 20px;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+.reviewAddBtn{
+    color: white;
+    background: #630031;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: none;
+    font-size: 23px;
+    padding: 2px 8px 3px 8px;
+    font-weight: bold;
+    float: right;
+    margin-left: 1em;
+    margin-right: 2em;
+}
+
+.reviewAddBtn:hover{
+    color: white;
+    background: #D83379;
+}
+
+.reviewCancelBut{
+    color: white;
+    background: #878787;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: none;
+    font-size: 23px;
+    padding: 2px 8px 3px 8px;
+    font-weight: bold;
+    float: right;
+}
+
+.reviewCancelBut{
+    color: white;
+    background: #696868;
+}
+
+.reviewDeleteBtn{
+    color: white;
+    background: #630031;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: none;
+    font-size: 23px;
+    padding: 2px 8px 3px 8px;
+    font-weight: bold;
+    float: right;
+}
+
+.reviewDeleteBtn:hover {
+    color: white;
+    background: #D83379;
+}
