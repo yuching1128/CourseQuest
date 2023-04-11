@@ -41,6 +41,7 @@ export const EditReviewForm = ({ reviewDetails, courseInstructors }) => {
         try {
             const editReviewDetails = {
                 anonymous: anonymous,
+                content: content,
                 delivery: delivery,
                 id: reviewDetails.id,
                 instructor: {

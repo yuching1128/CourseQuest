@@ -38,6 +38,7 @@ export const RateReviewForm = ({ courseInstructors }) => {
             try {
                 const reviewDetails = {
                     anonymous: anonymous,
+                    content: content,
                     delivery: delivery,
                     university: {
                         id: universityId
