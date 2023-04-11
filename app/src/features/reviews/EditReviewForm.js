@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
-import {Button, Col, Row, Spinner, Stack} from "react-bootstrap";
-import {useDeleteReviewMutation, useEditReviewMutation} from '../api/apiSlice'
+import { Button, Col, Row, Spinner, Stack } from "react-bootstrap";
+import { useDeleteReviewMutation, useEditReviewMutation } from '../api/apiSlice'
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
-import {useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 
-export const EditReviewForm = ({reviewDetails, courseInstructors}) => {
+export const EditReviewForm = ({ reviewDetails, courseInstructors }) => {
 
     console.log(courseInstructors)
 
@@ -38,37 +38,34 @@ export const EditReviewForm = ({reviewDetails, courseInstructors}) => {
     ))
 
     const onEditReviewClicked = async () => {
-        if (content) {
-            try {
-                const editReviewDetails = {
-                    anonymous: anonymous,
-                    content:content,
-                    delivery: delivery,
-                    id: reviewDetails.id,
-                    instructor: {
-                        id: professor,
-                    },
-                    rating: rating,
-                    university: {
-                        id: reviewDetails.university.id
-                    },
-                    user: {
-                        id: user.id,
-                    },
-                    workload: workload
-                }
-
-                await updateReview({ universityId: reviewDetails.university.id, courseId: reviewDetails.course.id, reviewId: reviewDetails.id, editedReview: editReviewDetails})
-                navigate(`/university/${reviewDetails.university.id}/courses/${reviewDetails.course.id}`)
-            } catch (err) {
-                console.error('Failed to edit the review: ', err)
+        try {
+            const editReviewDetails = {
+                anonymous: anonymous,
+                delivery: delivery,
+                id: reviewDetails.id,
+                instructor: {
+                    id: professor,
+                },
+                rating: rating,
+                university: {
+                    id: reviewDetails.university.id
+                },
+                user: {},
+                workload: workload
             }
+
+            await updateReview({
+                universityId: reviewDetails.university.id, courseId: reviewDetails.course.id, reviewId: reviewDetails.id, editedReview: editReviewDetails
+            })
+            navigate(`/university/${reviewDetails.university.id}/courses/${reviewDetails.course.id}`)
+        } catch (err) {
+            console.error('Failed to edit the review: ', err)
         }
     }
 
     const onDeleteReviewClicked = async () => {
         try {
-            await deleteReview({universityId: reviewDetails.university.id, courseId: reviewDetails.course.id, reviewId: reviewDetails.id})
+            await deleteReview({ universityId: reviewDetails.university.id, courseId: reviewDetails.course.id, reviewId: reviewDetails.id })
             navigate(`/university/${reviewDetails.university.id}/courses/${reviewDetails.course.id}`)
         } catch (err) {
             console.error('Failed to delete the review: ', err)
@@ -86,16 +83,16 @@ export const EditReviewForm = ({reviewDetails, courseInstructors}) => {
                         <h3>Edit Your Rating</h3>
                         <StarRatings
                             rating={rating}
-                            changeRating={(newRating)=>{
+                            changeRating={(newRating) => {
                                 setRating(newRating);
                             }}
                             starDimension="3em"
                             starSpacing="2em"
-                            starRatedColor ='rgb(237, 139, 0)'
+                            starRatedColor='rgb(237, 139, 0)'
                             onChange={onRatingChanged}
                         />
                     </div>
-                    <br/>
+                    <br />
                     <div>
                         <h3>Edit Your Review</h3>
                         <Form.Group as={Row} className="mb-3" controlId="taughtBy">
@@ -142,7 +139,7 @@ export const EditReviewForm = ({reviewDetails, courseInstructors}) => {
                             checked={anonymous}
                             onChange={onAnonymousChanged}
                         />
-                        <br/>
+                        <br />
                     </div>
 
                     <Button type="button" onClick={onEditReviewClicked}>
