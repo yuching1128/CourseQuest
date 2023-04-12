@@ -98,7 +98,7 @@ public class CourseDataServiceImpl implements CourseDataService {
 	}
 
 	@Override
-	public Review createReview(Review review) {
+	public Review createReview(Review review, User user) {
 		if (null != review.getCourse() && null != review.getCourse().getId()) {
 			Optional<Course> course = courseRepository.findById(review.getCourse().getId());
 			if (course.isPresent()) {
@@ -106,13 +106,15 @@ public class CourseDataServiceImpl implements CourseDataService {
 			}
 		}
 
-		if (null != review.getUser() && null != review.getUser().getId()) {
-			Optional<User> user = userRepository.findById(review.getUser().getId());
-			if (user.isPresent()) {
-				userRepository.save(user.get());
-				review.setUser(user.get());
-			}
-		}
+		review.setUser(user);
+
+//		if (null != review.getUser() && null != review.getUser().getId()) {
+//			Optional<User> user = userRepository.findById(review.getUser().getId());
+//			if (user.isPresent()) {
+//				userRepository.save(user.get());
+//				review.setUser(user.get());
+//			}
+//		}
 
 		if (null != review.getUniversity() && null != review.getUniversity().getId()) {
 			Optional<University> university = universityRepository.findById(review.getUniversity().getId());

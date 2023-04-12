@@ -4,7 +4,9 @@ import com.vt.coursequest.entity.Course;
 import com.vt.coursequest.entity.Department;
 import com.vt.coursequest.entity.University;
 import com.vt.coursequest.entity.User;
+import com.vt.coursequest.interceptor.UserDetailsFromGoogle;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +21,7 @@ public interface UserDataService {
      * which includes name, e-mail, university,
      * degree, major, subject taken, subject interested, concentration interested, mentoring on class.
      *
-     * @param userId
+     * @param
      * @return
      */
     Optional<User> findUser(Integer userId);
@@ -109,6 +111,8 @@ public interface UserDataService {
      * @return user information
      */
     User createMentorCourse(Integer userId, List<Course> courseList);
+
+    User findOrCreateUser(UserDetailsFromGoogle userDetails);
 
 
 

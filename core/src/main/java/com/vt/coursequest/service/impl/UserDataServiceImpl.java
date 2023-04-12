@@ -5,10 +5,12 @@ import com.vt.coursequest.dao.UniversityRepository;
 import com.vt.coursequest.dao.UserRepository;
 import com.vt.coursequest.entity.*;
 
+import com.vt.coursequest.interceptor.UserDetailsFromGoogle;
 import com.vt.coursequest.service.UserDataService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -144,5 +146,18 @@ public class UserDataServiceImpl implements UserDataService {
             return userRepository.save(curUser);
         }
         return null;
+    }
+
+    @Override
+    public User findOrCreateUser(UserDetailsFromGoogle userDetails) {
+        Optional<User> user = userRepository.findByEmail(userDetails.getEmail());
+        if (!user.isPresent()) {
+            User newUser = new User();
+            newUser.setEmail(userDetails.getEmail());
+            newUser.setFirstName(userDetails.getFirstName());
+            newUser.setLastName(userDetails.getLastName());
+            return userRepository.save(newUser);
+        }
+        return user.get();
     }
 }

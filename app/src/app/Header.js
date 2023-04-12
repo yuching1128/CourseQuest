@@ -1,18 +1,46 @@
-import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Navbar, Container, Nav, Image } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { googleLogout } from "@react-oauth/google";
+import { selectUserProfile, setUserProfile } from "../features/userProfile/userProfileSlice";
 
 export default function Header() {
 
-    const user = useSelector(state => state.user)
+    const user = useSelector(state => state.user);
+    const userProfile = useSelector(selectUserProfile);
+    const [loggedIn, setLoggedIn] = useState(Boolean(sessionStorage.getItem("access_token")));
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        setLoggedIn(Boolean(sessionStorage.getItem("access_token")));
+    }, [sessionStorage])
+
+    const logout = () => {
+        googleLogout();
+        dispatch(
+            setUserProfile({
+                type: "userProfile/userProfileSet",
+                payload: {
+                    given_name: null,
+                    family_name: null,
+                    email: null,
+                },
+            })
+        )
+        sessionStorage.setItem("userInfo", null);
+        sessionStorage.setItem("access_token", null);
+        navigate("/login")
+    }
 
     return (
         <Navbar sticky="top" className="Header" expand="lg">
             <Container>
                 <Navbar.Brand as={NavLink} to="/">
                     <Image alt="logo" src={require('../images/logo.png')}
-                           height="40"
-                           className="d-inline-block align-top " />
+                        height="40"
+                        className="d-inline-block align-top " />
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
@@ -23,8 +51,8 @@ export default function Header() {
                         <Nav.Link as={NavLink} to={`/university/${user.universityId}/mentee`} className="nav-button">Find my Mentor</Nav.Link>
                     </Nav>
                     <Nav>
-                        <Nav.Link as={NavLink} to="/login" className="button-login">Login</Nav.Link>
-                        <Nav.Link as={NavLink} to="/signup" className="button-signup">Sign Up</Nav.Link>
+                        <Nav.Link hidden={userProfile.email} as={NavLink} to="/login" className="button-login">Sign In</Nav.Link>
+                        <button hidden={!userProfile.email} onClick={logout} className="button-signup">Logout</button>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

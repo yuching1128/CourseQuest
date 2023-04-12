@@ -1,14 +1,14 @@
 import React from 'react';
 import { useState } from 'react';
 import { useParams } from "react-router-dom";
-import {Stack, Form, Button, Row, Col, Spinner} from "react-bootstrap";
+import { Stack, Form, Button, Row, Col, Spinner } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import StarRatings from 'react-star-ratings';
 import '../../css/rateReviewPage.css';
-import {useAddNewReviewMutation} from "../api/apiSlice";
-import {useSelector} from "react-redux";
+import { useAddNewReviewMutation } from "../api/apiSlice";
+import { useSelector } from "react-redux";
 
-export const RateReviewForm = ({courseInstructors}) => {
+export const RateReviewForm = ({ courseInstructors }) => {
 
     const user = useSelector(state => state.user)
     const { universityId, courseId } = useParams()
@@ -38,7 +38,7 @@ export const RateReviewForm = ({courseInstructors}) => {
             try {
                 const reviewDetails = {
                     anonymous: anonymous,
-                    content:content,
+                    content: content,
                     delivery: delivery,
                     university: {
                         id: universityId
@@ -50,13 +50,11 @@ export const RateReviewForm = ({courseInstructors}) => {
                         id: professor,
                     },
                     rating: rating,
-                    user: {
-                        id: user.id,
-                    },
+                    user: {},
                     workload: workload
                 }
 
-                await addNewReview({ universityId: universityId, courseId: courseId, newReview: reviewDetails}).unwrap()
+                await addNewReview({ universityId: universityId, courseId: courseId, newReview: reviewDetails }).unwrap()
             } catch (err) {
                 console.error('Failed to save the review: ', err)
             }
@@ -71,89 +69,89 @@ export const RateReviewForm = ({courseInstructors}) => {
     ))
 
     const spinner = isLoading ? <Spinner size="30px" /> : null
-    
+
     return (
-    <Container className="reviews">
-        <Container className="RateReviewPage">
-            <Stack direction="horizontal" gap={3} className="RateReviewContent"></Stack>
-            <Form className="RateReviewForm">
-                <div className="reviewFormBox">
-                    <div className="reviewBoxes">
-                        <p className="courseTaken">Course Taken</p>
-                        <Form.Check
-                            type="checkbox"
-                            label="I have taken this course."
-                            value="yes"
-                            onChange={onTakenCourseChanged}
-                        />
+        <Container className="reviews">
+            <Container className="RateReviewPage">
+                <Stack direction="horizontal" gap={3} className="RateReviewContent"></Stack>
+                <Form className="RateReviewForm">
+                    <div className="reviewFormBox">
+                        <div className="reviewBoxes">
+                            <p className="courseTaken">Course Taken</p>
+                            <Form.Check
+                                type="checkbox"
+                                label="I have taken this course."
+                                value="yes"
+                                onChange={onTakenCourseChanged}
+                            />
+                        </div>
+                        <div className="reviewBoxes">
+                            <p className="courseTaken">Rate the Course</p>
+                            <StarRatings
+                                rating={rating}
+                                changeRating={(newRating) => {
+                                    setRating(newRating);
+                                }}
+                                starDimension="3em"
+                                starSpacing="2em"
+                                starRatedColor='rgb(237, 139, 0)'
+                                starHoverColor='rgb(99, 0, 49)'
+                                onChange={onRatingChanged}
+                            />
+                        </div>
+                        <div className="reviewBoxes">
+                            <p className="courseTaken">Write a Review</p>
+                            <Form.Group as={Row} className="mb-3" controlId="taughtBy">
+                                <Form.Label column sm={2}>Taught by</Form.Label>
+                                <Col sm={10} style={{ maxWidth: '400px' }}>
+                                    <Form.Select onChange={onProfessorChanged}>
+                                        <option disabled selected value> -- select an option -- </option>
+                                        {instructorOptions}
+                                    </Form.Select>
+                                </Col>
+                            </Form.Group>
+
+                            <Form.Group as={Row} className="mb-3" controlId="delivery">
+                                <Form.Label column sm={2}>Delivery</Form.Label>
+                                <Col sm={10} style={{ maxWidth: '400px' }}>
+                                    <Form.Select onChange={onDeliveryChanged}>
+                                        <option disabled selected value> -- select an option -- </option>
+                                        <option>INPERSON</option>
+                                        <option>ONLINE</option>
+                                        <option>HYBRID</option>
+                                    </Form.Select>
+                                </Col>
+                            </Form.Group>
+
+                            <Form.Group as={Row} className="mb-3" controlId="workload">
+                                <Form.Label column sm={2}>Workload</Form.Label>
+                                <Col sm={10} style={{ maxWidth: '400px' }}>
+                                    <Form.Select onChange={onWorkloadChanged}>
+                                        <option disabled selected value> -- select an option -- </option>
+                                        <option>LIGHT</option>
+                                        <option>MODERATE</option>
+                                        <option>HEAVY</option>
+                                    </Form.Select>
+                                </Col>
+                            </Form.Group>
+
+                            <Form.Group as={Row} className="mb-3" controlId="content">
+                                <Form.Control as="textarea" aria-label="With textarea" placeholder='Things that you want share.' onChange={onContentChanged} style={{ width: '90%', marginLeft: '10px' }} />
+                            </Form.Group>
+
+                            <Form.Check
+                                type="checkbox"
+                                label="Anonymous"
+                                onChange={onAnonymousChanged}
+                            />
+                        </div>
                     </div>
-                    <div className="reviewBoxes">
-                        <p className="courseTaken">Rate the Course</p>
-                        <StarRatings
-                            rating={rating}
-                            changeRating={(newRating)=>{
-                                setRating(newRating);
-                            }}
-                            starDimension="3em"
-                            starSpacing="2em"
-                            starRatedColor ='rgb(237, 139, 0)'
-                            starHoverColor='rgb(99, 0, 49)'
-                            onChange={onRatingChanged}
-                        />
-                    </div>
-                    <div className="reviewBoxes">
-                        <p className="courseTaken">Write a Review</p>
-                        <Form.Group as={Row} className="mb-3" controlId="taughtBy">
-                            <Form.Label column sm={2}>Taught by</Form.Label>
-                            <Col sm={10} style={{ maxWidth: '400px' }}>
-                                <Form.Select onChange={onProfessorChanged}>
-                                    <option disabled selected value> -- select an option -- </option>
-                                    {instructorOptions}
-                                </Form.Select>
-                            </Col>
-                        </Form.Group>
-
-                        <Form.Group as={Row} className="mb-3" controlId="delivery">
-                            <Form.Label column sm={2}>Delivery</Form.Label>
-                            <Col sm={10} style={{ maxWidth: '400px' }}>
-                                <Form.Select onChange={onDeliveryChanged}>
-                                    <option disabled selected value> -- select an option -- </option>
-                                    <option>INPERSON</option>
-                                    <option>ONLINE</option>
-                                    <option>HYBRID</option>
-                                </Form.Select>
-                            </Col>
-                        </Form.Group>
-
-                        <Form.Group as={Row} className="mb-3" controlId="workload">
-                            <Form.Label column sm={2}>Workload</Form.Label>
-                            <Col sm={10} style={{ maxWidth: '400px' }}>
-                                <Form.Select onChange={onWorkloadChanged}>
-                                    <option disabled selected value> -- select an option -- </option>
-                                    <option>LIGHT</option>
-                                    <option>MODERATE</option>
-                                    <option>HEAVY</option>
-                                </Form.Select>
-                            </Col>
-                        </Form.Group>
-
-                        <Form.Group as={Row} className="mb-3" controlId="workload">
-                            <Form.Control as="textarea" aria-label="With textarea" placeholder='Things that you want share.' onChange={onContentChanged} style={{width: '90%', marginLeft: '10px'}} />
-                        </Form.Group>
-
-                        <Form.Check
-                            type="checkbox"
-                            label="Anonymous"
-                            onChange={onAnonymousChanged}
-                        />
-                    </div>
-                </div>
-                <button type="button" className="reviewAddBtn" onClick={onSaveReviewClicked} disabled={!canSave}>
-                    Add Post
-                </button>
-                {spinner}
-                <button variant="secondary" type="cancel" className="reviewCancelBut">Cancel</button>
-            </Form>
-        </Container>
-    </Container>)
+                    <button type="button" className="reviewAddBtn" onClick={onSaveReviewClicked} disabled={!canSave}>
+                        Add Post
+                    </button>
+                    {spinner}
+                    <button variant="secondary" type="cancel" className="reviewCancelBut">Cancel</button>
+                </Form>
+            </Container>
+        </Container>)
 }

@@ -1,20 +1,20 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     useAddUserDegreeMutation, useAddUserMajorMutation,
     useAddUserUniversityMutation,
     useGetDegreeQuery, useGetMajorQuery,
     useGetUniversityQuery
 } from "../api/apiSlice";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPenToSquare, faSquareCheck} from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare, faSquareCheck } from "@fortawesome/free-regular-svg-icons";
 import Select from "react-select";
 
-export const UserProgram = ({userId, userProfileData}) => {
+export const UserProgram = ({ userProfileData }) => {
 
     // set university select option
     const [university, setUniversity] = useState(null);
     const [selectedUniversity, setSelectedUniversity] = useState(null);
-    const [addUserUniversity, { isLoading: universityIsLoading}] = useAddUserUniversityMutation();
+    const [addUserUniversity, { isLoading: universityIsLoading }] = useAddUserUniversityMutation();
     const [defaultUniversity, setDefaultUniversity] = useState(null);
 
     const {
@@ -40,7 +40,7 @@ export const UserProgram = ({userId, userProfileData}) => {
                 value: university.name,
                 label: university.name,
             }));
-            setUniversity([ ,...universityOptions,
+            setUniversity([, ...universityOptions,
             ]);
         }
     }, [universitySuccess, universityData]);
@@ -56,8 +56,8 @@ export const UserProgram = ({userId, userProfileData}) => {
 
     // set degree select options
     const [degree, setDegree] = useState([]);
-    const [selectedDegree, setSelectedDegree]= useState(null);
-    const [addUserDegree, { isLoading: degreeIsLoading}] = useAddUserDegreeMutation();
+    const [selectedDegree, setSelectedDegree] = useState(null);
+    const [addUserDegree, { isLoading: degreeIsLoading }] = useAddUserDegreeMutation();
     const [defaultDegree, setDefaultDegree] = useState(null);
 
     const {
@@ -82,7 +82,7 @@ export const UserProgram = ({userId, userProfileData}) => {
                 value: degree.name,
                 label: degree.name,
             }));
-            setDegree([ ,...degreeOptions,
+            setDegree([, ...degreeOptions,
             ]);
         }
     }, [degreeSuccess, degreeData]);
@@ -99,7 +99,7 @@ export const UserProgram = ({userId, userProfileData}) => {
     // set major select option
     const [major, setMajor] = useState(null);
     const [selectedMajor, setSelectedMajor] = useState(null);
-    const [addUserMajor, { isLoading: majorIsLoading}] = useAddUserMajorMutation();
+    const [addUserMajor, { isLoading: majorIsLoading }] = useAddUserMajorMutation();
     const [defaultMajor, setDefaultMajor] = useState(null);
 
     const {
@@ -125,7 +125,7 @@ export const UserProgram = ({userId, userProfileData}) => {
                 value: major.name,
                 label: major.name,
             }));
-            setMajor([ ,...majorOptions,
+            setMajor([, ...majorOptions,
             ]);
         }
     }, [majorSuccess, majorData]);
@@ -146,9 +146,9 @@ export const UserProgram = ({userId, userProfileData}) => {
     };
 
     const handleCourseDoneClick = async () => {
-        await addUserUniversity({userId: userId, universityId: selectedUniversity})
-        await addUserDegree({userId: userId, degreeId: selectedDegree})
-        await addUserMajor({userId: userId, majorId: selectedMajor})
+        await addUserUniversity({ universityId: selectedUniversity })
+        await addUserDegree({ degreeId: selectedDegree })
+        await addUserMajor({ majorId: selectedMajor })
         setCourseIsEditing(false);
     };
 
@@ -164,32 +164,32 @@ export const UserProgram = ({userId, userProfileData}) => {
             <div>
                 <p className="profileText">University: </p>
                 <Select className="profileUniversity"
-                        options={university}
-                        placeholder="Select the university"
-                        isDisabled={!courseIsEditing}
-                        onChange={handleUniversityChange}
-                        value={defaultUniversity}
+                    options={university}
+                    placeholder="Select the university"
+                    isDisabled={!courseIsEditing}
+                    onChange={handleUniversityChange}
+                    value={defaultUniversity}
                 />
             </div>
 
             <div>
                 <p className="profileText">Degree: </p>
                 <Select className="profileDegree"
-                        options={degree}
-                        placeholder="Select the degree"
-                        isDisabled={!courseIsEditing}
-                        onChange={handleDegreeChange}
-                        value={defaultDegree}
+                    options={degree}
+                    placeholder="Select the degree"
+                    isDisabled={!courseIsEditing}
+                    onChange={handleDegreeChange}
+                    value={defaultDegree}
                 />
             </div>
             <div>
                 <p className="profileText">Major: </p>
                 <Select className="profileMajor"
-                        options={major}
-                        placeholder="Select the major"
-                        isDisabled={!courseIsEditing}
-                        onChange={handleMajorChange}
-                        value={defaultMajor}
+                    options={major}
+                    placeholder="Select the major"
+                    isDisabled={!courseIsEditing}
+                    onChange={handleMajorChange}
+                    value={defaultMajor}
                 />
             </div>
         </div>

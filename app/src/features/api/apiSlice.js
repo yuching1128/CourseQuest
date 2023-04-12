@@ -2,21 +2,29 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const apiSlice = createApi({
     reducerPath: 'api',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/api/' }),
     tagTypes: ['Review', 'Timeslots', 'Appointments', 'Courses'],
+    baseQuery: fetchBaseQuery({
+        baseUrl: 'http://localhost:8080/api/', credentials: 'include', prepareHeaders: (headers) => {
+            const token = sessionStorage.getItem("access_token")
+            if (token) {
+                headers.set('authorization', `Bearer ${token}`)
+            }
+            return headers
+        }
+    }),
     endpoints: builder => ({
         getCourses: builder.query({
-            query: ({universityId, page, size}) => {
+            query: ({ universityId, page, size }) => {
                 return `university/${universityId}/courses?pageNum=${page}&pageSize=${size}`
             },
             providesTags: ['Courses']
         }),
         getCourse: builder.query({
-            query: ({universityId, courseId}) => `university/${universityId}/courses/${courseId}`,
+            query: ({ universityId, courseId }) => `university/${universityId}/courses/${courseId}`,
             providesTags: ['Courses']
         }),
         getCourseReviews: builder.query({
-            query: ({universityId, courseId}) => `university/${universityId}/courses/${courseId}/review`,
+            query: ({ universityId, courseId }) => `university/${universityId}/courses/${courseId}/review`,
             providesTags: ['Review']
         }),
         getDepartments: builder.query({
@@ -26,11 +34,11 @@ export const apiSlice = createApi({
             query: universityId => `university/${universityId}/levels`
         }),
         getUserReviews: builder.query({
-            query: userId => `/user/${userId}/reviews`,
+            query: () => `/user/reviews`,
             providesTags: ['Review']
         }),
         addNewReview: builder.mutation({
-            query: ({universityId, courseId, newReview}) => ({
+            query: ({ universityId, courseId, newReview }) => ({
                 url: `university/${universityId}/courses/${courseId}/review`,
                 method: 'POST',
                 body: newReview
@@ -38,7 +46,7 @@ export const apiSlice = createApi({
             invalidatesTags: ['Review', 'Courses']
         }),
         editReview: builder.mutation({
-            query: ({universityId, courseId, reviewId, editedReview}) => ({
+            query: ({ universityId, courseId, reviewId, editedReview }) => ({
                 url: `university/${universityId}/courses/${courseId}/review/${reviewId}`,
                 method: 'PUT',
                 body: editedReview
@@ -46,14 +54,14 @@ export const apiSlice = createApi({
             invalidatesTags: ['Review', 'Courses']
         }),
         deleteReview: builder.mutation({
-            query: ({universityId, courseId, reviewId}) => ({
+            query: ({ universityId, courseId, reviewId }) => ({
                 url: `university/${universityId}/courses/${courseId}/review/${reviewId}`,
                 method: 'DELETE'
             }),
             invalidatesTags: ['Review', 'Courses']
         }),
         getAdvisorTimeslots: builder.query({
-            query: advisorId => `/advisor/${advisorId}/all`,
+            query: () => `/advisor/all`,
             providesTags: ['Timeslots']
         }),
         getFreeAdvisorTimeslots: builder.query({
@@ -61,7 +69,7 @@ export const apiSlice = createApi({
             providesTags: ['Timeslots']
         }),
         addNewTimeslot: builder.mutation({
-            query: ({newTimeslot}) => ({
+            query: ({ newTimeslot }) => ({
                 url: `advising/timeslot/add`,
                 method: 'POST',
                 body: newTimeslot
@@ -69,14 +77,14 @@ export const apiSlice = createApi({
             invalidatesTags: ['Timeslots']
         }),
         deleteTimeslot: builder.mutation({
-            query: ({timeslotId}) => ({
+            query: ({ timeslotId }) => ({
                 url: `advising/${timeslotId}/delete`,
                 method: 'DELETE'
             }),
             invalidatesTags: ['Timeslots']
         }),
         getUserInfo: builder.query({
-            query: ({userId}) => `user/${userId}/profile`
+            query: () => `user/profile`
         }),
         getUniversity: builder.query({
             query: () => `university/types`
@@ -88,59 +96,56 @@ export const apiSlice = createApi({
             query: () => `major/types`
         }),
         addUserUniversity: builder.mutation({
-            query: ({userId, universityId}) => ({
+            query: ({ universityId }) => ({
                 url: `user/university`,
                 method: 'POST',
-                params: {userId: userId, universityId: universityId}
+                params: { universityId: universityId }
             }),
         }),
         addUserDegree: builder.mutation({
-            query: ({userId, degreeId}) => ({
+            query: ({ degreeId }) => ({
                 url: `user/degree`,
                 method: 'POST',
-                params: {userId: userId, degreeId: degreeId}
+                params: { degreeId: degreeId }
             }),
         }),
         addUserMajor: builder.mutation({
-            query: ({userId, majorId}) => ({
+            query: ({ majorId }) => ({
                 url: `user/major`,
                 method: 'POST',
-                params: {userId: userId, majorId: majorId}
+                params: { majorId: majorId }
             }),
         }),
         addUserCourseTaken: builder.mutation({
-            query: ({userId, courseList}) => ({
+            query: ({ courseList }) => ({
                 url: `user/course`,
                 method: 'POST',
-                params: {userId},
                 body: courseList
             }),
         }),
         addUserCourseInterested: builder.mutation({
-            query: ({userId, courseList}) => ({
+            query: ({ courseList }) => ({
                 url: `user/interested`,
                 method: 'POST',
-                params: {userId},
                 body: courseList
             }),
         }),
         addUserConcentration: builder.mutation({
-            query: ({userId, concentration}) => ({
+            query: ({ concentration }) => ({
                 url: `user/concentration`,
                 method: 'POST',
-                params: {userId: userId, concentration: concentration}
+                params: { concentration: concentration }
             }),
         }),
         addUserMentorCourse: builder.mutation({
-            query: ({userId, courseList}) => ({
+            query: ({ courseList }) => ({
                 url: `user/mentorCourse`,
                 method: 'POST',
-                params: {userId},
                 body: courseList
             }),
         }),
         addNewAppointment: builder.mutation({
-            query: ({newAppointment}) => ({
+            query: ({ newAppointment }) => ({
                 url: `advising/book`,
                 method: 'POST',
                 body: newAppointment
@@ -148,11 +153,11 @@ export const apiSlice = createApi({
             invalidatesTags: ['Timeslots']
         }),
         getAdvisorAppointments: builder.query({
-            query: advisorId => `/advising/advisor/${advisorId}/appointments`,
+            query: () => `/advising/advisor/appointments`,
             providesTags: ['Timeslots']
         }),
         getAdviseeAppointments: builder.query({
-            query: adviseeId => `/advising/advisee/${adviseeId}/appointments`,
+            query: () => `/advising/advisee/appointments`,
             providesTags: ['Timeslots']
         })
     })
