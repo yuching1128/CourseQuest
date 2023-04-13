@@ -42,23 +42,35 @@
     color: #630031;
 }
 
-.button-signup {
+.button-logout {
     font-size: 1.5em;
     font-weight: bold;
     color: white;
     background-color: #630031;
-    margin-left: 1em;
     margin-top: 0.5em;
     border-radius: 15px;
 }
 
-.button-signup:hover {
+.button-logout:hover {
     background-color: var(--primary-color-bright);
     color: white;
 }
 
-.button-signup:focus,
-.button-signup.active{
+.button-logout:focus,
+.button-logout.active{
     background-color: var(--primary-color-bright) !important;
     color: white !important;
+}
+
+.button-profile{
+    background-color: transparent;
+    border: none;
+    font-size: 3em;
+    font-weight: bold;
+    color: #630031;
+    margin-right: 1em;
+}
+
+.button-profile:hover{
+    color: var(--primary-color-bright);
 }

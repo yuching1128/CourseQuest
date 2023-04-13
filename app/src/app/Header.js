@@ -1,9 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import {Link, NavLink, useNavigate} from "react-router-dom";
 import { Navbar, Container, Nav, Image } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { googleLogout } from "@react-oauth/google";
 import { selectUserProfile, setUserProfile } from "../features/userProfile/userProfileSlice";
+import {faCircleUser} from "@fortawesome/free-regular-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export default function Header() {
 
@@ -52,7 +54,10 @@ export default function Header() {
                     </Nav>
                     <Nav>
                         <Nav.Link hidden={userProfile.email} as={NavLink} to="/login" className="button-login">Sign In</Nav.Link>
-                        <button hidden={!userProfile.email} onClick={logout} className="button-signup">Logout</button>
+                        <Link to="/user/profile" className="button-profile" hidden={!userProfile.email}>
+                            <FontAwesomeIcon icon={faCircleUser} />
+                        </Link>
+                        <button hidden={!userProfile.email} onClick={logout} className="button-logout">Logout</button>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
