@@ -1,12 +1,10 @@
 package com.vt.coursequest.entity;
 
-import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.Data;
+import java.util.Set;
 
 /**
  * @author: EugeneFeng
@@ -17,91 +15,113 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "user", schema = "CourseQuest", uniqueConstraints = {
-		@UniqueConstraint(name = "user_email_unique", columnNames = "email") })
+        @UniqueConstraint(name = "user_email_unique", columnNames = "email")})
 public class User {
 
-	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Id
-	Integer id;
+    @Enumerated(EnumType.STRING)
+    @JoinColumn(name = "auth_provider")
+    AuthenticationProvider authenticationProvider;
 
-	@JoinColumn(name = "university_fid", referencedColumnName = "id")
-	@ManyToOne
-	University university;
-
-	@JoinColumn(name = "degree_fid", referencedColumnName = "id")
-	@ManyToOne
-	Degree degree;
-
-//	@JoinColumn(name = "major_fid", referencedColumnName = "id")
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    Integer id;
+    @JoinColumn(name = "university_fid", referencedColumnName = "id")
+    @ManyToOne
+    University university;
+    @JoinColumn(name = "degree_fid", referencedColumnName = "id")
+    @ManyToOne
+    Degree degree;
+    //	@JoinColumn(name = "major_fid", referencedColumnName = "id")
 //	@ManyToOne()
 //	Major major;
+    @JoinColumn(name = "department_fid", referencedColumnName = "id")
+    @ManyToOne
+    Department department;
+    @ManyToMany
+    Set<Course> course;
+    @ManyToMany
+    Set<Course> mentorCourse;
+    String concentration;
+    @Column(name = "email")
+    String email;
+    String firstName;
+    String lastName;
+    @JsonIgnore
+    String phone;
+    @JsonIgnore
+    String password;
 
-	public Department getDepartment() {
-		return department;
-	}
+    String role;
 
-	public void setDepartment(Department department) {
-		this.department = department;
-	}
+    Boolean enabled;
 
-	@JoinColumn(name = "department_fid", referencedColumnName = "id")
-	@ManyToOne
-	Department department;
+    @ManyToMany
+    Set<Course> interestedCourse;
 
-	@ManyToMany
-	Set<Course> course;
+    public User() {
+    }
 
-	@ManyToMany
-	Set<Course> mentorCourse;
+    public String getRole() {
+        return role;
+    }
 
-	public Set<Course> getMentorCourse() {
-		return mentorCourse;
-	}
+    public void setRole(String role) {
+        this.role = role;
+    }
 
-	public void setMentorCourse(Set<Course> mentorCourse) {
-		this.mentorCourse = mentorCourse;
-	}
+    public Boolean getEnabled() {
+        return enabled;
+    }
 
-	@ManyToMany
-	Set<Course> interestedCourse;
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
 
-	public String getConcentration() {
-		return concentration;
-	}
 
-	public void setConcentration(String concentration) {
-		this.concentration = concentration;
-	}
+    public AuthenticationProvider getAuthenticationProvider() {
+        return authenticationProvider;
+    }
 
-	String concentration;
+    public void setAuthenticationProvider(AuthenticationProvider authenticationProvider) {
+        this.authenticationProvider = authenticationProvider;
+    }
 
-	@Column(name = "email")
-	String email;
+    public Department getDepartment() {
+        return department;
+    }
 
-	String firstName;
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
 
-	String lastName;
-	@JsonIgnore
-	String phone;
-	@JsonIgnore
-	String password;
+    public Set<Course> getMentorCourse() {
+        return mentorCourse;
+    }
 
-	public University getUniversity() {
-		return university;
-	}
+    public void setMentorCourse(Set<Course> mentorCourse) {
+        this.mentorCourse = mentorCourse;
+    }
 
-	public void setUniversity(University university) {
-		this.university = university;
-	}
+    public String getConcentration() {
+        return concentration;
+    }
 
-	public Degree getDegree() {
-		return degree;
-	}
+    public void setConcentration(String concentration) {
+        this.concentration = concentration;
+    }
 
-	public void setDegree(Degree degree) {
-		this.degree = degree;
-	}
+    public University getUniversity() {
+        return university;
+    }
+
+    public void setUniversity(University university) {
+        this.university = university;
+    }
+
+    public Degree getDegree() {
+        return degree;
+    }
 
 //	public Major getMajor() {
 //		return major;
@@ -111,55 +131,55 @@ public class User {
 //		this.major = major;
 //	}
 
-	public Set<Course> getCourse() {
-		return course;
-	}
+    public void setDegree(Degree degree) {
+        this.degree = degree;
+    }
 
-	public void setCourse(Set<Course> course) {
-		this.course = course;
-	}
+    public Set<Course> getCourse() {
+        return course;
+    }
 
+    public void setCourse(Set<Course> course) {
+        this.course = course;
+    }
 
+    public String getEmail() {
+        return email;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public User() {
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
