@@ -58,6 +58,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/api/university/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
+                .formLogin().permitAll()
+                .and()
                 .oauth2Login()
                     .userInfoEndpoint().userService(oAuth2UserService)
                     .and()
