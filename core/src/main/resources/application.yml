@@ -25,6 +25,16 @@ spring:
       roles:
         - user
         - admin
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 590629088207-ta5nudl72tbcseavnji0dspl4dg24323.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
+
 server:
   port: 8080
 

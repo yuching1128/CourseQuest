@@ -39,6 +39,11 @@ public class UserDataServiceImpl implements UserDataService {
     }
 
     @Override
+    public Optional<User> findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
     public List<University> findAllUniversity() {
         return universityRepository.getAllUniversity();
     }
@@ -159,5 +164,25 @@ public class UserDataServiceImpl implements UserDataService {
             return userRepository.save(newUser);
         }
         return user.get();
+    }
+
+    @Override
+    public void createNewUserOAuthLoginSuccess(String email, String name, AuthenticationProvider provider) {
+        User user = new User();
+        user.setEmail(email);
+        user.setFirstName(name);
+        user.setEnabled(true);
+        user.setAuthenticationProvider(provider);
+
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updateNewUserOAuthLoginSuccess(User user, String email, String name, AuthenticationProvider google) {
+        user.setEmail(email);
+        user.setFirstName(name);
+        user.setAuthenticationProvider(AuthenticationProvider.GOOGLE);
+
+        userRepository.save(user);
     }
 }

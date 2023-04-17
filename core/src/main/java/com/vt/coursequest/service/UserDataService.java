@@ -1,9 +1,6 @@
 package com.vt.coursequest.service;
 
-import com.vt.coursequest.entity.Course;
-import com.vt.coursequest.entity.Department;
-import com.vt.coursequest.entity.University;
-import com.vt.coursequest.entity.User;
+import com.vt.coursequest.entity.*;
 import com.vt.coursequest.interceptor.UserDetailsFromGoogle;
 
 import javax.servlet.http.HttpSession;
@@ -25,6 +22,8 @@ public interface UserDataService {
      * @return
      */
     Optional<User> findUser(Integer userId);
+
+    Optional<User> findUserByEmail(String email);
 
     /**
      * This method is to get all universities
@@ -115,7 +114,7 @@ public interface UserDataService {
     User findOrCreateUser(UserDetailsFromGoogle userDetails);
 
 
+    void createNewUserOAuthLoginSuccess(String email, String name, AuthenticationProvider provider);
 
-
-
+    void updateNewUserOAuthLoginSuccess(User user, String email, String name, AuthenticationProvider google);
 }
