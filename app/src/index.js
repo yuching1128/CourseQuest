@@ -12,16 +12,18 @@ import './css/ProfilePage.css';
 import './css/homePage.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import store from './app/store'
+import store, { Persistor } from './app/store'
 import { Provider } from 'react-redux';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { PersistGate } from 'redux-persist/integration/react';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <GoogleOAuthProvider clientId='310536116903-4oolc727rmg62b4qsf58p8a3i76o4pfq.apps.googleusercontent.com'>
     <Provider store={store}>
-
-      <App />
+      <PersistGate loading={null} persistor={Persistor}>
+        <App />
+      </PersistGate>
     </Provider>
   </GoogleOAuthProvider>
 );
