@@ -23,4 +23,10 @@ public class MainController {
         int i = 9/0;
         return i;
     }
+
+    @PostMapping("/fail_login")
+    public String handleFailedLogin() {
+        System.out.println("A user has failed to login");
+        return "redirect:/login?error";
+    }
 }
