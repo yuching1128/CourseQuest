@@ -1,8 +1,14 @@
 spring:
+  data:
+    elasticsearch: #elastic config
+      cluster-name: ${CLUSTER_NAME:elastic}
+      cluster-nodes: ${CLUSTER_NODES:localhost:9300}
+      repositories:
+        enabled: true
   datasource:
-    url: jdbc:mysql://localhost:3306/CourseQuest
+    url: jdbc:mysql://${MYSQL_DATASOURCE:localhost:3306}/CourseQuest?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
-    password: root
+    password: ${SPRING_DATASOURCE_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
@@ -34,6 +40,10 @@ spring:
             scope:
               - email
               - profile
+    api:
+     elasticsearch:
+       uri: http://${CLUSTER_NAME:localhost}:9200/
+       search: _search
 
 server:
   port: 8080
@@ -49,3 +59,11 @@ application:
       phd: Phd
       pg: Masters
       ug: UG
+  jobs: #Fire at 10:15 AM every day
+   cronSchedule: 0 15 10 ? * *
+
+es:
+  hostname: localhost
+  port: 9200
+  username: admin
+  password: password

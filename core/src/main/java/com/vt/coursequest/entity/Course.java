@@ -1,6 +1,7 @@
 package com.vt.coursequest.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,16 +13,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
-import org.springframework.data.jpa.repository.Query;
 
 /**
  * @author: EugeneFeng
@@ -41,6 +41,10 @@ public class Course implements Serializable {
 
 	public Course() {
 	}
+	
+	@UpdateTimestamp
+	@Column(name = "modificationDate")
+	private Date modificationDate;
 
 	@Column(name = "id", updatable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
