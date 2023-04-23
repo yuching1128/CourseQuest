@@ -1,9 +1,9 @@
-package com.vt.coursequest.elasticsearch.model;
+package com.vt.coursequest.elasticsearch.dto;
 
 import lombok.Data;
 
 @Data
-public class CourseInfo {
+public class SearchDTO {
 
 	private String[] fullTextSearch;
 

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vt.coursequest.elasticsearch.model.CourseInfo;
+import com.vt.coursequest.elasticsearch.dto.SearchDTO;
 import com.vt.coursequest.entity.Course;
 import com.vt.coursequest.service.SearchService;
 
@@ -25,7 +25,7 @@ public class SearchController {
 
 	@ApiOperation("This service is used to search for  course")
 	@PostMapping("/api/university/{universityId}/search")
-	public ResponseEntity<Set<Course>> searchCourses(@RequestBody CourseInfo courseInfo) {
+	public ResponseEntity<Set<Course>> searchCourses(@RequestBody SearchDTO courseInfo) {
 		Set<Course> searchResponse = searchService.getSearchResults(courseInfo);
 		return new ResponseEntity<>(searchResponse, HttpStatus.OK);
 	}

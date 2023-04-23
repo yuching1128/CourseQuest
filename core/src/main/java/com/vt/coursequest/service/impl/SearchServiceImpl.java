@@ -3,7 +3,7 @@ package com.vt.coursequest.service.impl;
 import com.vt.coursequest.dao.DepartmentRepository;
 import com.vt.coursequest.dao.UniversityRepository;
 import com.vt.coursequest.dao.UserRepository;
-import com.vt.coursequest.elasticsearch.model.CourseInfo;
+import com.vt.coursequest.elasticsearch.dto.SearchDTO;
 import com.vt.coursequest.entity.*;
 
 import com.vt.coursequest.interceptor.UserDetailsFromGoogle;
@@ -36,7 +36,7 @@ public class SearchServiceImpl implements SearchService {
     private DepartmentRepository departmentRepository;
 
 	@Override
-	public Set<Course> getSearchResults(CourseInfo courseInfo) {
+	public Set<Course> getSearchResults(SearchDTO courseInfo) {
 		// TODO Auto-generated method stub
 		return null;
 	}
