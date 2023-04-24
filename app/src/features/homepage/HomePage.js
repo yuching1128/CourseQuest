@@ -6,14 +6,28 @@ import { selectUserProfile } from "../userProfile/userProfileSlice";
 import searchingImg from '../../images/searching.png';
 import reviewImg from '../../images/review.png';
 import connectImg from '../../images/connect.png';
-import {Button} from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import { useGetRecommendedCoursesQuery } from "../api/apiSlice";
 export default function HomePage() {
     const userProfile = useSelector(selectUserProfile)
+    const { data: recommendedCourses = [] } = useGetRecommendedCoursesQuery();
+
+    const CourseList = () => {
+        console.log(recommendedCourses)
+        const courses = recommendedCourses.map((course) => <li>{course}</li>);
+        return <ul>{courses}</ul>
+    }
     if (userProfile.email) {
         return (
             <Container className="HomePage">
                 <p className="welcome-text">Welcome back {userProfile.given_name}.</p>
                 <p>Your course recommendations: </p>
+                <ul>
+                    {recommendedCourses.map((course) =>
+                        <li>{course}</li>
+                    )}
+                </ul>
+
             </Container>
         );
     }

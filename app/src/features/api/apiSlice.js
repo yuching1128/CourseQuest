@@ -183,6 +183,9 @@ export const apiSlice = createApi({
                 body: searchDTO
             }),
             providesTags: ['Courses']
+        }),
+        getRecommendedCourses: builder.query({
+            query: () => `openai/get-recommended-courses`
         })
     })
 })
@@ -217,5 +220,6 @@ export const {
     useAddUserCourseInterestedMutation,
     useAddUserConcentrationMutation,
     useAddUserMentorCourseMutation,
-    useSearchCoursesMutation
+    useSearchCoursesMutation,
+    useGetRecommendedCoursesQuery
 } = apiSlice

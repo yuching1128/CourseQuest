@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class OpenAIServiceImpl implements OpenAIService {
 
-
+    @Resource
     private CourseRepository courseRepo;
 
     private static RestTemplate restTemplate = new RestTemplate();
@@ -48,8 +49,8 @@ public class OpenAIServiceImpl implements OpenAIService {
         log.info(question.toString());
         String responseFromOpenAI = this.getRecommendationFromOpenAI(question.toString());
         List<String> coursesRecom = Arrays.asList(responseFromOpenAI.split("\n\n")[0].split(", ")).stream().filter(s->!s.isEmpty()).collect(Collectors.toList());
-
-        return coursesRecom;
+        List<String> coursesAvailable = courseRepo.getAvailableCourses(coursesRecom);
+        return coursesAvailable;
     }
 
     public String getRecommendationFromOpenAI(String question){
