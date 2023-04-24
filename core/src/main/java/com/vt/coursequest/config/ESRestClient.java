@@ -34,7 +34,7 @@ public class ESRestClient {
 		RestClient restClient = RestClient.builder(new HttpHost(hostName, port)).build();
 		if (!username.equals("NA")) {
 			final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-			credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("user", "password"));
+			credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(username, password));
 
 			restClient = RestClient.builder(new HttpHost(hostName, port))
 					.setHttpClientConfigCallback(b -> b.setDefaultCredentialsProvider(credentialsProvider)).build();

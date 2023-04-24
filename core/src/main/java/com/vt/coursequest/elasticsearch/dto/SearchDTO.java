@@ -9,7 +9,7 @@ public class SearchDTO {
 
 	private String dept;
 
-	private Integer level;
+	private String level;
 
-	private Integer universityId;
+	private String universityId;
 }
