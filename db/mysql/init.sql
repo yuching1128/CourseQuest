@@ -224,9 +224,9 @@ INSERT INTO CourseQuest.department (name, university_id) values ('CE', 1);
 INSERT INTO CourseQuest.department (name, university_id) values ('CS', 2);
 
 -- User Data
-insert into CourseQuest.user (id,  email, first_name, last_name, password, phone, degree_fid, major_fid, university_fid) values (1, 'abdf@vt.edu', 'Eugene', 'Feng', 'fasdf', '8623579779', 1, 1, 2);
-insert into CourseQuest.user (id,  email, first_name, last_name, password, phone, degree_fid, major_fid, university_fid) values (2, 'asdfas@vt.edu', 'Jessica', 'L', 'sdfg', '8623579775', 1, 2, 1);
-insert into CourseQuest.user (id,  email, first_name, last_name, password, phone, degree_fid, major_fid, university_fid) values (3, 'fsdfasfd@vt.edu', 'Tom', 'Du', 'gsfgagf', '1234567890', 2, 1, 2);
+insert into CourseQuest.user (id,  email, first_name, last_name, password, phone, degree_fid, department_fid, university_fid) values (1, 'abdf@vt.edu', 'Eugene', 'Feng', 'fasdf', '8623579779', 1, 1, 2);
+insert into CourseQuest.user (id,  email, first_name, last_name, password, phone, degree_fid, department_fid, university_fid) values (2, 'asdfas@vt.edu', 'Jessica', 'L', 'sdfg', '8623579775', 1, 2, 1);
+insert into CourseQuest.user (id,  email, first_name, last_name, password, phone, degree_fid, department_fid, university_fid) values (3, 'fsdfasfd@vt.edu', 'Tom', 'Du', 'gsfgagf', '1234567890', 2, 1, 2);
 
 -- UserCourse Data
 insert into CourseQuest.user_course (user_id, course_id)

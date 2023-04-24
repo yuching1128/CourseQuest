@@ -1,51 +1,102 @@
+.course-excerpt {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 20px 10px 20px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+    transition: transform 0.3s ease-in-out;
+    width: 100%;
+    margin-bottom: 20px;
+    backface-visibility: hidden;
+}
+
+.course-excerpt::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #007bff;
+    transform: scaleX(0);
+    transition: transform ease-in-out;
+    backface-visibility: hidden;
+}
+
+.course-excerpt:hover {
+    transform: translateY(-5px);
+}
+
+.course-excerpt:hover::after {
+    transform: scaleX(1);
+}
+
+.searchComponent {
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    background-color: #ffffff;
+    padding-top: 8em;
+    padding-bottom: 5em;
+    padding-right: 50em;
+}
+
 .courses-list{
-    max-height: 1000px;
-    overflow-y: auto;
-    margin-top: 5em;
+    margin-top: 20em;
     width: 1100px;
     margin-left: 6em;
 }
 
 .course-button{
-    color: #630031;
-    width: content-box;
+    text-decoration: none;
+    color: #333333;
 }
 
 .course-button:hover{
-    color: #D83379;
+    text-decoration: none;
+    color: #333333;
 }
 
-.allInfo{
+h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+}
+
+.all-info {
     display: flex;
-    margin-top: 1em;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
 }
 
-.ratingBox{
-    display:inline-block;
-    background-color: #FBF6F6;
-    width: 100px;
-    height: 100px;
-
+.rating-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .rating-text{
-    padding-top: 0.5em;
-    text-align: center;
-    margin: 0 auto;
-    font-weight: bold;
+    font-size: 12px;
+    color: #999999;
+    margin: 0;
+    padding: 0;
 }
 
 .rating-point{
-    color: #CF4420;
-    font-size: 3em;
+    font-size: 24px;
     font-weight: bold;
-    text-align: center;
-    margin: -0.1em auto 0;
+    color: #007bff;
+    margin-top: 5px;
 }
 
-.courseInfo {
-    display: inline-block;
-    margin-left: 1em;
+.course-info {
+    flex-grow: 1;
+    margin-left: 20px;
 }
 
 .professorName {
@@ -55,30 +106,17 @@
     margin-block-end: 0em;
 }
 
-.des{
-    font-size: 1.2em;
-    position: relative;
+.description {
+    font-size: 14px;
+    color: #777777;
+    margin: 0;
+    padding: 0;
 }
 
-.courseList-Load{
-    background-color: #630031;
-    color: white;
-    font-weight: bold;
-    font-size: 1em;
+.divider {
     border: none;
-    border-radius: 0.6em;
-    padding: 0.2em 1em 0.2em 1em;
-    margin-top: 2em;
-    position: relative;
-    top: 50%;
-    left: 45%;
-}
-
-.noCourse{
-    position: relative;
-    margin-top: 2em;
-    left: 50%;
-    margin-left: -6em;
-    font-size: 1.5em;
-    font-weight: bold;
+    border-top: 1px solid #dddddd;
+    margin-top: 10px;
+    margin-bottom: 0;
+    width: 100%;
 }

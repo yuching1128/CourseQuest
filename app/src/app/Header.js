@@ -40,23 +40,21 @@ export default function Header() {
         <Navbar sticky="top" className="Header" expand="lg">
             <Container>
                 <Navbar.Brand as={NavLink} to="/">
-                    <Image alt="logo" src={require('../images/logo.png')}
-                        height="40"
-                        className="d-inline-block align-top " />
+                    <Image alt="logo" src={require('../images/logo.png')} height="40" className="d-inline-block align-top " />
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
-                        <Nav.Link as={NavLink} to="/" className="nav-button">Home</Nav.Link>
-                        <Nav.Link as={NavLink} to={`/university/${user.universityId}/courses`} className="nav-button">Courses</Nav.Link>
-                        <Nav.Link as={NavLink} to={`/university/${user.universityId}/mentor`} className="nav-button">Be a Mentor</Nav.Link>
-                        <Nav.Link as={NavLink} to={`/university/${user.universityId}/mentee`} className="nav-button">Find my Mentor</Nav.Link>
-                    </Nav>
+                <Navbar.Collapse id="basic-navbar-nav" style={{justifyContent: 'space-around', marginLeft: '5em'}}>
                     <Nav>
-                        <Nav.Link hidden={userProfile.email} as={NavLink} to="/login" className="button-login">Sign In</Nav.Link>
-                        <Link to="/user/profile" className="button-profile" hidden={!userProfile.email}>
+                        <Nav.Link as={NavLink} to="/" className="nav-link">Home</Nav.Link>
+                        <Nav.Link as={NavLink} to={`/university/${user.universityId}/courses`} className="nav-link">Courses</Nav.Link>
+                        <Nav.Link as={NavLink} to={`/university/${user.universityId}/mentor`} className="nav-link">Be a Mentor</Nav.Link>
+                        <Nav.Link as={NavLink} to={`/university/${user.universityId}/mentee`} className="nav-link">Find my Mentor</Nav.Link>
+                    </Nav>
+                    <Nav style={{marginRight: '-6em'}}>
+                        <Nav.Link as={NavLink} hidden={userProfile.email} to={'/login'} className="nav-link button-login">Sign In</Nav.Link>
+                        <Nav.Link as={NavLink} to={'/user/profile'} className="nav-link button-profile" hidden={!userProfile.email}>
                             <FontAwesomeIcon icon={faCircleUser} />
-                        </Link>
+                        </Nav.Link>
                         <button hidden={!userProfile.email} onClick={logout} className="button-logout">Logout</button>
                     </Nav>
                 </Navbar.Collapse>

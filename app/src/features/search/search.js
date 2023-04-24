@@ -81,37 +81,41 @@ export const SearchComponent = () => {
         setSearchDTO({...searchDTO })
         searchCourses({searchDTO: searchDTO, page: 1, size:  10})
     };
-    
+
 //---
     return (
-        <form onSubmit={handleCourseSearchClick}>
-            <input className="searchBar"
+        <form className="searchForm" onSubmit={handleCourseSearchClick}>
+            <div className="searchBarContainer">
+                <input className="searchBar"
                    type="text"
                    placeholder="Search for keywords"
                    name="searchText"
-            />
-            <button className="searchButton" type="submit" ><FontAwesomeIcon icon={faMagnifyingGlass}/></button>
-
-            <div>
-                <p className="departmentText">Department: </p>
-                <Select className="department"
-                         options={departments}
-                         defaultValue={{ value: "", label: "-- Select department" }}
-                         isSearchable={false}
-                         /*onChange={handleDeptChange}*/
-                         name="department"
                 />
-                <p className="levelText">Level: </p>
-                <Select className="level"
-                        options={levels}
-                        defaultValue={{value: "", label: "-- Select level" }}
+                <button className="searchButton" type="submit" ><FontAwesomeIcon icon={faMagnifyingGlass}/></button>
+            </div>
+            <div className="filterContainer">
+                <div className="filterItem">
+                    <p className="filterLabel">Department: </p>
+                    <Select
+                        className="department"
+                        options={departments}
+                        defaultValue={{ value: "", label: "-- Select department" }}
                         isSearchable={false}
-                        /*onChange={handleLevelChange}*/
-                        name="level"
-                />
+                        /*onChange={handleDeptChange}*/
+                        name="department"
+                    />
+                </div>
+                <div className="filterItem">
+                    <p className="filterLabel">Level:</p>
+                    <Select className="level"
+                            options={levels}
+                            defaultValue={{value: "", label: "-- Select level" }}
+                            isSearchable={false}
+                            /*onChange={handleLevelChange}*/
+                            name="level"
+                    />
+                </div>
             </div>
         </form>
     );
-
-    
 }

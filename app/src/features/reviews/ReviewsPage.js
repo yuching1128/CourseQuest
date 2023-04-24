@@ -31,12 +31,14 @@ export const ReviewsPage = () => {
         class Bar extends Component {
             render() {
                 return (
-                    <StarRatings
-                        rating={review.rating}
-                        starDimension="1.5em"
-                        starSpacing="0.1em"
-                        starRatedColor ='rgb(237, 139, 0)'
-                    />
+                    <div className="reviewRate">
+                        <StarRatings
+                            rating={review.rating}
+                            starDimension="1.2em"
+                            starSpacing="0.1em"
+                            starRatedColor ='rgb(237, 139, 0)'
+                        />
+                    </div>
                 );
             }
         }
@@ -44,16 +46,14 @@ export const ReviewsPage = () => {
         return (
             <div className="reviews" key={review.id}>
                 <div className="reviewBlock">
-                    <div style={{display: "flex"}}>
-                        <FontAwesomeIcon icon={faCircleUser} className="userIcon"/>
+                    <div >
+                        <FontAwesomeIcon icon={faCircleUser} className="userIcon" />
                         <h3 className="poster">{review.anonymous ? "Anonymous user" : review.user.firstName}</h3>
                         <Bar />
-
                     </div>
                     <p className="reviewContent">
                         {review.content}
                     </p>
-
                     <div>
                         <p className="reviewSubQues">Taught by:</p>
                         <p className="reviewSubAns">{review.instructor.name}</p>
@@ -61,11 +61,11 @@ export const ReviewsPage = () => {
                         <p className="reviewSubAns">{review.delivery}</p>
                         <p className="reviewSubQues">Workload:</p>
                         <p className="reviewSubAns">{review.workload}</p>
-                        <p className="reviewDate"><TimeAgo timestamp={review.createdAt} /></p>
                     </div>
+                    <p className="reviewDate"><TimeAgo timestamp={review.createdAt} /></p>
                 </div>
             </div>
-        )
+        );
     }
 
     let content

@@ -1,58 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import {
     useAddUserDegreeMutation, useAddUserMajorMutation,
-    useAddUserUniversityMutation,
-    useGetDegreeQuery, useGetMajorQuery,
-    useGetUniversityQuery
+    useGetDegreeQuery, useGetMajorQuery
 } from "../api/apiSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faSquareCheck } from "@fortawesome/free-regular-svg-icons";
 import Select from "react-select";
 
 export const UserProgram = ({ userProfileData }) => {
-
-    // set university select option
-    const [university, setUniversity] = useState(null);
-    const [selectedUniversity, setSelectedUniversity] = useState(null);
-    const [addUserUniversity, { isLoading: universityIsLoading }] = useAddUserUniversityMutation();
-    const [defaultUniversity, setDefaultUniversity] = useState(null);
-
-    const {
-        data: universityData,
-        isSuccess: universitySuccess,
-    } = useGetUniversityQuery();
-
-    useEffect(() => {
-        if (userProfileData && userProfileData.university) {
-            const defaultOption = {
-                value: userProfileData.university.name,
-                label: userProfileData.university.name,
-            };
-            setDefaultUniversity(defaultOption);
-            setSelectedUniversity(userProfileData.university.id);
-        }
-    }, [userProfileData]);
-
-
-    useEffect(() => {
-        if (universitySuccess) {
-            const universityOptions = universityData.map((university) => ({
-                value: university.name,
-                label: university.name,
-            }));
-            setUniversity([, ...universityOptions,
-            ]);
-        }
-    }, [universitySuccess, universityData]);
-
-    const handleUniversityChange = (selectedOption) => {
-        const selectedUniversityObj = universityData.find(
-            (university) => university.name === selectedOption.value
-        );
-        // Set the selected university ID as the state
-        setSelectedUniversity(selectedUniversityObj?.id || null);
-        setDefaultUniversity(selectedOption);
-    };
 
     // set degree select options
     const [degree, setDegree] = useState([]);
@@ -108,13 +63,13 @@ export const UserProgram = ({ userProfileData }) => {
     } = useGetMajorQuery();
 
     useEffect(() => {
-        if (userProfileData && userProfileData.major) {
+        if (userProfileData && userProfileData.department) {
             const defaultOption = {
-                value: userProfileData.major.name,
-                label: userProfileData.major.name,
+                value: userProfileData.department.name,
+                label: userProfileData.department.name,
             };
             setDefaultMajor(defaultOption);
-            setSelectedMajor(userProfileData.major.id);
+            setSelectedMajor(userProfileData.department.id);
         }
     }, [userProfileData]);
 
@@ -146,30 +101,19 @@ export const UserProgram = ({ userProfileData }) => {
     };
 
     const handleCourseDoneClick = async () => {
-        await addUserUniversity({ universityId: selectedUniversity })
         await addUserDegree({ degreeId: selectedDegree })
         await addUserMajor({ majorId: selectedMajor })
         setCourseIsEditing(false);
     };
 
     return (
-        <div className="profileBlock">
+        <div className="profileBlock" style={{display: 'block'}}>
             <div className="courseBlockEdit">
                 {courseIsEditing ? (
                     <button onClick={handleCourseDoneClick} className="profileEditDone"><FontAwesomeIcon icon={faSquareCheck} /> Done</button>
                 ) : (
                     <button onClick={handleCourseEditClick} className="profileEditDone"><FontAwesomeIcon icon={faPenToSquare} /> Edit</button>
                 )}
-            </div>
-            <div>
-                <p className="profileText">University: </p>
-                <Select className="profileUniversity"
-                    options={university}
-                    placeholder="Select the university"
-                    isDisabled={!courseIsEditing}
-                    onChange={handleUniversityChange}
-                    value={defaultUniversity}
-                />
             </div>
 
             <div>
@@ -182,6 +126,7 @@ export const UserProgram = ({ userProfileData }) => {
                     value={defaultDegree}
                 />
             </div>
+
             <div>
                 <p className="profileText">Major: </p>
                 <Select className="profileMajor"

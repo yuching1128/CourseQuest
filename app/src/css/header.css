@@ -1,76 +1,55 @@
 .Header {
-    border-bottom: 0.1em solid var(--secondary-color);
-    margin-bottom: 25px;
-    background-color: #FBF6F6;
+    background-color: #fff;
+    border-bottom: 1px solid #e6e6e6;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 }
 
-.navbar-nav .nav-link.active{
-    color: var(--primary-color-bright);
+.navbar-brand img {
+    height: 2rem;
+    width: auto;
 }
 
-.nav-button:focus {
-    outline: none;
+.navbar-toggler {
+    border-color: rgba(0, 0, 0, 0.1);
 }
 
-.nav-button{
-    color: #111111;
-    font-size: 1.25em;
-    margin-left: 2em;
-    margin-top: 0.5em;
+.nav-link {
+    font-weight: 500;
+    color:  #888686;
+    margin: 0 1em;
 }
 
-.nav-button:hover{
-    color: #630031;
-    font-size: 1.25em;
-    margin-left: 2em;
+.nav-link:hover {
+    color: #000;
 }
 
-.button-login{
+.button-login {
     background-color: transparent;
-    border: none;
-    font-size: 1.25em;
-    color: #111111;
-    margin-left: 2em;
-    margin-top: 0.5em;
+    color: #888686;
+    border: 2px solid #888686;
+    border-radius: 5px;
+    padding: 3px 10px;
+    font-weight: 500;
+    margin-right: 1rem;
+    text-underline: none;
 }
 
-.button-login:hover{
-    color: #630031;
+.button-profile {
+    font-size: 25px;
+    margin-right: 0.5em;
 }
 
 .button-logout {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: white;
-    background-color: #630031;
-    margin-top: 0.5em;
-    border-radius: 15px;
+    background-color: transparent;
+    color: #888686;
+    border: none;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    font-size: 18px;
 }
 
 .button-logout:hover {
-    background-color: var(--primary-color-bright);
-    color: white;
-}
-
-.button-logout:focus,
-.button-logout.active{
-    background-color: var(--primary-color-bright) !important;
-    color: white !important;
-}
-
-.button-profile{
-    background-color: transparent;
-    border: none;
-    font-size: 3em;
-    font-weight: bold;
-    color: #630031;
-    margin-right: 1em;
-}
-
-.button-profile:hover{
-    color: var(--primary-color-bright);
-}
-
-.nav-button {
-    letter-spacing: 1.5px;
+    color: #000;
 }
