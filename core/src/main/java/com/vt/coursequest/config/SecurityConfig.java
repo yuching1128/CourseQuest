@@ -80,35 +80,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/oauth2/**").permitAll()
-                .antMatchers("/").authenticated()
+//                .antMatchers("/login").permitAll()
+//                .antMatchers("/oauth2/**").permitAll()
+//                .antMatchers("/").authenticated()
 //                .antMatchers("/api/university/**").authenticated()
                 .anyRequest().permitAll()
-                .and()
-                .formLogin()
+//                .and()
+//                .formLogin()
 //                    .loginPage()
 //                        .usernameParameter()
 //                        .permitAll()
 //                        .defaultSuccessUrl("/")
 //                        .failureForwardUrl("/fail_login")
-                .successHandler(new AuthenticationSuccessHandler() {
-                    @Override
-                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                        System.out.println("user name:" + authentication.getName());
-                        UrlPathHelper urlPathHelper = new UrlPathHelper();
-                        String contextPath = urlPathHelper.getContextPath(request);
-                        response.sendRedirect(contextPath);
-                    }
-                })
-                .and()
-                .oauth2Login()
-                    .userInfoEndpoint().userService(oAuth2UserService)
-                    .and()
-                    .successHandler(oAuth2LoginSuccessHandler)
-                .and()
-                .logout().permitAll()
+//                .successHandler(new AuthenticationSuccessHandler() {
+//                    @Override
+//                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+//                        System.out.println("user name:" + authentication.getName());
+//                        UrlPathHelper urlPathHelper = new UrlPathHelper();
+//                        String contextPath = urlPathHelper.getContextPath(request);
+//                        response.sendRedirect(contextPath);
+//                    }
+//                })
+//                .and()
+//                .oauth2Login()
+//                    .userInfoEndpoint().userService(oAuth2UserService)
+//                    .and()
+//                    .successHandler(oAuth2LoginSuccessHandler)
+//                .and()
+//                .logout().permitAll()
                 .and().csrf().disable();
+        http.cors().disable();
 
     }
 
