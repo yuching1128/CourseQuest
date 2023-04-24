@@ -28,6 +28,9 @@ public class University {
 	@Column(name = "name", unique = true)
 	String name;
 
+	@Column(name = "hd", unique = true)
+	String hd;
+
 	public University(int id) {
 		this.id = id;
 	}

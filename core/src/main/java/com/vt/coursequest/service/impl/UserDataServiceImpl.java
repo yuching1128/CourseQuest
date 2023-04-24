@@ -156,11 +156,16 @@ public class UserDataServiceImpl implements UserDataService {
     @Override
     public User findOrCreateUser(UserDetailsFromGoogle userDetails) {
         Optional<User> user = userRepository.findByEmail(userDetails.getEmail());
+        Optional<University> university = universityRepository.findByHd(userDetails.getHd());
         if (!user.isPresent()) {
             User newUser = new User();
             newUser.setEmail(userDetails.getEmail());
             newUser.setFirstName(userDetails.getFirstName());
             newUser.setLastName(userDetails.getLastName());
+            if (university.isPresent()) {
+                newUser.setUniversity(university.get());
+            }
+            System.out.println(newUser);
             return userRepository.save(newUser);
         }
         return user.get();

@@ -6,6 +6,16 @@ public class UserDetailsFromGoogle {
     String email;
     String sub;
 
+    String hd;
+
+    public String getHd() {
+        return hd;
+    }
+
+    public void setHd(String hd) {
+        this.hd = hd;
+    }
+
     public String getFirstName() {
         return firstName;
     }
