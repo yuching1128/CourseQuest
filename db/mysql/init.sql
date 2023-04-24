@@ -256,3 +256,10 @@ insert into CourseQuest.review (id, is_anonymous, content, created_at, delivery,
 values  (1, null, 'good', '2023-04-03 18:50:43', 0, 4.1, 0, 1, 1, 1, 1),
         (2, null, 'good', '2023-04-03 18:50:45', 0, 3, 0, 2, 2, 1, 1),
         (3, null, 'bad', '2023-04-03 18:50:47', 0, 2.5, 1, 1, 1, 1, 2);
+
+-- Add hd
+insert into CourseQuest.university (id, name, hd)
+values  (1, 'Virginia Tech', 'vt.edu'),
+        (2, 'New York University', 'nyu.edu'),
+        (3, 'Stanford University', 'stanford.edu'),
+        (4, 'Columbia University', 'columbia.edu');
