@@ -61,7 +61,7 @@ application:
       ug: UG
   jobs: #Fire at 10:15 AM every day
    cronSchedule: 0 15 10 ? * *
-
+   cronScheduleElastic: 0 */5 * * * *
 es:
   hostname: localhost
   port: 9200

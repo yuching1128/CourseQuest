@@ -20,7 +20,6 @@ import com.vt.coursequest.elasticsearch.dao.ICourseESRepository;
 import com.vt.coursequest.elasticsearch.model.CourseModel;
 import com.vt.coursequest.entity.Course;
 import com.vt.coursequest.entity.University;
-import com.vt.coursequest.service.SearchService;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.ElasticsearchException;
@@ -50,7 +49,7 @@ public class ElasticSynchronizer {
 
 	// Constructor
 
-	@Scheduled(cron = "0 */1 * * * *")
+	@Scheduled(cron = "${application.jobs.cronScheduleElastic}")
 	@Transactional
 	public void sync() {
 		log.info("Start Syncing - {}", LocalDateTime.now());

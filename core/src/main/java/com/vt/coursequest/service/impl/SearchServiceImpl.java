@@ -42,12 +42,13 @@ public class SearchServiceImpl implements SearchService {
 		// String searchText = searchDto.getFullTextSearch().toString();
 		SearchResponse<CourseModel> response = null;
 		List<Query> qList = new ArrayList<>();
-		
-		
-		Query query3 = Query.of(q -> q.multiMatch(
-				t -> t.fields("instructors", "crns", "courseName", "courseNum", "universityName", "dept", "degree")
-						.query(searchDto.getFullTextSearch())));
-		qList.add(query3);
+
+		if (null != searchDto.getFullTextSearch() && !searchDto.getFullTextSearch().isBlank()) {
+			Query query3 = Query.of(q -> q.multiMatch(
+					t -> t.fields("instructors", "crns", "courseName", "courseNum", "universityName", "dept", "degree")
+							.query(searchDto.getFullTextSearch())));
+			qList.add(query3);
+		}
 		if (null != searchDto.getLevel()) {
 			Query query1 = Query.of(q -> q.match(t -> t.field("level").query(searchDto.getLevel())));
 			qList.add(query1);
@@ -57,8 +58,8 @@ public class SearchServiceImpl implements SearchService {
 			qList.add(query2);
 
 		}
-		searchRequest = SearchRequest
-				.of(e -> e.index("course").query(b -> b.bool(bq -> bq.must(qList))).allowPartialSearchResults(true).from(pageNum).size(pageSize));
+		searchRequest = SearchRequest.of(e -> e.index("course").query(b -> b.bool(bq -> bq.must(qList)))
+				.allowPartialSearchResults(true).from(pageNum).size(pageSize));
 		response = esClient.search(searchRequest, CourseModel.class);
 		TotalHits total = response.hits().total();
 		boolean isExactResult = total.relation() == TotalHitsRelation.Eq;
@@ -70,11 +71,11 @@ public class SearchServiceImpl implements SearchService {
 		}
 
 		List<Hit<CourseModel>> hits = response.hits().hits();
-		
+
 		for (Hit<CourseModel> hit : hits) {
 			CourseModel esCourseModel = hit.source();
 			log.info("Found product " + esCourseModel.getCourseName() + ", score " + hit.score());
-			Course courseObj =  new Course();
+			Course courseObj = new Course();
 			courseObj.setId(esCourseModel.getId());
 			courseObj.setRating(esCourseModel.getRating());
 			courseObj.setName(esCourseModel.getCourseName());
@@ -83,7 +84,7 @@ public class SearchServiceImpl implements SearchService {
 			courseObj.setDept(new Department(esCourseModel.getDept(), new University(esCourseModel.getUniversityId())));
 			courseObj.setCourseNum(esCourseModel.getCourseNum());
 			courseObj.setDegree(new Degree(esCourseModel.getDegree()));
-			courses.add(courseObj );
+			courses.add(courseObj);
 		}
 
 		return courses;
