@@ -70,10 +70,10 @@ public class UserController {
 
     @ApiOperation("This service is used to add user's major")
     @PostMapping("/api/user/major")
-    public ResponseEntity<User> addUserDepartment(@RequestParam Integer departmentId) throws Exception {
+    public ResponseEntity<User> addUserDepartment(@RequestParam Integer majorId) throws Exception {
         UserDetailsFromGoogle userDetails = (UserDetailsFromGoogle) session.getAttribute("user_details");
         User user = uds.findOrCreateUser(userDetails);
-        return new ResponseEntity<>(uds.createUserDepartment(user.getId(), departmentId), HttpStatus.OK);
+        return new ResponseEntity<>(uds.createUserDepartment(user.getId(), majorId), HttpStatus.OK);
     }
 
     @ApiOperation("This service is used to add user's taken courses")
