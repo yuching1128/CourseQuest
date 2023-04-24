@@ -30,6 +30,8 @@ public class AdvisingTimeslot {
 	@Column(name = "advisingTimeslotStatus")
 	AdvisingTimeslotStatus advisingTimeslotStatus;
 
+	public Integer getId() { return id; }
+
 	public User getAdvisor() { return advisor; }
 
 	public void setAdvisor(User advisor) { this.advisor = advisor; }
@@ -42,9 +44,9 @@ public class AdvisingTimeslot {
 		this.time = time;
 	}
 
-	public AdvisingTimeslotStatus getAdvisingTimeslotStatus() { return advisingTimeslotStatus; }
+	public AdvisingTimeslotStatus getStatus() { return advisingTimeslotStatus; }
 
-	public void setAdvisingTimeslotStatus(AdvisingTimeslotStatus advisingTimeslotStatus) {
+	public void setStatus(AdvisingTimeslotStatus advisingTimeslotStatus) {
 		this.advisingTimeslotStatus = advisingTimeslotStatus;
 	}
 }

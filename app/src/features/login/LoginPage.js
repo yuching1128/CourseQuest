@@ -1,8 +1,6 @@
 import Container from "react-bootstrap/Container";
 import Form from 'react-bootstrap/Form';
 import { useForm } from "react-hook-form";
-import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { GoogleLogin, googleLogout, useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
@@ -96,17 +94,6 @@ export default function LoginPage() {
 
     return (
         <Container className="LoginPage">
-            <div className="welcomeBlock">
-                <p className="welcomeText">Welcome to CourseQuest!</p>
-                <div className="boxOrange">
-                    <div className="boxGreen">
-                        <div className="boxRed">
-                            <p className="loginText">Login to Start Explore Your Courses <FontAwesomeIcon icon={faAnglesRight} /></p>
-                            <p className="loginTextSmall">Connect with fellow students and get the inside scoop on courses to find your perfect course match with CourseQuest</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <div className="LoginForm">
                 <p className="loginFromTitle">Login</p>

@@ -62,6 +62,7 @@ export const RateReviewForm = ({ courseInstructors }) => {
     }
 
     // generate list of instructors for reviewer to select
+    console.log(courseInstructors)
     const instructorOptions = courseInstructors.map((instructor) => (
         <option key={instructor.id} value={instructor.id}>
             {instructor.name}

@@ -1,18 +1,35 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import Container from "react-bootstrap/Container";
 import Accordion from "react-bootstrap/Accordion";
-import { useSelector } from "react-redux";
-import { useDeleteTimeslotMutation, useGetAdvisorAppointmentsQuery, useGetAdvisorTimeslotsQuery } from "../api/apiSlice";
+import {
+    useCancelAppointmentMutation,
+    useDeleteTimeslotMutation,
+    useGetAdvisorAppointmentsQuery,
+    useGetAdvisorTimeslotsQuery,
+    useGetUserInfoQuery
+} from "../api/apiSlice";
 import { AddTimeslotForm } from "./AddTimeslotForm";
-import { Button, Spinner, Stack } from "react-bootstrap";
-import { parseISO } from "date-fns";
-import { useNavigate } from "react-router-dom";
+import {Button, Spinner, Stack} from "react-bootstrap";
+import {Link} from "react-router-dom";
+import {FormattedDate} from "./FormattedDate";
+
 
 export const MentorPage = () => {
 
-    const user = useSelector(state => state.user)
+    // State
     const [deleteTimeslot, { isLoadingDeleteTimeslot }] = useDeleteTimeslotMutation()
-    const navigate = useNavigate()
+    const [cancelAppointment, { isLoadingCancelAppointment }] = useCancelAppointmentMutation()
+
+    // generate selection list of courses advisor has taken
+    const {
+        data: userInfo = [],
+        isLoading: isLoadingUser,
+        isFetching: isFetchingUser,
+        isSuccess: isSuccessUser,
+        isError: isErrorUser,
+        error: errorUser
+    } = useGetUserInfoQuery();
+    const coursesTaken = userInfo.course
 
     // get list of appointments by an advisor
     const {
@@ -22,7 +39,7 @@ export const MentorPage = () => {
         isSuccess: isSuccessAdvisor,
         isError: isErrorAdvisor,
         error: errorAdvisor
-    } = useGetAdvisorAppointmentsQuery(); //current user id
+    } = useGetAdvisorAppointmentsQuery();
 
     // get list of already-selected timeslots from advisor
     const selectedTimes = []
@@ -33,43 +50,25 @@ export const MentorPage = () => {
         isSuccess: isSuccess,
         isError: isError,
         error: error
-    } = useGetAdvisorTimeslotsQuery(); //current user id
+    } = useGetAdvisorTimeslotsQuery();
 
     for (let key = 0; key < selectedTimeslots.length; ++key) {
         selectedTimes.push(selectedTimeslots[key].time)
     }
 
-    // TODO fix - Sort in descending chronological order
-    const sortedSelectedTime = useMemo(() => {
-        const sortedSelectedTime = selectedTimes.slice()
-        selectedTimes.sort((a, b) => b.localeCompare(a))
-        return sortedSelectedTime
-    }, [selectedTimes])
-
     let TimeslotExcerpt = ({ timeslot }) => {
-
         const onDeleteTimeslotClicked = async () => {
             try {
                 await deleteTimeslot({ timeslotId: timeslot.id })
-                navigate(0)
             } catch (err) {
                 console.error('Failed to delete the timeslot: ', err)
             }
         }
 
-        const myDate = parseISO(timeslot.time)
-        const formattedDate = myDate.toLocaleString("en-GB", {
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-            hour: "numeric",
-            minute: "2-digit"
-        });
-
         return (
             <div className="timeslotExcerpt">
                 <Stack direction="horizontal" gap={2}>
-                    <p>{formattedDate}</p>
+                    <p>{<FormattedDate date={timeslot.time} />}</p>
                     <p>{timeslot.advisingTimeslotStatus}</p>
                     {timeslot.advisingTimeslotStatus === "FREE" && <Button type="button" onClick={onDeleteTimeslotClicked}>Delete</Button>}
                 </Stack>
@@ -78,21 +77,24 @@ export const MentorPage = () => {
     }
 
     let AppointmentExcerpt = ({ appointment }) => {
-        const myDate = parseISO(appointment.advisingTimeslot.time)
-        const formattedDate = myDate.toLocaleString("en-GB", {
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-            hour: "numeric",
-            minute: "2-digit"
-        });
+
+        const onCancelAppointmentClicked = async () => {
+            try {
+                await cancelAppointment({appointmentId:appointment.id})
+            } catch (err) {
+                console.error('Failed to cancel the appointment: ', err)
+            }
+        }
 
         return (
             <div className="appointmentExcerpt">
                 <Stack direction="horizontal" gap={2}>
                     <p>Advisee's Name: {appointment.advisee.firstName} {appointment.advisee.lastName}</p>
-                    <p>Appointment Time: {formattedDate}</p>
+                    <p>Appointment Time: {<FormattedDate date={appointment.advisingTimeslot.time} />}</p>
                     <p>Subject: {appointment.course.name}</p>
+                    <p>Status: {appointment.appointmentStatus}</p>
+                    <Link to={`/advising/appointment/${appointment.id}`} >View</Link>
+                    <Button type="button" onClick={onCancelAppointmentClicked}>Cancel</Button>
                 </Stack>
             </div>
         )
@@ -112,17 +114,18 @@ export const MentorPage = () => {
                         <Stack direction="horizontal" gap={2}>
                             <div className="ms-auto">
                                 <h5>Your Timeslots</h5>
-                                {!selectedTimeslots && <p>You have not set any advising timeslots!</p>}
-                                {selectedTimeslots.map(timeslot => <TimeslotExcerpt key={timeslot.id} timeslot={timeslot} />)}
+                                {selectedTimeslots.length===0 && <p>You have not set any advising timeslots!</p>}
+                                {selectedTimeslots && selectedTimeslots.map(timeslot => <TimeslotExcerpt key={timeslot.id} timeslot={timeslot} />)}
                             </div>
-                            <AddTimeslotForm selectedTimeslots={selectedTimes} />
+                            <AddTimeslotForm selectedTimeslots={selectedTimes} coursesTaken={coursesTaken} />
                         </Stack>
                     </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey="1">
-                    <Accordion.Header>Upcoming Appointments</Accordion.Header>
+                    <Accordion.Header>Your Appointments</Accordion.Header>
                     <Accordion.Body>
                         <div>
+                            {appointmentsByAdvisor.length===0 && <p>You have no upcoming appointments!</p>}
                             {appointmentsByAdvisor.map(appointment => <AppointmentExcerpt key={appointment.id} appointment={appointment} />)}
                         </div>
                     </Accordion.Body>

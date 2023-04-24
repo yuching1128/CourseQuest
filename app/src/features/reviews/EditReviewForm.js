@@ -1,17 +1,12 @@
 import React, { useState } from 'react'
-import { Button, Col, Row, Spinner, Stack } from "react-bootstrap";
+import { Col, Row, Spinner, Stack } from "react-bootstrap";
 import { useDeleteReviewMutation, useEditReviewMutation } from '../api/apiSlice'
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 
 export const EditReviewForm = ({ reviewDetails, courseInstructors }) => {
-
-    console.log(courseInstructors)
-
-    const user = useSelector(state => state.user)
     const [updateReview, { isLoadingUpdateReview }] = useEditReviewMutation()
     const [deleteReview, { isLoadingDeleteReview }] = useDeleteReviewMutation()
 
@@ -51,14 +46,13 @@ export const EditReviewForm = ({ reviewDetails, courseInstructors }) => {
                 university: {
                     id: reviewDetails.university.id
                 },
-                user: {},
                 workload: workload
             }
 
             await updateReview({
                 universityId: reviewDetails.university.id, courseId: reviewDetails.course.id, reviewId: reviewDetails.id, editedReview: editReviewDetails
             })
-            navigate(`/university/${reviewDetails.university.id}/courses/${reviewDetails.course.id}`)
+            navigate(0)
         } catch (err) {
             console.error('Failed to edit the review: ', err)
         }
@@ -67,7 +61,7 @@ export const EditReviewForm = ({ reviewDetails, courseInstructors }) => {
     const onDeleteReviewClicked = async () => {
         try {
             await deleteReview({ universityId: reviewDetails.university.id, courseId: reviewDetails.course.id, reviewId: reviewDetails.id })
-            navigate(`/university/${reviewDetails.university.id}/courses/${reviewDetails.course.id}`)
+            navigate(0)
         } catch (err) {
             console.error('Failed to delete the review: ', err)
         }

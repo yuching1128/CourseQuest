@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import { useSelector } from "react-redux";
 import { selectUserProfile } from "../userProfile/userProfileSlice";
@@ -6,31 +6,38 @@ import { selectUserProfile } from "../userProfile/userProfileSlice";
 import searchingImg from '../../images/searching.png';
 import reviewImg from '../../images/review.png';
 import connectImg from '../../images/connect.png';
+import {Button} from "react-bootstrap";
 export default function HomePage() {
     const userProfile = useSelector(selectUserProfile)
-    return (
-        <Container className="HomePage">
-            <h1>Homepage</h1>
-            {
-                Boolean(userProfile) ? (<p className="welcome-title">Welcome to CourseQuest, {userProfile.given_name}!</p>) :
-                    <p className="welcome-title">Welcome to CourseQuest!</p>
-            }
-            <p className="welcome-text">CourseQuest is a perfect platform for all your course selection needs. We understand the importance of choosing the right courses for your academic and professional growth. Start exploring courses, reading reviews, and connecting with other students to enhance your academic experience.</p>
-            <div>
-                <div className="welcomeIcon">
-                    <img className="searchingImage" src={searchingImg} alt="searching" />
-                    <p className="iconText">Search Course</p>
+    if (userProfile.email) {
+        return (
+            <Container className="HomePage">
+                <p className="welcome-text">Welcome back {userProfile.given_name}.</p>
+                <p>Your course recommendations: </p>
+            </Container>
+        );
+    }
+    else {
+        return (
+            <Container className="HomePage">
+                <p className="welcome-text">Explore courses. Read reviews. Connect with students.</p>
+                <div className="welcomeColumns">
+                    <div className="welcomeColumn">
+                        <img className="homepageImage" src={searchingImg} alt="searching" />
+                        <p className="homepageImageText">Search</p>
+                    </div>
+                    <div className="welcomeColumn">
+                        <img className="homepageImage" src={reviewImg} alt="review" />
+                        <p className="homepageImageText">Review</p>
+                    </div>
+                    <div className="welcomeColumn">
+                        <img className="homepageImage" src={connectImg} alt=" connect" />
+                        <p className="homepageImageText">Advise</p>
+                    </div>
                 </div>
-                <div className="welcomeIcon">
-                    <img className="reviewImage" src={reviewImg} alt="review" />
-                    <p className="iconText">Ratings & Reviews</p>
-                </div>
-                <div className="welcomeIcon">
-                    <img className="connectImage" src={connectImg} alt=" connect" />
-                    <p className="iconText-connect">Connections</p>
-                </div>
-            </div>
+                <div className="buttonDiv"><Button className="homepageButton">Get Started</Button></div>
 
-        </Container>
-    );
+            </Container>
+        );
+    }
 }

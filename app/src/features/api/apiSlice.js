@@ -13,6 +13,7 @@ export const apiSlice = createApi({
         }
     }),
     endpoints: builder => ({
+        // Course APIs
         getCourses: builder.query({
             query: ({ universityId, page, size }) => {
                 return `university/${universityId}/courses?pageNum=${page}&pageSize=${size}`
@@ -60,29 +61,8 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['Review', 'Courses']
         }),
-        getAdvisorTimeslots: builder.query({
-            query: () => `/advisor/all`,
-            providesTags: ['Timeslots']
-        }),
-        getFreeAdvisorTimeslots: builder.query({
-            query: () => `/advising/free`,
-            providesTags: ['Timeslots']
-        }),
-        addNewTimeslot: builder.mutation({
-            query: ({ newTimeslot }) => ({
-                url: `advising/timeslot/add`,
-                method: 'POST',
-                body: newTimeslot
-            }),
-            invalidatesTags: ['Timeslots']
-        }),
-        deleteTimeslot: builder.mutation({
-            query: ({ timeslotId }) => ({
-                url: `advising/${timeslotId}/delete`,
-                method: 'DELETE'
-            }),
-            invalidatesTags: ['Timeslots']
-        }),
+
+        // User Profile APIs
         getUserInfo: builder.query({
             query: () => `user/profile`
         }),
@@ -144,21 +124,57 @@ export const apiSlice = createApi({
                 body: courseList
             }),
         }),
+
+        // Advising APIs
+        getAdvisorTimeslots: builder.query({
+            query: () => `/advising/all`,
+            providesTags: ['Timeslots']
+        }),
+        getFreeTimeslotsForCourse: builder.query({
+            query: courseId => `advising/course/${courseId}/free`,
+            providesTags: ['Timeslots']
+        }),
+        addNewTimeslot: builder.mutation({
+            query: ({ newTimeslot }) => ({
+                url: `advising/timeslot/add`,
+                method: 'POST',
+                body: newTimeslot
+            }),
+            invalidatesTags: ['Timeslots']
+        }),
+        deleteTimeslot: builder.mutation({
+            query: ({ timeslotId }) => ({
+                url: `advising/timeslot/${timeslotId}/delete`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: ['Timeslots']
+        }),
+        getAppointment: builder.query({
+            query: appointmentId => `/advising/appointment/${appointmentId}`,
+            providesTags: ['Appointments']
+        }),
+        getAdvisorAppointments: builder.query({
+            query: () => `/advising/advisor/appointments`,
+            providesTags: ['Timeslots', 'Appointments']
+        }),
+        getAdviseeAppointments: builder.query({
+            query: () => `/advising/advisee/appointments`,
+            providesTags: ['Timeslots', 'Appointments']
+        }),
         addNewAppointment: builder.mutation({
             query: ({ newAppointment }) => ({
                 url: `advising/book`,
                 method: 'POST',
                 body: newAppointment
             }),
-            invalidatesTags: ['Timeslots']
+            invalidatesTags: ['Timeslots', 'Appointments']
         }),
-        getAdvisorAppointments: builder.query({
-            query: () => `/advising/advisor/appointments`,
-            providesTags: ['Timeslots']
-        }),
-        getAdviseeAppointments: builder.query({
-            query: () => `/advising/advisee/appointments`,
-            providesTags: ['Timeslots']
+        cancelAppointment: builder.mutation({
+            query: ({ appointmentId }) => ({
+                url: `advising/appointment/${appointmentId}/cancel`,
+                method: 'PUT'
+            }),
+            invalidatesTags: ['Timeslots', 'Appointments']
         })
     })
 })
@@ -174,10 +190,12 @@ export const {
     useEditReviewMutation,
     useDeleteReviewMutation,
     useGetAdvisorTimeslotsQuery,
-    useGetFreeAdvisorTimeslotsQuery,
+    useGetFreeTimeslotsForCourseQuery,
     useAddNewTimeslotMutation,
     useDeleteTimeslotMutation,
     useAddNewAppointmentMutation,
+    useCancelAppointmentMutation,
+    useGetAppointmentQuery,
     useGetAdvisorAppointmentsQuery,
     useGetAdviseeAppointmentsQuery,
     useGetUserInfoQuery,
@@ -190,5 +208,5 @@ export const {
     useAddUserCourseTakenMutation,
     useAddUserCourseInterestedMutation,
     useAddUserConcentrationMutation,
-    useAddUserMentorCourseMutation
+    useAddUserMentorCourseMutation,
 } = apiSlice
