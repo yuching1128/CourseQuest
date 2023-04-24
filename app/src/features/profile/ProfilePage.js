@@ -163,6 +163,9 @@ export const ProfilePage = () => {
         setInterestIsEditing(false);
     };
 
+    console.log(selectedCoursesInterestId)
+    console.log(userProfileData)
+
     const [mentoringIsEditing, setMentoringIsEditing] = useState(false);
 
     const handleMentoringEditClick = () => {
@@ -192,7 +195,7 @@ export const ProfilePage = () => {
                 <Accordion.Item eventKey="2">
                     <Accordion.Header className="profileTitleText"><FontAwesomeIcon icon={faHeart} className="profileIcon" />Interest</Accordion.Header>
                     <Accordion.Body>
-                        <div className="profileBlock">
+                        <div className="profileBlock" style={{display: 'block'}}>
                             <div className="courseBlockEdit">
                                 {interestIsEditing ? (
                                     <button onClick={handleInterestDoneClick} className="profileEditDone"><FontAwesomeIcon icon={faSquareCheck} /> Done</button>
@@ -200,6 +203,7 @@ export const ProfilePage = () => {
                                     <button onClick={handleInterestEditClick} className="profileEditDone"><FontAwesomeIcon icon={faPenToSquare} /> Edit</button>
                                 )}
                             </div>
+
                             <div>
                                 <p className="profileText">Courses Taken: </p>
                                 <Select

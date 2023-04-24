@@ -62,7 +62,6 @@ export const RateReviewForm = ({ courseInstructors }) => {
     }
 
     // generate list of instructors for reviewer to select
-    console.log(courseInstructors)
     const instructorOptions = courseInstructors.map((instructor) => (
         <option key={instructor.id} value={instructor.id}>
             {instructor.name}
@@ -74,7 +73,6 @@ export const RateReviewForm = ({ courseInstructors }) => {
     return (
         <Container className="reviews">
             <Container className="RateReviewPage">
-                <Stack direction="horizontal" gap={3} className="RateReviewContent"></Stack>
                 <Form className="RateReviewForm">
                     <div className="reviewFormBox">
                         <div className="reviewBoxes">
@@ -93,29 +91,28 @@ export const RateReviewForm = ({ courseInstructors }) => {
                                 changeRating={(newRating) => {
                                     setRating(newRating);
                                 }}
-                                starDimension="3em"
-                                starSpacing="2em"
+                                starDimension="2em"
+                                starSpacing="1em"
                                 starRatedColor='rgb(237, 139, 0)'
-                                starHoverColor='rgb(99, 0, 49)'
                                 onChange={onRatingChanged}
                             />
                         </div>
                         <div className="reviewBoxes">
                             <p className="courseTaken">Write a Review</p>
-                            <Form.Group as={Row} className="mb-3" controlId="taughtBy">
-                                <Form.Label column sm={2}>Taught by</Form.Label>
-                                <Col sm={10} style={{ maxWidth: '400px' }}>
-                                    <Form.Select onChange={onProfessorChanged}>
+                            <Form.Group as={Row} controlId="taughtBy">
+                                <Form.Label column className="formLabel">Taught by</Form.Label>
+                                <Col className="formControlContainer">
+                                    <Form.Select className="formControl" onChange={onProfessorChanged}>
                                         <option disabled selected value> -- select an option -- </option>
                                         {instructorOptions}
                                     </Form.Select>
                                 </Col>
                             </Form.Group>
 
-                            <Form.Group as={Row} className="mb-3" controlId="delivery">
-                                <Form.Label column sm={2}>Delivery</Form.Label>
-                                <Col sm={10} style={{ maxWidth: '400px' }}>
-                                    <Form.Select onChange={onDeliveryChanged}>
+                            <Form.Group as={Row} controlId="delivery">
+                                <Form.Label column className="formLabel">Delivery</Form.Label>
+                                <Col className="formControlContainer">
+                                    <Form.Select className="formControl" onChange={onDeliveryChanged}>
                                         <option disabled selected value> -- select an option -- </option>
                                         <option>INPERSON</option>
                                         <option>ONLINE</option>
@@ -124,10 +121,10 @@ export const RateReviewForm = ({ courseInstructors }) => {
                                 </Col>
                             </Form.Group>
 
-                            <Form.Group as={Row} className="mb-3" controlId="workload">
-                                <Form.Label column sm={2}>Workload</Form.Label>
-                                <Col sm={10} style={{ maxWidth: '400px' }}>
-                                    <Form.Select onChange={onWorkloadChanged}>
+                            <Form.Group as={Row} controlId="workload">
+                                <Form.Label column className="formLabel">Workload</Form.Label>
+                                <Col className="formControlContainer">
+                                    <Form.Select className="formControl" onChange={onWorkloadChanged}>
                                         <option disabled selected value> -- select an option -- </option>
                                         <option>LIGHT</option>
                                         <option>MODERATE</option>
@@ -136,22 +133,21 @@ export const RateReviewForm = ({ courseInstructors }) => {
                                 </Col>
                             </Form.Group>
 
-                            <Form.Group as={Row} className="mb-3" controlId="content">
-                                <Form.Control as="textarea" aria-label="With textarea" placeholder='Things that you want share.' onChange={onContentChanged} style={{ width: '90%', marginLeft: '10px' }} />
+                            <Form.Group as={Row} controlId="content">
+                                <Form.Control className="reviewInputBlock" as="textarea" aria-label="With textarea" placeholder='Things that you want share.' onChange={onContentChanged}/>
                             </Form.Group>
 
                             <Form.Check
                                 type="checkbox"
                                 label="Anonymous"
                                 onChange={onAnonymousChanged}
+                                className="anonymousCheck"
                             />
                         </div>
                     </div>
                     <button type="button" className="reviewAddBtn" onClick={onSaveReviewClicked} disabled={!canSave}>
                         Add Post
                     </button>
-                    {spinner}
-                    <button variant="secondary" type="cancel" className="reviewCancelBut">Cancel</button>
                 </Form>
             </Container>
         </Container>)
