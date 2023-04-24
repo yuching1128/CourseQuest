@@ -13,13 +13,13 @@ import lombok.Data;
 @Setting(shards = 1, replicas = 0)
 public class CommentModel {
 
-	@Field(type=FieldType.Integer)
-    private Integer courseID = null;
+	@Field(type = FieldType.Integer)
+	private Integer courseID = null;
 
-    @Field(type=FieldType.Text)
-    private String content = null;
-    
-    @Field(type=FieldType.Text)
-    private String username = null;
-    
+	@Field(type = FieldType.Text, analyzer = "stop")
+	private String content = null;
+
+	@Field(type = FieldType.Keyword)
+	private String username = null;
+
 }

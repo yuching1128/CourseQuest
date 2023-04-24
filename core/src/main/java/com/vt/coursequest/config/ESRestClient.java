@@ -35,4 +35,6 @@ public class ESRestClient {
         // And create the API client
         return new ElasticsearchClient(transport);
     }
+    
+    
 }

@@ -20,6 +20,7 @@ import com.vt.coursequest.elasticsearch.dao.ICourseESRepository;
 import com.vt.coursequest.elasticsearch.model.CourseModel;
 import com.vt.coursequest.entity.Course;
 import com.vt.coursequest.entity.University;
+import com.vt.coursequest.service.SearchService;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.ElasticsearchException;
@@ -49,7 +50,7 @@ public class ElasticSynchronizer {
 
 	// Constructor
 
-	@Scheduled(cron = "0 */3 * * * *")
+	@Scheduled(cron = "0 */1 * * * *")
 	@Transactional
 	public void sync() {
 		log.info("Start Syncing - {}", LocalDateTime.now());
@@ -65,10 +66,9 @@ public class ElasticSynchronizer {
 			List<Course> courseList = new ArrayList<>();
 			courseList = courseRepo.findAll();
 			try {
-				recreateIndices(true);
+				recreateIndices(false);
 				indexCoursesData(university, courseList);
 			} catch (ElasticsearchException | IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -77,21 +77,10 @@ public class ElasticSynchronizer {
 	private void indexCoursesData(University university, List<Course> courseList)
 			throws ElasticsearchException, IOException {
 
-//		UniversityModel um = new UniversityModel();
-//		um.setId(university.getId());
-//		um.setName(university.getName());
-//		esClient.index(i -> i.index("university").id(university.getId().toString()).document(um));
-
 		for (Course course : courseList) {
 
-//			DeptModel deptModel = new DeptModel();
-//			deptModel.setName(course.getDept().getName());
-//			deptModel.setId(course.getDept().getId());
-//			deptModel.setRelation(new JoinField<>("university"));
-			// esClient.index(i ->
-			// i.index("dept").id(course.getDept().getId().toString()).document(deptModel));
 			CourseModel courseModel = new CourseModel();
-			// courseModel.setRelation(new JoinField<>("dept"));
+			courseModel.setId(course.getId());
 			courseModel.setCourseName(course.getName());
 			courseModel.setCourseNum(course.getCourseNum());
 			courseModel.setDesc(course.getDescription());
@@ -107,6 +96,7 @@ public class ElasticSynchronizer {
 			courseModel.setUniversityName(course.getUniversity().getName());
 			courseModel.setDept(course.getDept().getName());
 			courseModel.setDegree(course.getDegree().getName());
+			courseModel.setRating(course.getRating());
 			IndexResponse response = esClient
 					.index(i -> i.index("course").id(course.getCourseNum()).document(courseModel));
 

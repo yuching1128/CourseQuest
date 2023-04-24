@@ -14,18 +14,38 @@ import lombok.Data;
 @Data
 @Setting(shards = 1, replicas = 0, settingPath = "static/es-settings.json")
 public class CourseModel {
-
+	@Field(type = FieldType.Keyword)
 	private Integer id;
+	
+	@Field(type = FieldType.Text, analyzer = "pattern")
 	private String courseName;
+	
+	@Field(type = FieldType.Text, analyzer = "pattern")
 	private String desc;
+	
+	@Field(type = FieldType.Keyword)
 	private String courseNum;
 
+	@Field(type = FieldType.Text, analyzer = "pattern")
 	private Set<String> instructors;
+	
+	@Field(type = FieldType.Text, analyzer = "pattern")
 	private Set<String> crns;
+	
 	private Integer universityId;
+	
+	@Field(type = FieldType.Text, analyzer = "pattern")
 	private String universityName;
+	
+	@Field(type = FieldType.Keyword)
 	private String dept;
+	
+	@Field(type = FieldType.Keyword)
 	private String degree;
+	
+	@Field(type = FieldType.Keyword)
+	private Double rating;
+	
 //	@JsonIgnore
 //	@JoinTypeRelations(relations = { @JoinTypeRelation(parent = "university", children = "dept"),
 //			@JoinTypeRelation(parent = "dept", children = "course") })
