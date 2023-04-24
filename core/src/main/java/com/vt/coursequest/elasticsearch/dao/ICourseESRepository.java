@@ -8,8 +8,8 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 import com.vt.coursequest.elasticsearch.model.CourseModel;
 
 
-//public interface ICourseESRepository extends ElasticsearchRepository<CourseModel, Integer> {
+public interface ICourseESRepository extends ElasticsearchRepository<CourseModel, Integer> {
 
 //    @Query("{\"bool\": {\"must\": [{\"match\": {\"authors.name\": \"?0\"}}]}}")
 //    Page<CourseModel> findByAuthorsNameUsingCustomQuery(String name, Pageable pageable);
-//}
+}
