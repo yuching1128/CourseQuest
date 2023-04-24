@@ -57,6 +57,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider());
     }
 
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.authorizeRequests()
+//                .antMatchers("/login").permitAll()
+//                .antMatchers("/oauth2/**").permitAll()
+//                .antMatchers("/").authenticated()
+////                .antMatchers("/api/university/**").authenticated()
+//                .anyRequest().permitAll()
+//                .and()
+//                .formLogin().permitAll()
+//                .and()
+//                .oauth2Login()
+//                    .userInfoEndpoint().userService(oAuth2UserService)
+//                    .and()
+//                    .successHandler(oAuth2LoginSuccessHandler)
+//                .and()
+//                .logout().permitAll();
+//
+//    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()

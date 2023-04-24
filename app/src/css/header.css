@@ -1,7 +1,6 @@
 .Header {
-    border-bottom: 1px solid #ddd;
-    border-bottom: 0.2em solid var(--secondary-color);
-    margin-bottom: 50px;
+    border-bottom: 0.1em solid var(--secondary-color);
+    margin-bottom: 25px;
     background-color: #FBF6F6;
 }
 
@@ -15,24 +14,21 @@
 
 .nav-button{
     color: #111111;
-    font-size: 1.5em;
-    font-weight: bold;
+    font-size: 1.25em;
     margin-left: 2em;
     margin-top: 0.5em;
 }
 
 .nav-button:hover{
     color: #630031;
-    font-size: 1.5em;
-    font-weight: bold;
+    font-size: 1.25em;
     margin-left: 2em;
 }
 
 .button-login{
     background-color: transparent;
     border: none;
-    font-size: 1.5em;
-    font-weight: bold;
+    font-size: 1.25em;
     color: #111111;
     margin-left: 2em;
     margin-top: 0.5em;
@@ -73,4 +69,8 @@
 
 .button-profile:hover{
     color: var(--primary-color-bright);
+}
+
+.nav-button {
+    letter-spacing: 1.5px;
 }

@@ -1,4 +1,3 @@
-import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {useAddNewTimeslotMutation} from "../api/apiSlice";
 import React, {useState} from "react";
@@ -7,7 +6,6 @@ import DayTimePicker from "@mooncake-dev/react-day-time-picker";
 
 export const AddTimeslotForm = ({selectedTimeslots}) => {
 
-    const user = useSelector(state => state.user)
     const navigate = useNavigate()
 
     const [addTimeslot, { isLoading }] = useAddNewTimeslotMutation()
@@ -15,7 +13,7 @@ export const AddTimeslotForm = ({selectedTimeslots}) => {
     const [isScheduled, setIsScheduled] = useState(false);
     const [scheduleErr, setScheduleErr] = useState('');
 
-    // checks if a timeslot is free
+    // validates all timeslots in the calendar and ensure the timeslot is free
     function timeSlotValidator(slotTime) {
         let isValid = true;
         for (let key = 0; key < selectedTimeslots.length; ++key) {
@@ -31,19 +29,11 @@ export const AddTimeslotForm = ({selectedTimeslots}) => {
         setIsScheduling(true);
         setScheduleErr('');
 
-        const timeslotDetails = {
-            time: dateTime,
-            advisor: {
-                id: user.id,
-            },
-            advisingTimeslotStatus: "FREE"
-        }
-
         try {
             setScheduleErr('');
             setIsScheduled(true);
-            console.log('trying to schedule: ', dateTime);
-            await addTimeslot({newTimeslot: timeslotDetails}).unwrap()
+            console.log('Scheduling timeslot for: ', dateTime);
+            await addTimeslot({newTimeslot: dateTime}).unwrap()
 
         } catch (err) {
             setScheduleErr(err);

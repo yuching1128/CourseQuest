@@ -1,17 +1,9 @@
-.welcome-title{
-    color: #630031;
-    font-weight: bold;
-    margin-left: 3em;
-    font-size: 3em;
-}
-
 .welcome-text{
-    color: #ED8B00;
-    margin-left: 9em;
-    text-align: justify;
-    font-weight: bold;
-    width: 800px;
-    font-size: 20px;
+    padding-top: 50px;
+    font-size: 25px;
+    letter-spacing: 0.9px;
+    line-height: 40px;
+    text-align: center;
 }
 
 .welcomeIcon{
@@ -21,7 +13,6 @@
 .searchingImage{
     margin-top: 2em;
     margin-left: 12em;
-    width: 100px;
 }
 
 .iconText{
@@ -34,13 +25,11 @@
 .reviewImage{
     margin-top: 2em;
     margin-left: 11em;
-    width: 100px;
 }
 
 .connectImage{
     margin-top: 2em;
     margin-left: 10em;
-    width: 100px;
 }
 
 .iconText-connect{
@@ -49,4 +38,43 @@
     margin-left: 8em;
     margin-top: 0.5em;
     font-size: 20px;
+}
+
+.buttonDiv {
+    text-align: center;
+}
+.homepageButton {
+
+    background-color: #D1461C;
+    border-color: #D1461C;
+    color: white;
+    padding: 12px 45px;
+    border-radius: 5px;
+    font-size: 16px;
+    letter-spacing: 2.5px;
+    line-height: 23px;
+}
+.homepageButton:hover {
+    background-color: #c03911;
+    border-color: #be3b13;
+}
+
+.welcomeColumns {
+    display: flex;
+    justify-content: center;
+}
+
+.welcomeColumn {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 30px;
+    text-align: center;
+}
+
+.homepageImage {
+    width: 75px;
+}
+
+.homepageImageText {
+    margin-top: 10px;
 }

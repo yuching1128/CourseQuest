@@ -1,21 +1,16 @@
 import Container from "react-bootstrap/Container";
 import React from "react";
 import Accordion from "react-bootstrap/Accordion";
-import {
-    useAddNewAppointmentMutation,
-    useGetAdviseeAppointmentsQuery,
-    useGetFreeAdvisorTimeslotsQuery
-} from "../api/apiSlice";
-import { Button, Spinner, Stack } from "react-bootstrap";
-import { parseISO } from "date-fns";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import {useCancelAppointmentMutation, useGetAdviseeAppointmentsQuery} from "../api/apiSlice";
+import {Button, Stack} from "react-bootstrap";
+import {AddAppointmentForm} from "./AddAppointmentForm";
+import {FormattedDate} from "./FormattedDate";
+import {Link} from "react-router-dom";
 
 export const MenteePage = () => {
 
-    const user = useSelector(state => state.user)
-    const [addAppointment, { isLoadingBookAppointment }] = useAddNewAppointmentMutation()
-    const navigate = useNavigate()
+    // State
+    const [cancelAppointment, { isLoadingCancelAppointment }] = useCancelAppointmentMutation()
 
     // get list of appointments by an advisee
     const {
@@ -27,122 +22,48 @@ export const MenteePage = () => {
         error: errorAdvisee
     } = useGetAdviseeAppointmentsQuery();
 
-    // get all available appointment timeslots
-    const {
-        data: allAdvisorTimeslots = [],
-        isLoading: isLoading,
-        isFetching: isFetching,
-        isSuccess: isSuccess,
-        isError: isError,
-        error: error
-    } = useGetFreeAdvisorTimeslotsQuery();
-
-    console.log(allAdvisorTimeslots)
-
-    let TimeslotExcerpt = ({ timeslot }) => {
-
-        const onAddAppointmentClicked = async () => {
+    let AppointmentExcerpt = ({ appointment }) => {
+        const onCancelAppointmentClicked = async () => {
             try {
-                const appointmentDetails = {
-                    "advisee": {
-                        "id": user.id
-                    },
-                    "advisingTimeslot": {
-                        "id": timeslot.id
-                    },
-                    "advisor": {
-                        "id": timeslot.advisor.id
-                    },
-                    "appointmentStatus": "UPCOMING",
-                    "course": {
-                        "id": 1
-                    }
-                }
-
-                await addAppointment({ newAppointment: appointmentDetails }).unwrap()
-                navigate(0)
+                await cancelAppointment({appointmentId:appointment.id})
             } catch (err) {
-                console.error('Failed to book the appointment: ', err)
+                console.error('Failed to delete the appointment: ', err)
             }
         }
-
-
-        const myDate = parseISO(timeslot.time)
-        const formattedDate = myDate.toLocaleString("en-GB", {
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-            hour: "numeric",
-            minute: "2-digit"
-        });
-
-        return (
-            <div className="timeslotExcerpt">
-                <Stack direction="horizontal" gap={2}>
-                    <p>{formattedDate}</p>
-                    <Button type="button" onClick={onAddAppointmentClicked}>
-                        Book
-                    </Button>
-                </Stack>
-            </div>
-        )
-    }
-
-    let AppointmentExcerpt = ({ appointment }) => {
-        const myDate = parseISO(appointment.advisingTimeslot.time)
-        const formattedDate = myDate.toLocaleString("en-GB", {
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-            hour: "numeric",
-            minute: "2-digit"
-        });
 
         return (
             <div className="appointmentExcerpt">
                 <Stack direction="horizontal" gap={2}>
                     <p>Advisor's Name: {appointment.advisor.firstName} {appointment.advisor.lastName}</p>
-                    <p>Appointment Time: {formattedDate}</p>
+                    <p>Appointment Time: {<FormattedDate date={appointment.advisingTimeslot.time} />}</p>
                     <p>Subject: {appointment.course.name}</p>
+                    <p>Status: {appointment.appointmentStatus}</p>
+                    <Link to={`/advising/appointment/${appointment.id}`} >View</Link>
+                    { appointment.appointmentStatus !== "CANCELLED" && <Button type="button" onClick={onCancelAppointmentClicked}>Cancel</Button> }
                 </Stack>
             </div>
         )
     }
 
-    let content
-
-    if (isLoading) {
-        content = <Spinner text="Loading..." />
-    } else if (isSuccess) {
-        content = (
+    return (
+        <Container className="menteePage">
             <Accordion alwaysOpen>
                 <Accordion.Item eventKey="0">
-                    <Accordion.Header>Interested In</Accordion.Header>
+                    <Accordion.Header>Book An Appointment</Accordion.Header>
                     <Accordion.Body className="reviewsComponent">
-                        {allAdvisorTimeslots && <h3> Available Appointment Times: </h3>}
-                        {!allAdvisorTimeslots && <h3> No Available Appointment Times At This Time. </h3>}
-                        <div>
-                            {allAdvisorTimeslots.map(timeslot => <TimeslotExcerpt key={timeslot.id} timeslot={timeslot} />)}
-                        </div>
+                        <AddAppointmentForm />
                     </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey="1">
-                    <Accordion.Header>Upcoming Appointments</Accordion.Header>
+                    <Accordion.Header>Your Appointments</Accordion.Header>
                     <Accordion.Body>
                         <div>
+                            {appointmentsByAdvisee.length===0 && <p>You have no upcoming appointments!</p>}
                             {appointmentsByAdvisee.map(appointment => <AppointmentExcerpt key={appointment.id} appointment={appointment} />)}
                         </div>
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
-        )
-    } else if (isError) {
-        content = <div>{error.toString()}</div>
-    }
-
-    return (
-        <Container className="menteePage">
-            {content}
         </Container>
     )
 }

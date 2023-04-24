@@ -10,7 +10,7 @@ import { RateReviewForm } from '../reviews/RateReviewForm';
 import {useSelector} from "react-redux";
 import {EditReviewForm} from "../reviews/EditReviewForm";
 
-export const SingleCoursePage = () => {
+export const CoursePage = () => {
 
     const user = useSelector(state => state.user)
     const { universityId, courseId } = useParams()
