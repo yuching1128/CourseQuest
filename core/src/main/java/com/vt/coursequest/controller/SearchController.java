@@ -26,8 +26,8 @@ public class SearchController {
 	@Autowired
 	private SearchService searchService;
 
-	@ApiOperation("This service is used to search for  course")
-	@PostMapping("/api/university/{universityId}/search")
+	@ApiOperation("This service is used to search for courses")
+	@PostMapping("/api/courses/search")
 	public ResponseEntity<Set<Course>> searchCourses(@RequestBody SearchDTO courseInfo, @RequestParam Integer pageNum,
 			@RequestParam Integer pageSize) {
 		Set<Course> searchResponse = null;

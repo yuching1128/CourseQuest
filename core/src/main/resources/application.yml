@@ -65,5 +65,5 @@ application:
 es:
   hostname: localhost
   port: 9200
-  username: admin
+  username: NA
   password: password

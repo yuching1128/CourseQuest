@@ -39,7 +39,6 @@ public class SearchServiceImpl implements SearchService {
 			throws ElasticsearchException, IOException {
 		Set<Course> courses = new HashSet<>();
 		SearchRequest searchRequest = null;
-		// String searchText = searchDto.getFullTextSearch().toString();
 		SearchResponse<CourseModel> response = null;
 		List<Query> qList = new ArrayList<>();
 
@@ -74,7 +73,7 @@ public class SearchServiceImpl implements SearchService {
 
 		for (Hit<CourseModel> hit : hits) {
 			CourseModel esCourseModel = hit.source();
-			log.info("Found product " + esCourseModel.getCourseName() + ", score " + hit.score());
+			log.info("Found course " + esCourseModel.getCourseName() + ", score " + hit.score());
 			Course courseObj = new Course();
 			courseObj.setId(esCourseModel.getId());
 			courseObj.setRating(esCourseModel.getRating());
