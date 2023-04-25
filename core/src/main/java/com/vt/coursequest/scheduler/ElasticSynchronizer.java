@@ -96,6 +96,7 @@ public class ElasticSynchronizer {
             courseModel.setDept(course.getDept().getName());
             courseModel.setDegree(course.getDegree().getName());
             courseModel.setRating(course.getRating());
+            courseModel.setLevel(course.getLevel().getName());
             IndexResponse response = esClient
                     .index(i -> i.index("course").id(course.getCourseNum()).document(courseModel));
 
