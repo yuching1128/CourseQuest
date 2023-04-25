@@ -103,11 +103,16 @@ public class CourseDataServiceImpl implements CourseDataService {
 			Optional<Course> course = courseRepository.findById(review.getCourse().getId());
 			if (course.isPresent()) {
 				review.setCourse(course.get());
+				Optional<User> userObj = userRepository.findById(user.getId());
+				if (userObj.isPresent()) {
+					User userData = userObj.get();
+					userData.getCourse().add(course.get());
+					userRepository.save(userData);
+				}
 			}
 		}
 
 		review.setUser(user);
-
 
 		if (null != review.getUniversity() && null != review.getUniversity().getId()) {
 			Optional<University> university = universityRepository.findById(review.getUniversity().getId());
