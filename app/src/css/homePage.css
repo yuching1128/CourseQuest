@@ -1,9 +1,20 @@
+.HomePage {
+    background-image: url('../images/hero.png');
+    background-size: cover;
+    background-position: bottom;
+    background-position-x: right;
+    height: 560px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: self-start;
+}
+
 .welcome-text{
-    padding-top: 50px;
-    font-size: 25px;
+    font-size: 1.2em;
     letter-spacing: 0.9px;
-    line-height: 40px;
-    text-align: center;
+    font-weight: 500;
+    margin-left: 3em;
 }
 
 .welcomeIcon{
@@ -41,12 +52,12 @@
 }
 
 .buttonDiv {
-    text-align: center;
+    margin-left: 13.5em;
 }
-.homepageButton {
 
-    background-color: #D1461C;
-    border-color: #D1461C;
+.homepageButton {
+    background-color: #007bff;;
+    border-color: #007bff;;
     color: white;
     padding: 12px 45px;
     border-radius: 5px;
@@ -54,14 +65,16 @@
     letter-spacing: 2.5px;
     line-height: 23px;
 }
+
 .homepageButton:hover {
-    background-color: #c03911;
-    border-color: #be3b13;
+    background-color: #1976d2;
+    border-color: #1976d2;
 }
 
 .welcomeColumns {
     display: flex;
     justify-content: center;
+    margin-left: 5em;
 }
 
 .welcomeColumn {
@@ -77,4 +90,13 @@
 
 .homepageImageText {
     margin-top: 10px;
+}
+
+.welcome-back{
+    margin-left: 10em;
+    font-weight: 500;
+}
+
+.course-recommendation {
+    margin-left: 10em;
 }

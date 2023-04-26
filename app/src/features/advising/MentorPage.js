@@ -133,7 +133,7 @@ export const MentorPage = () => {
                     </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey="1">
-                    <Accordion.Header>Your Appointments</Accordion.Header>
+                    <Accordion.Header style={{marginBottom: '50px'}}>Your Appointments</Accordion.Header>
                     <Accordion.Body>
                         <div>
                             {appointmentsByAdvisor.length===0 && <p className="noAppointment">You have no upcoming appointments!</p>}

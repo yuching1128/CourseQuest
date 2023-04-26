@@ -7,13 +7,14 @@ import searchingImg from '../../images/searching.png';
 import reviewImg from '../../images/review.png';
 import connectImg from '../../images/connect.png';
 import {Button} from "react-bootstrap";
+import backgroundImage from '../../images/hero.png'
 export default function HomePage() {
     const userProfile = useSelector(selectUserProfile)
     if (userProfile.email) {
         return (
-            <Container className="HomePage">
-                <p className="welcome-text">Welcome back {userProfile.given_name}.</p>
-                <p>Your course recommendations: </p>
+            <Container className="HomePage" >
+                <p className="welcome-back">Welcome back {userProfile.given_name}.</p>
+                <p className="course-recommendation">Your course recommendations: </p>
             </Container>
         );
     }

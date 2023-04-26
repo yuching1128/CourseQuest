@@ -134,7 +134,7 @@ export const CoursePage = () => {
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="1">
-                        <Accordion.Header>{userWrittenReview ? "Your Review" : "Write Review"}</Accordion.Header>
+                        <Accordion.Header style={{marginBottom: '50px'}}>{userWrittenReview ? "Your Review" : "Write Review"}</Accordion.Header>
                         <Accordion.Body>
                             {/* If user written review, show EditForm. Else show RateReviewForm*/}
                             {userWrittenReview ? <EditReviewForm reviewDetails={userReviewInfo} courseInstructors={course.instructor}/> : <RateReviewForm universityId={universityId} courseId={courseId} courseInstructors={course.instructor} /> }
