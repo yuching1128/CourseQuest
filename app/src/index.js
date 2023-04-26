@@ -10,6 +10,7 @@ import './css/CoursePage.css';
 import './css/searchComponent.css';
 import './css/ProfilePage.css';
 import './css/homePage.css';
+import './css/mentorPage.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store, { Persistor } from './app/store'

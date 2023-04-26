@@ -1,0 +1,115 @@
+.timeslot-excerpt {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #007bff;
+    padding: 1em 1em 0em 1em;
+    margin-bottom: 10px;
+}
+
+.timeslot-date {
+    font-size: 1em;
+    margin: 0;
+    display: inline-block;
+}
+
+.timeslot-status {
+    font-size: 1em;
+    margin-left: 1em;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.timeslot-delete-btn {
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    padding: 2px 8px 3px 8px;
+    font-size: 1em;
+    cursor: pointer;
+    margin-left: 1em;
+    margin-bottom: 12px;
+}
+
+.timeslot-delete-btn:hover {
+    background-color: #1976d2;
+}
+
+.timeslot-title{
+    font-size: 1.3em;
+    color: #007bff;
+    text-align: center;
+    margin-right: 2em;
+    font-weight: 500;
+}
+
+.appointment-excerpt {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 14px 20px 20px 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 16px;
+}
+
+.advising-time {
+    font-size: 1.2em;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.appointment-details {
+    font-size: 1em;
+    color: #777777;
+    margin-bottom: 16px;
+}
+
+.appointment-excerpt span {
+    display: block;
+    margin-bottom: 5px;
+    line-height: 0em;
+}
+
+.button-group {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -3em;
+}
+
+.btn {
+    padding: 3px 12px 2px 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.view-btn {
+    background-color: #007bff;
+    color: white;
+    margin-right: 1em;
+}
+
+.cancel-btn {
+    background-color: white;
+    color: #007bff;
+    border: 1px solid #007bff;
+}
+
+.noTimeslot {
+    font-size: 1.2em;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    margin-top: 0;
+}
+
+.noAppointment {
+    font-size: 1.2em;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    margin-top: 0;
+}

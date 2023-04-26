@@ -33,11 +33,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ElasticSynchronizer {
 
-    @Autowired
-    ICourseESRepository courseESRepo;
+	@Autowired
+	ICourseESRepository courseESRepo;
 
-    @Autowired
-    CourseRepository courseRepo;
+	@Autowired
+	CourseRepository courseRepo;
 
     @Autowired
     UniversityRepository uniRepo;
