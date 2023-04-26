@@ -66,12 +66,15 @@ export const MentorPage = () => {
         }
 
         return (
-            <div className="timeslotExcerpt">
-                <Stack direction="horizontal" gap={2}>
-                    <p>{<FormattedDate date={timeslot.time} />}</p>
-                    <p>{timeslot.advisingTimeslotStatus}</p>
-                    {timeslot.advisingTimeslotStatus === "FREE" && <Button type="button" onClick={onDeleteTimeslotClicked}>Delete</Button>}
-                </Stack>
+            <div className="timeslot-excerpt">
+                <div className="timeslot-info">
+                    <p className="timeslot-date">{<FormattedDate date={timeslot.time}/>}</p>
+                    <p className="timeslot-status">{timeslot.advisingTimeslotStatus}</p>
+                </div>
+                <div className="timeslot-actions">
+                    {timeslot.advisingTimeslotStatus === "FREE" && <button type="button" className="timeslot-delete-btn"
+                                                                           onClick={onDeleteTimeslotClicked}>Delete</button>}
+                </div>
             </div>
         )
     }
@@ -87,15 +90,23 @@ export const MentorPage = () => {
         }
 
         return (
-            <div className="appointmentExcerpt">
-                <Stack direction="horizontal" gap={2}>
-                    <p>Advisee's Name: {appointment.advisee.firstName} {appointment.advisee.lastName}</p>
-                    <p>Appointment Time: {<FormattedDate date={appointment.advisingTimeslot.time} />}</p>
-                    <p>Subject: {appointment.course.name}</p>
-                    <p>Status: {appointment.appointmentStatus}</p>
-                    <Link to={`/advising/appointment/${appointment.id}`} >View</Link>
-                    <Button type="button" onClick={onCancelAppointmentClicked}>Cancel</Button>
-                </Stack>
+            <div className="appointment-excerpt">
+                <p className="advising-time">
+                    Appointment Time: <FormattedDate date={appointment.advisingTimeslot.time}/>
+                </p>
+                <p className="appointment-details">
+                    Advisee's Name: {appointment.advisee.firstName} {appointment.advisee.lastName}
+                    <span><br/></span>
+                    Subject: {appointment.course.name}
+                    <span><br/></span>
+                    Status: {appointment.appointmentStatus}
+                </p>
+                <div className="button-group">
+                    <Link to={`/advising/appointment/${appointment.id}`} class="btn view-btn">View</Link>
+                    <button type="button" className="btn cancel-btn" onClick={onCancelAppointmentClicked}>
+                        Cancel
+                    </button>
+                </div>
             </div>
         )
     }
@@ -107,14 +118,14 @@ export const MentorPage = () => {
         content = <Spinner text="Loading..." />
     } else if (isSuccess) {
         content = (
-            <Accordion alwaysOpen>
+            <Accordion defaultActiveKey={['0']} alwaysOpen>
                 <Accordion.Item eventKey="0">
                     <Accordion.Header>Be A Mentor</Accordion.Header>
                     <Accordion.Body className="reviewsComponent">
                         <Stack direction="horizontal" gap={2}>
                             <div className="ms-auto">
-                                <h5>Your Timeslots</h5>
-                                {selectedTimeslots.length===0 && <p>You have not set any advising timeslots!</p>}
+                                <p className="timeslot-title">Your Timeslots</p>
+                                {selectedTimeslots.length===0 && <p className="noTimeslot">You have not set any advising timeslots!</p>}
                                 {selectedTimeslots && selectedTimeslots.map(timeslot => <TimeslotExcerpt key={timeslot.id} timeslot={timeslot} />)}
                             </div>
                             <AddTimeslotForm selectedTimeslots={selectedTimes} coursesTaken={coursesTaken} />
@@ -125,7 +136,7 @@ export const MentorPage = () => {
                     <Accordion.Header>Your Appointments</Accordion.Header>
                     <Accordion.Body>
                         <div>
-                            {appointmentsByAdvisor.length===0 && <p>You have no upcoming appointments!</p>}
+                            {appointmentsByAdvisor.length===0 && <p className="noAppointment">You have no upcoming appointments!</p>}
                             {appointmentsByAdvisor.map(appointment => <AppointmentExcerpt key={appointment.id} appointment={appointment} />)}
                         </div>
                     </Accordion.Body>
