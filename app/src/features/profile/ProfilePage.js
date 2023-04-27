@@ -163,6 +163,9 @@ export const ProfilePage = () => {
         setInterestIsEditing(false);
     };
 
+    console.log(selectedCoursesInterestId)
+    console.log(userProfileData)
+
     const [mentoringIsEditing, setMentoringIsEditing] = useState(false);
 
     const handleMentoringEditClick = () => {
@@ -176,7 +179,7 @@ export const ProfilePage = () => {
 
     return (
         <Container>
-            <Accordion alwaysOpen>
+            <Accordion defaultActiveKey={['0']} alwaysOpen>
                 <Accordion.Item eventKey="0">
                     <Accordion.Header className="profileTitleText"><FontAwesomeIcon icon={faCircleUser} className="profileIcon" />Information</Accordion.Header>
                     <Accordion.Body>
@@ -192,7 +195,7 @@ export const ProfilePage = () => {
                 <Accordion.Item eventKey="2">
                     <Accordion.Header className="profileTitleText"><FontAwesomeIcon icon={faHeart} className="profileIcon" />Interest</Accordion.Header>
                     <Accordion.Body>
-                        <div className="profileBlock">
+                        <div className="profileBlock" style={{display: 'block'}}>
                             <div className="courseBlockEdit">
                                 {interestIsEditing ? (
                                     <button onClick={handleInterestDoneClick} className="profileEditDone"><FontAwesomeIcon icon={faSquareCheck} /> Done</button>
@@ -200,6 +203,7 @@ export const ProfilePage = () => {
                                     <button onClick={handleInterestEditClick} className="profileEditDone"><FontAwesomeIcon icon={faPenToSquare} /> Edit</button>
                                 )}
                             </div>
+
                             <div>
                                 <p className="profileText">Courses Taken: </p>
                                 <Select
@@ -243,7 +247,7 @@ export const ProfilePage = () => {
                     </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey="3">
-                    <Accordion.Header className="profileTitleText"><FontAwesomeIcon icon={faUserGraduate} className="profileIcon" />Mentoring on</Accordion.Header>
+                    <Accordion.Header style={{marginBottom: '50px'}} className="profileTitleText"><FontAwesomeIcon icon={faUserGraduate} className="profileIcon" />Mentoring on</Accordion.Header>
                     <Accordion.Body>
                         <div className="profileBlock">
                             <div className="courseBlockEdit">

@@ -1,8 +1,13 @@
-import React, {Component, useRef } from 'react'
+import React, {Component, useEffect, useRef, useState} from 'react'
 import Container from "react-bootstrap/Container";
 import {useParams} from "react-router-dom";
 import {Spinner} from "react-bootstrap";
-import {useGetCourseQuery, useGetUserReviewsQuery} from "../api/apiSlice";
+import {
+    useAddUserCourseInterestedMutation,
+    useGetCourseQuery,
+    useGetUserInfoQuery,
+    useGetUserReviewsQuery
+} from "../api/apiSlice";
 import {ReviewsPage} from "../reviews/ReviewsPage";
 import StarRatings from 'react-star-ratings';
 import Accordion from 'react-bootstrap/Accordion';
@@ -14,6 +19,8 @@ export const CoursePage = () => {
 
     const user = useSelector(state => state.user)
     const { universityId, courseId } = useParams()
+    const [followedCourseId, setFollowedCourseId] = useState([]);
+    const [addUserCourseInterested, { isLoading: courseInterestedIsLoading }] = useAddUserCourseInterestedMutation();
 
     // determine if user has written a review for this course
     const {
@@ -43,15 +50,26 @@ export const CoursePage = () => {
         error
     } = useGetCourseQuery({universityId: universityId, courseId: courseId})
 
-    console.log(course)
+    const {
+        data: userProfileData,
+        isSuccess: userProfileSuccess,
+    } = useGetUserInfoQuery();
+
+    useEffect(() => {
+        const selectedCoursesInterestId = userProfileData.interestedCourse
+            .map((course) => ({ id: parseInt(course.id) }));
+        setFollowedCourseId(selectedCoursesInterestId);
+    }, [userProfileData])
+
+    console.log(followedCourseId)
 
     class Bar extends Component {
         render() {
             return (
                 <StarRatings
                     rating={course.rating}
-                    starDimension="2em"
-                    starSpacing="0.2em"
+                    starDimension="1em"
+                    starSpacing="0.1em"
                     starRatedColor ='rgb(237, 139, 0)'
                 />
             );
@@ -60,35 +78,53 @@ export const CoursePage = () => {
 
     const rateReviewRef = useRef(null);
 
-    const handleRateReviewClick = () => {
-        rateReviewRef.current.scrollIntoView({ behavior: 'smooth', block: 'center', inline: "center"});
+    const handleFollowClick = async () => {
+        // check if courseId is already in followedCourseId
+        if (followedCourseId.some(course => course.id === parseInt(courseId))) {
+            // if it is, remove courseId from followedCourseId
+            const updatedFollowedCourseId = followedCourseId.filter(course => course.id !== parseInt(courseId));
+            setFollowedCourseId(updatedFollowedCourseId);
+            await addUserCourseInterested({ courseList: updatedFollowedCourseId });
+        } else {
+            // if it is not, add courseId to followedCourseId
+            const updatedFollowedCourseId = [...followedCourseId, { id: parseInt(courseId) }];
+            setFollowedCourseId(updatedFollowedCourseId);
+            await addUserCourseInterested({ courseList: updatedFollowedCourseId });
+        }
     };
+
 
     let content
 
     if (isLoading) {
         content = <Spinner text="Loading..." />
     } else if (isSuccess) {
-        // update local storage course rating
-        const storedList = JSON.parse(localStorage.getItem('list')) || [];
-        const updatedCourseIndex = storedList.findIndex((option) => option.id === course.id);
-        storedList[updatedCourseIndex].rating = course.rating;
-        localStorage.setItem('list', JSON.stringify(storedList));
-
         content = (
             <Container className="singleCoursePage">
-                <h2 className="courseName">{course.name}</h2>
-                {/*<h3>{course.instructor} </h3>*/}
-                <p className="courseDescription">{course.description}</p>
-                <div>
-                    {course.rating && <p className="rating">{course.rating}</p> }
-                    {course.rating && <p className="rateOutof">/ 5</p> }
-                    {!course.rating && <p>No Ratings Yet</p> }
-                </div>
-                {course.rating && <Bar/>}
-                <div className="functionButtons">
-                    <button onClick={handleRateReviewClick} className="rate-review-but">Rate and Review</button>
-                    <button className="rate-review-but">Ask Questions</button>
+                <div className="course-container">
+                    <p className="courseName">{course.name}</p>
+                    <div className="rating-container">
+                        <div className="ratingPoint">
+                            {course.rating && (
+                                <div className="star-ratings">
+                                    <p className="rating">{course.rating}</p>
+                                    <p className="rateOutof">/ 5</p>
+                                </div>
+                            )}
+                        </div>
+                        <div className="ratingBar">
+                            {course.rating && <Bar />}
+                        </div>
+                        {!course.rating && <p>No Ratings Yet</p>}
+                    </div>
+                    <div className="courseDescription">
+                        {course.description}
+                    </div>
+                    <div className="functionButtons">
+                        <button onClick={handleFollowClick} className="rate-review-but">
+                            {followedCourseId.some(item => item.id === parseInt(courseId)) ? "Unfollow" : "Follow"}
+                        </button>
+                    </div>
                 </div>
                 <Accordion alwaysOpen>
                     <Accordion.Item eventKey="0">
@@ -98,7 +134,7 @@ export const CoursePage = () => {
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="1">
-                        <Accordion.Header>{userWrittenReview ? "Your Review" : "Write Review"}</Accordion.Header>
+                        <Accordion.Header style={{marginBottom: '50px'}}>{userWrittenReview ? "Your Review" : "Write Review"}</Accordion.Header>
                         <Accordion.Body>
                             {/* If user written review, show EditForm. Else show RateReviewForm*/}
                             {userWrittenReview ? <EditReviewForm reviewDetails={userReviewInfo} courseInstructors={course.instructor}/> : <RateReviewForm universityId={universityId} courseId={courseId} courseInstructors={course.instructor} /> }

@@ -14,6 +14,8 @@ import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUserProfile, setUserProfile } from "../userProfile/userProfileSlice";
+import googleImg from '../../images/google.png';
+import reviewImg from "../../images/review.png";
 
 const CLIENT_ID = "310536116903-4oolc727rmg62b4qsf58p8a3i76o4pfq.apps.googleusercontent.com";
 const CLIENT_SECRET = "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";
@@ -99,26 +101,12 @@ export default function LoginPage() {
                 <p className="loginFromTitle">Login</p>
                 <div className="google-login">
                     {/* <GoogleLogin onSuccess={responseMessage} onError={errorMessage} /> */}
-
-                    <Button hidden={userProfile.email} onClick={login} >Login with Google</Button>
+                    <button className="loginBtn" hidden={userProfile.email} onClick={login} >
+                        <img className="googleImg" src={googleImg} alt="Google logo" />
+                        Login with Google
+                    </button>
                     <p hidden={!userProfile.email}>Already loggedin as {userProfile.given_name} {userProfile.family_name}</p>
                 </div>
-                <hr hidden={userProfile.email} className="login-seperate-hr" />
-                <Form hidden={userProfile.email} onSubmit={handleSubmit(onSubmit)}>
-                    <Form.Group className="mb-3" controlId="loginEmail">
-                        <Form.Label className="login-info">Email</Form.Label>
-                        <Form.Control className="login-component" placeholder="Enter email" {...register("email", { required: 'Email is required' })} />
-                        {errors.email && <p className="errorMessage">{errors.email?.message}</p>}
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="loginPassword" >
-                        <Form.Label className="login-info">Password</Form.Label>
-                        <Form.Control className="login-component" type="password" placeholder="Password"  {...register("password", { required: 'Password is required' })} />
-                        {errors.password && <p className="errorMessage">{errors.password?.message}</p>}
-                    </Form.Group>
-                    <div className="login">
-                        <button variant="primary" type="submit" className="main-login-button">Login</button>
-                    </div>
-                </Form>
             </div>
 
             <Dialog

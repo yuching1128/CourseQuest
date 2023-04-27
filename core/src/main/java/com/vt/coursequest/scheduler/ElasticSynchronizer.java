@@ -39,84 +39,85 @@ public class ElasticSynchronizer {
 	@Autowired
 	CourseRepository courseRepo;
 
-	@Autowired
-	UniversityRepository uniRepo;
+    @Autowired
+    UniversityRepository uniRepo;
 
-	@Autowired
-	ElasticsearchClient esClient;
+    @Autowired
+    ElasticsearchClient esClient;
 
-	// Fields
+    // Fields
 
-	// Constructor
+    // Constructor
 
-	@Scheduled(cron = "${application.jobs.cronScheduleElastic}")
-	@Transactional
-	public void sync() {
-		log.info("Start Syncing - {}", LocalDateTime.now());
-		this.syncCourses(1);
-		log.info(" End Syncing - {}", LocalDateTime.now());
-	}
+    @Scheduled(cron = "${application.jobs.cronScheduleElastic}")
+    @Transactional
+    public void sync() {
+        log.info("Start Syncing - {}", LocalDateTime.now());
+        this.syncCourses(1);
+        log.info(" End Syncing - {}", LocalDateTime.now());
+    }
 
-	private void syncCourses(Integer universityId) {
-		Optional<University> uni = uniRepo.findById(universityId);
-		if (uni.isPresent()) {
-			University university = uni.get();
+    private void syncCourses(Integer universityId) {
+        Optional<University> uni = uniRepo.findById(universityId);
+        if (uni.isPresent()) {
+            University university = uni.get();
 
-			List<Course> courseList = new ArrayList<>();
-			courseList = courseRepo.findAll();
-			try {
-				recreateIndices(false);
-				indexCoursesData(university, courseList);
-			} catch (ElasticsearchException | IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+            List<Course> courseList = new ArrayList<>();
+            courseList = courseRepo.findAll();
+            try {
+                recreateIndices(false);
+                indexCoursesData(university, courseList);
+            } catch (ElasticsearchException | IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-	private void indexCoursesData(University university, List<Course> courseList)
-			throws ElasticsearchException, IOException {
+    private void indexCoursesData(University university, List<Course> courseList)
+            throws ElasticsearchException, IOException {
 
-		for (Course course : courseList) {
+        for (Course course : courseList) {
 
-			CourseModel courseModel = new CourseModel();
-			courseModel.setId(course.getId());
-			courseModel.setCourseName(course.getName());
-			courseModel.setCourseNum(course.getCourseNum());
-			courseModel.setDesc(course.getDescription());
-			courseModel.setUniversityId(course.getUniversity().getId());
-			Set<String> crns = new HashSet<>();
-			crns.addAll(
-					course.getCourseCRNs().stream().map(crnObj -> crnObj.getCrnNumber()).collect(Collectors.toList()));
-			Set<String> instructors = new HashSet<>();
-			instructors.addAll(
-					course.getInstructor().stream().map(instObj -> instObj.getName()).collect(Collectors.toList()));
-			courseModel.setInstructors(instructors);
-			courseModel.setCrns(crns);
-			courseModel.setUniversityName(course.getUniversity().getName());
-			courseModel.setDept(course.getDept().getName());
-			courseModel.setDegree(course.getDegree().getName());
-			courseModel.setRating(course.getRating());
-			IndexResponse response = esClient
-					.index(i -> i.index("course").id(course.getCourseNum()).document(courseModel));
+            CourseModel courseModel = new CourseModel();
+            courseModel.setId(course.getId());
+            courseModel.setCourseName(course.getName());
+            courseModel.setCourseNum(course.getCourseNum());
+            courseModel.setDesc(course.getDescription());
+            courseModel.setUniversityId(course.getUniversity().getId());
+            Set<String> crns = new HashSet<>();
+            crns.addAll(
+                    course.getCourseCRNs().stream().map(crnObj -> crnObj.getCrnNumber()).collect(Collectors.toList()));
+            Set<String> instructors = new HashSet<>();
+            instructors.addAll(
+                    course.getInstructor().stream().map(instObj -> instObj.getName()).collect(Collectors.toList()));
+            courseModel.setInstructors(instructors);
+            courseModel.setCrns(crns);
+            courseModel.setUniversityName(course.getUniversity().getName());
+            courseModel.setDept(course.getDept().getName());
+            courseModel.setDegree(course.getDegree().getName());
+            courseModel.setRating(course.getRating());
+            courseModel.setLevel(course.getLevel().getName());
+            IndexResponse response = esClient
+                    .index(i -> i.index("course").id(course.getCourseNum()).document(courseModel));
 
-			log.info("ES  : " + response + "...");
+            log.info("ES  : " + response + "...");
 
-		}
-	}
+        }
+    }
 
-	private void recreateIndices(final boolean deleteExisting) throws ElasticsearchException, IOException {
-		String[] indices = { "course" };
-		for (String indexName : indices) {
-			boolean indexExists = esClient.indices().exists(ExistsRequest.of(e -> e.index(indexName))).value();
-			if (!indexExists || deleteExisting) {
-				if (deleteExisting) {
-					esClient.indices().delete(new DeleteIndexRequest.Builder().index(indexName).build());
-				}
-				CreateIndexRequest createIndexRequest = new CreateIndexRequest.Builder().index(indexName).build();
-				esClient.indices().create(createIndexRequest);
-			}
-		}
+    private void recreateIndices(final boolean deleteExisting) throws ElasticsearchException, IOException {
+        String[] indices = { "course" };
+        for (String indexName : indices) {
+            boolean indexExists = esClient.indices().exists(ExistsRequest.of(e -> e.index(indexName))).value();
+            if (!indexExists || deleteExisting) {
+                if (deleteExisting) {
+                    esClient.indices().delete(new DeleteIndexRequest.Builder().index(indexName).build());
+                }
+                CreateIndexRequest createIndexRequest = new CreateIndexRequest.Builder().index(indexName).build();
+                esClient.indices().create(createIndexRequest);
+            }
+        }
 
-	}
+    }
 
 }

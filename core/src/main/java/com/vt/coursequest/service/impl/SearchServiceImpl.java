@@ -48,11 +48,11 @@ public class SearchServiceImpl implements SearchService {
 							.query(searchDto.getFullTextSearch())));
 			qList.add(query3);
 		}
-		if (null != searchDto.getLevel()) {
+		if (null != searchDto.getLevel() && !searchDto.getLevel().isBlank()) {
 			Query query1 = Query.of(q -> q.match(t -> t.field("level").query(searchDto.getLevel())));
 			qList.add(query1);
 		}
-		if (null != searchDto.getDept()) {
+		if (null != searchDto.getDept() && !searchDto.getDept().isBlank()) {
 			Query query2 = Query.of(q -> q.match(t -> t.field("dept").query(searchDto.getDept())));
 			qList.add(query2);
 

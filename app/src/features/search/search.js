@@ -30,88 +30,58 @@ export const SearchComponent = () => {
         data: levelData,
         isSuccess:levelSuccess,
     } = useGetLevelsQuery(universityId);
-//---
-    useEffect(() => {
-        if (departmentSuccess) {
-            const departmentOptions = departmentData.map((dept) => ({
-                value: dept.name,
-                label: dept.name,
-            }));
-            setDepartments([
-                { value: "", label: "-- Select department" },
-                ...departmentOptions,
-            ]);
-        }
-    }, [departmentSuccess, departmentData]);
-
-    useEffect(() => {
-        if (levelSuccess) {
-            const levelOptions = levelData.map((level) => ({
-                value: level.name,
-                label: level.name,
-            }));
-            setLevels([
-                { value: "", label: "-- Select level" },
-                ...levelOptions,
-            ]);
-        }
-    }, [levelSuccess, levelData]);
 //-----------
-    const handleDeptChange = (selectedOption) => {
-        const selectedDeptObj = departmentData.find(
-            (dept) => dept.name === selectedOption.value
-        );
-        setSearchDTO({dept: selectedDeptObj.name})
-    };
-
-    const handleLevelChange = (selectedOption) => {
-        const selectedLevelObj = levelData.find(
-            (level) => level.name === selectedOption.value
-        );
-        setSearchDTO({level: selectedLevelObj.name})
-    };
-//-----------
-    const handleCourseSearchClick = (e)=> {
+    const handleCourseSearchClick = async (e) => {
         e.preventDefault();
-        console.log("Data submitted: ",  e);
-        searchDTO.fullTextSearch = e.target[0].value;
-        searchDTO.level = e.target[5].value;
-        searchDTO.dept = e.target[3].value;
-        searchDTO.universityId = universityId
-        setSearchDTO({...searchDTO })
-        searchCourses({searchDTO: searchDTO, page: 1, size:  10})
+        const searchDTO = {
+            fullTextSearch: e.target[0].value,
+            dept: e.target[3].value,
+            level: e.target[5].value,
+            universityId: universityId,
+        };
+
+        try {
+            const response = await searchCourses({
+                searchDTO: searchDTO,
+                page: 1,
+                size: 10,
+            });
+        } catch (error) {
+            console.log(error.message);
+        }
     };
-    
 //---
     return (
-        <form onSubmit={handleCourseSearchClick}>
-            <input className="searchBar"
+        <form className="searchForm" onSubmit={handleCourseSearchClick}>
+            <div className="searchBarContainer">
+                <input className="searchBar"
                    type="text"
                    placeholder="Search for keywords"
                    name="searchText"
-            />
-            <button className="searchButton" type="submit" ><FontAwesomeIcon icon={faMagnifyingGlass}/></button>
-
-            <div>
-                <p className="departmentText">Department: </p>
-                <Select className="department"
-                         options={departments}
-                         defaultValue={{ value: "", label: "-- Select department" }}
-                         isSearchable={false}
-                         /*onChange={handleDeptChange}*/
-                         name="department"
                 />
-                <p className="levelText">Level: </p>
-                <Select className="level"
-                        options={levels}
-                        defaultValue={{value: "", label: "-- Select level" }}
+                <button className="searchButton" type="submit" ><FontAwesomeIcon icon={faMagnifyingGlass}/></button>
+            </div>
+            <div className="filterContainer">
+                <div className="filterItem">
+                    <p className="filterLabel">Department: </p>
+                    <Select
+                        className="department"
+                        options={departments}
+                        defaultValue={{ value: "", label: "-- Select department" }}
                         isSearchable={false}
-                        /*onChange={handleLevelChange}*/
-                        name="level"
-                />
+                        name="department"
+                    />
+                </div>
+                <div className="filterItem">
+                    <p className="filterLabel">Level:</p>
+                    <Select className="level"
+                            options={levels}
+                            defaultValue={{value: "", label: "-- Select level" }}
+                            isSearchable={false}
+                            name="level"
+                    />
+                </div>
             </div>
         </form>
     );
-
-    
 }

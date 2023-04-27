@@ -34,6 +34,9 @@ public class CourseModel {
 	
 	private Integer universityId;
 	
+	@Field(type = FieldType.Keyword)
+	private String level;
+	
 	@Field(type = FieldType.Text, analyzer = "pattern")
 	private String universityName;
 	

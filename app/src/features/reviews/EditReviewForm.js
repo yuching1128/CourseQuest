@@ -72,7 +72,6 @@ export const EditReviewForm = ({ reviewDetails, courseInstructors }) => {
     return (
         <Container className="reviews">
             <Container className="RateReviewPage">
-                <Stack direction="horizontal" gap={3} className="RateReviewContent"></Stack>
                 <Form className="RateReviewForm">
                     <div className="reviewBoxes">
                         <div className="reviewBoxes">
@@ -82,28 +81,28 @@ export const EditReviewForm = ({ reviewDetails, courseInstructors }) => {
                                 changeRating={(newRating) => {
                                     setRating(newRating);
                                 }}
-                                starDimension="3em"
-                                starSpacing="2em"
+                                starDimension="2em"
+                                starSpacing="1em"
                                 starRatedColor='rgb(237, 139, 0)'
                                 onChange={onRatingChanged}
                             />
                         </div>
                         <div className="reviewBoxes">
                             <p className="courseTaken">Edit Your Review</p>
-                            <Form.Group as={Row} className="mb-3" controlId="taughtBy">
-                                <Form.Label column sm={2}>Taught by</Form.Label>
-                                <Col sm={10} style={{ maxWidth: '400px' }}>
-                                    <Form.Select onChange={onProfessorChanged} defaultValue={professor}>
+                            <Form.Group as={Row} controlId="taughtBy">
+                                <Form.Label column className="formLabel">Taught by</Form.Label>
+                                <Col className="formControlContainer">
+                                    <Form.Select className="formControl" onChange={onProfessorChanged} defaultValue={professor}>
                                         <option disabled selected value> -- select an option -- </option>
                                         {instructorOptions}
                                     </Form.Select>
                                 </Col>
                             </Form.Group>
 
-                            <Form.Group as={Row} className="mb-3" controlId="delivery">
-                                <Form.Label column sm={2}>Delivery</Form.Label>
-                                <Col sm={10} style={{ maxWidth: '400px' }}>
-                                    <Form.Select onChange={onDeliveryChanged} value={delivery}>
+                            <Form.Group as={Row} controlId="delivery">
+                                <Form.Label column className="formLabel">Delivery</Form.Label>
+                                <Col className="formControlContainer">
+                                <Form.Select className="formControl" onChange={onDeliveryChanged} value={delivery}>
                                         <option disabled selected value> -- select an option -- </option>
                                         <option>INPERSON</option>
                                         <option>ONLINE</option>
@@ -112,10 +111,10 @@ export const EditReviewForm = ({ reviewDetails, courseInstructors }) => {
                                 </Col>
                             </Form.Group>
 
-                            <Form.Group as={Row} className="mb-3" controlId="workload">
-                                <Form.Label column sm={2}>Workload</Form.Label>
-                                <Col sm={10} style={{ maxWidth: '400px' }}>
-                                    <Form.Select onChange={onWorkloadChanged} value={workload}>
+                            <Form.Group as={Row} controlId="workload">
+                                <Form.Label column className="formLabel">Workload</Form.Label>
+                                <Col className="formControlContainer">
+                                <Form.Select className="formControl" onChange={onWorkloadChanged} value={workload}>
                                         <option disabled selected value> -- select an option -- </option>
                                         <option>LIGHT</option>
                                         <option>MODERATE</option>
@@ -124,8 +123,8 @@ export const EditReviewForm = ({ reviewDetails, courseInstructors }) => {
                                 </Col>
                             </Form.Group>
 
-                            <Form.Group as={Row} className="mb-3" controlId="workload">
-                                <Form.Control as="textarea" aria-label="With textarea" onChange={onContentChanged} value={content} style={{ width: '90%', marginLeft: '10px' }} />
+                            <Form.Group as={Row} controlId="workload">
+                                <Form.Control className="reviewInputBlock" as="textarea" aria-label="With textarea" onChange={onContentChanged} value={content} />
                             </Form.Group>
 
                             <Form.Check
@@ -133,6 +132,7 @@ export const EditReviewForm = ({ reviewDetails, courseInstructors }) => {
                                 label="Anonymous"
                                 checked={anonymous}
                                 onChange={onAnonymousChanged}
+                                className="anonymousCheck"
                             />
                         </div>
                     </div>
