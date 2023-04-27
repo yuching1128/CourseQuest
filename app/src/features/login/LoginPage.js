@@ -38,14 +38,14 @@ export default function LoginPage() {
             setOpen(true);
             setUser({});
         } else {
-            sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+            localStorage.setItem("userInfo", JSON.stringify(userInfo));
             dispatch(
                 setUserProfile({
                     type: "userProfile/userProfileSet",
                     payload: userInfo,
                 })
             )
-            sessionStorage.setItem("access_token", access_token);
+            localStorage.setItem("access_token", access_token);
             navigate("/");
         }
     }
@@ -56,7 +56,7 @@ export default function LoginPage() {
                 handleUniIDCheck(user.email);
             }
         },
-        [user, sessionStorage.getItem("userInfo")]
+        [user, localStorage.getItem("userInfo")]
     );
 
     const logOut = () => {

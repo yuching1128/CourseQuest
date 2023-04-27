@@ -2,14 +2,22 @@ import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import { useSelector } from "react-redux";
 import { selectUserProfile } from "../userProfile/userProfileSlice";
+import { useGetRecommendedCoursesQuery } from "../api/apiSlice";
 
 import searchingImg from '../../images/searching.png';
 import reviewImg from '../../images/review.png';
 import connectImg from '../../images/connect.png';
-import {Button} from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import backgroundImage from '../../images/hero.png'
 export default function HomePage() {
     const userProfile = useSelector(selectUserProfile)
+    const { data: recommendedCourses = [] } = useGetRecommendedCoursesQuery();
+
+    const CourseList = () => {
+        console.log(recommendedCourses)
+        const courses = recommendedCourses.map((course) => <li>{course}</li>);
+        return <ul>{courses}</ul>
+    }
     if (userProfile.email) {
         return (
             <Container className="HomePage" >
