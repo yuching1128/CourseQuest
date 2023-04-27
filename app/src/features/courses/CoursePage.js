@@ -19,8 +19,8 @@ export const CoursePage = () => {
 
     const user = useSelector(state => state.user)
     const { universityId, courseId } = useParams()
-    const [followedCourseId, setFollowedCourseId] = useState([]);
-    const [addUserCourseInterested, { isLoading: courseInterestedIsLoading }] = useAddUserCourseInterestedMutation();
+    // const [followedCourseId, setFollowedCourseId] = useState([]);
+    // const [addUserCourseInterested, { isLoading: courseInterestedIsLoading }] = useAddUserCourseInterestedMutation();
 
     // determine if user has written a review for this course
     const {
@@ -50,18 +50,20 @@ export const CoursePage = () => {
         error
     } = useGetCourseQuery({ universityId: universityId, courseId: courseId })
 
-    const {
-        data: userProfileData,
-        isSuccess: userProfileSuccess,
-    } = useGetUserInfoQuery();
+    // const {
+    //     data: userProfileData,
+    //     isSuccess: userProfileSuccess,
+    // } = useGetUserInfoQuery();
 
-    useEffect(() => {
-        // const selectedCoursesInterestId = userProfileData.interestedCourse
-        //     .map((course) => ({ id: parseInt(course.id) }));
-        // setFollowedCourseId(selectedCoursesInterestId);
-    }, [userProfileData])
-
-    console.log(followedCourseId)
+    // useEffect(() => {
+    //     if(userProfileData && userProfileData.interestedCourse){
+    //         const selectedCoursesInterestId = userProfileData.interestedCourse
+    //             .map((course) => ({ id: parseInt(course.id) }));
+    //         setFollowedCourseId(selectedCoursesInterestId);
+    //     }
+    // }, [userProfileData])
+    //
+    // console.log(followedCourseId)
 
     class Bar extends Component {
         render() {
@@ -78,20 +80,20 @@ export const CoursePage = () => {
 
     const rateReviewRef = useRef(null);
 
-    const handleFollowClick = async () => {
-        // check if courseId is already in followedCourseId
-        if (followedCourseId.some(course => course.id === parseInt(courseId))) {
-            // if it is, remove courseId from followedCourseId
-            const updatedFollowedCourseId = followedCourseId.filter(course => course.id !== parseInt(courseId));
-            setFollowedCourseId(updatedFollowedCourseId);
-            await addUserCourseInterested({ courseList: updatedFollowedCourseId });
-        } else {
-            // if it is not, add courseId to followedCourseId
-            const updatedFollowedCourseId = [...followedCourseId, { id: parseInt(courseId) }];
-            setFollowedCourseId(updatedFollowedCourseId);
-            await addUserCourseInterested({ courseList: updatedFollowedCourseId });
-        }
-    };
+    // const handleFollowClick = async () => {
+    //     // check if courseId is already in followedCourseId
+    //     if (followedCourseId.some(course => course.id === parseInt(courseId))) {
+    //         // if it is, remove courseId from followedCourseId
+    //         const updatedFollowedCourseId = followedCourseId.filter(course => course.id !== parseInt(courseId));
+    //         setFollowedCourseId(updatedFollowedCourseId);
+    //         await addUserCourseInterested({ courseList: updatedFollowedCourseId });
+    //     } else {
+    //         // if it is not, add courseId to followedCourseId
+    //         const updatedFollowedCourseId = [...followedCourseId, { id: parseInt(courseId) }];
+    //         setFollowedCourseId(updatedFollowedCourseId);
+    //         await addUserCourseInterested({ courseList: updatedFollowedCourseId });
+    //     }
+    // };
 
 
     let content
@@ -120,11 +122,11 @@ export const CoursePage = () => {
                     <div className="courseDescription">
                         {course.description}
                     </div>
-                    <div className="functionButtons">
-                        <button onClick={handleFollowClick} className="rate-review-but">
-                            {followedCourseId.some(item => item.id === parseInt(courseId)) ? "Unfollow" : "Follow"}
-                        </button>
-                    </div>
+                    {/*<div className="functionButtons">*/}
+                    {/*    <button onClick={handleFollowClick} className="rate-review-but">*/}
+                    {/*        {followedCourseId.some(item => item.id === parseInt(courseId)) ? "Unfollow" : "Follow"}*/}
+                    {/*    </button>*/}
+                    {/*</div>*/}
                 </div>
                 <Accordion alwaysOpen>
                     <Accordion.Item eventKey="0">
