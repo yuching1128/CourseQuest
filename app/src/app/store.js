@@ -4,28 +4,34 @@ import userReducer from '../features/user/userSlice';
 import { apiSlice } from '../features/api/apiSlice';
 import userProfileReducer from '../features/userProfile/userProfileSlice';
 import storage from 'redux-persist/lib/storage';
-import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
+import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER, PersistConfig } from 'redux-persist';
+import persistCombineReducers from 'redux-persist/es/persistCombineReducers';
 
 const persistConfig = {
     key: 'main-root',
     storage,
-}
+    whitelist: ['userProfile']
+    // blacklist: [apiSlice]
+};
 
-const rootReducer = combineReducers({
+const reducers = {
     courses: coursesReducer,
     user: userReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
     userProfile: userProfileReducer
-})
+};
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const rootReducer = persistCombineReducers(persistConfig, reducers)
+
+// const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-    reducer: persistedReducer,
+    reducer: rootReducer,
+    // middleware: apiSlice.middleware
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware({
             serializableCheck: {
-                ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+                ignoreActions: [REHYDRATE],
             }
         }).concat(apiSlice.middleware)
 })

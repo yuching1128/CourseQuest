@@ -16,6 +16,7 @@ const userProfileSlice = createSlice({
                 email: action.payload.payload.email,
                 given_name: action.payload.payload.given_name,
                 family_name: action.payload.payload.family_name,
+                access_token: action.payload.payload.access_token
             };
         },
     },
