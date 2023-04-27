@@ -1,19 +1,19 @@
-import React, {Component, useEffect, useRef, useState} from 'react'
+import React, { Component, useEffect, useRef, useState } from 'react'
 import Container from "react-bootstrap/Container";
-import {useParams} from "react-router-dom";
-import {Spinner} from "react-bootstrap";
+import { useParams } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
 import {
     useAddUserCourseInterestedMutation,
     useGetCourseQuery,
     useGetUserInfoQuery,
     useGetUserReviewsQuery
 } from "../api/apiSlice";
-import {ReviewsPage} from "../reviews/ReviewsPage";
+import { ReviewsPage } from "../reviews/ReviewsPage";
 import StarRatings from 'react-star-ratings';
 import Accordion from 'react-bootstrap/Accordion';
 import { RateReviewForm } from '../reviews/RateReviewForm';
-import {useSelector} from "react-redux";
-import {EditReviewForm} from "../reviews/EditReviewForm";
+import { useSelector } from "react-redux";
+import { EditReviewForm } from "../reviews/EditReviewForm";
 
 export const CoursePage = () => {
 
@@ -48,7 +48,7 @@ export const CoursePage = () => {
         isSuccess,
         isError,
         error
-    } = useGetCourseQuery({universityId: universityId, courseId: courseId})
+    } = useGetCourseQuery({ universityId: universityId, courseId: courseId })
 
     const {
         data: userProfileData,
@@ -56,9 +56,9 @@ export const CoursePage = () => {
     } = useGetUserInfoQuery();
 
     useEffect(() => {
-        const selectedCoursesInterestId = userProfileData.interestedCourse
-            .map((course) => ({ id: parseInt(course.id) }));
-        setFollowedCourseId(selectedCoursesInterestId);
+        // const selectedCoursesInterestId = userProfileData.interestedCourse
+        //     .map((course) => ({ id: parseInt(course.id) }));
+        // setFollowedCourseId(selectedCoursesInterestId);
     }, [userProfileData])
 
     console.log(followedCourseId)
@@ -70,7 +70,7 @@ export const CoursePage = () => {
                     rating={course.rating}
                     starDimension="1em"
                     starSpacing="0.1em"
-                    starRatedColor ='rgb(237, 139, 0)'
+                    starRatedColor='rgb(237, 139, 0)'
                 />
             );
         }
@@ -134,10 +134,10 @@ export const CoursePage = () => {
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="1">
-                        <Accordion.Header style={{marginBottom: '50px'}}>{userWrittenReview ? "Your Review" : "Write Review"}</Accordion.Header>
+                        <Accordion.Header style={{ marginBottom: '50px' }}>{userWrittenReview ? "Your Review" : "Write Review"}</Accordion.Header>
                         <Accordion.Body>
                             {/* If user written review, show EditForm. Else show RateReviewForm*/}
-                            {userWrittenReview ? <EditReviewForm reviewDetails={userReviewInfo} courseInstructors={course.instructor}/> : <RateReviewForm universityId={universityId} courseId={courseId} courseInstructors={course.instructor} /> }
+                            {userWrittenReview ? <EditReviewForm reviewDetails={userReviewInfo} courseInstructors={course.instructor} /> : <RateReviewForm universityId={universityId} courseId={courseId} courseInstructors={course.instructor} />}
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>

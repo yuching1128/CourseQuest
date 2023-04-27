@@ -5,14 +5,14 @@
     padding-bottom: 25px;
 }
 
-.about{
+.about {
     position: absolute;
     top: 15%;
     left: 50%;
     margin-left: -4em;
 }
 
-.about-us{
+.about-us {
     background-color: transparent;
     border: none;
     font-size: 25px;
@@ -20,7 +20,7 @@
     color: black;
 }
 
-.about-us:hover{
+.about-us:hover {
     background-color: transparent;
     border: none;
     font-size: 25px;
@@ -28,7 +28,7 @@
     color: #630031;
 }
 
-.Container{
+.Container {
     margin-bottom: 0;
 }
 

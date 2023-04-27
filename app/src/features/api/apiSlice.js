@@ -5,7 +5,7 @@ export const apiSlice = createApi({
     tagTypes: ['Review', 'Timeslots', 'Appointments', 'Courses'],
     baseQuery: fetchBaseQuery({
         baseUrl: 'http://localhost:8080/api/', credentials: 'include', prepareHeaders: (headers) => {
-            const token = sessionStorage.getItem("access_token")
+            const token = localStorage.getItem("access_token")
             if (token) {
                 headers.set('authorization', `Bearer ${token}`)
             }

@@ -6,7 +6,7 @@ export default function LogoutPage() {
     let [userInfo, setUserInfo] = useState({})
     useEffect(
         () => {
-            setUserInfo(JSON.parse(sessionStorage.getItem("userInfo")));
+            setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
         }
     )
 
