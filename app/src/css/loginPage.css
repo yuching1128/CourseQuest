@@ -1,11 +1,18 @@
 .LoginPage {
     display: flex;
-    justify-content: center;
+    justify-content:right;
+    background-image: url('../images/login.png');
+    background-size: cover;
+    background-position: bottom;
+    background-position-x: left;
+    height: 600px;
 }
 
 .LoginForm {
     padding: 2em 1em 0em 1em;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    margin: 10em 7em 12.5em 7em;
+    background-color: white;
 }
 
 .loginFromTitle {
@@ -15,10 +22,16 @@
     text-align: center;
 }
 
-.loginBtn{
-    font-size: 1em;
+.loginBtn {
     color: #007bff;
-    padding: 1em;
+    font-size: 1.2em;
+    padding: 12px 15px 8px 15px;
+    border: none;
+    border-radius: 5px;
+}
+
+.loginBtn:hover {
+    background-color: #D9D9D9;
 }
 
 .google-login {

@@ -101,10 +101,10 @@ export default function LoginPage() {
                 <p className="loginFromTitle">Login</p>
                 <div className="google-login">
                     {/* <GoogleLogin onSuccess={responseMessage} onError={errorMessage} /> */}
-                    <Button className="loginBtn" hidden={userProfile.email} onClick={login} >
+                    <button className="loginBtn" hidden={userProfile.email} onClick={login} >
                         <img className="googleImg" src={googleImg} alt="Google logo" />
                         Login with Google
-                    </Button>
+                    </button>
                     <p hidden={!userProfile.email}>Already loggedin as {userProfile.given_name} {userProfile.family_name}</p>
                 </div>
             </div>
