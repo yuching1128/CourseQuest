@@ -47,7 +47,7 @@ export const MenteePage = () => {
 
     return (
         <Container className="menteePage">
-            <Accordion alwaysOpen>
+            <Accordion defaultActiveKey={['0']} alwaysOpen>
                 <Accordion.Item eventKey="0">
                     <Accordion.Header>Book An Appointment</Accordion.Header>
                     <Accordion.Body className="reviewsComponent">
@@ -55,7 +55,7 @@ export const MenteePage = () => {
                     </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey="1">
-                    <Accordion.Header>Your Appointments</Accordion.Header>
+                    <Accordion.Header style={{marginBottom: '50px'}}>Your Appointments</Accordion.Header>
                     <Accordion.Body>
                         <div>
                             {appointmentsByAdvisee.length===0 && <p>You have no upcoming appointments!</p>}
