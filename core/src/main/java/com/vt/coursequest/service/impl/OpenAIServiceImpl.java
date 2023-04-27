@@ -58,6 +58,7 @@ public class OpenAIServiceImpl implements OpenAIService {
                                                     OpenAIConfig.URL,
                                                     this.buildHttpEntity(question),
                                                     OpenAIResponse.class);
+        log.info(response.getBody().toString());
         return response.getBody().getChoices().get(0).getText();
 
     }

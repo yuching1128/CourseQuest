@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import { useSelector } from "react-redux";
 import { selectUserProfile } from "../userProfile/userProfileSlice";
+import { useGetRecommendedCoursesQuery } from "../api/apiSlice";
 
 import searchingImg from '../../images/searching.png';
 import reviewImg from '../../images/review.png';
