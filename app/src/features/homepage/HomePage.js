@@ -22,21 +22,22 @@ export default function HomePage() {
         return (
             <Container className="HomePage">
                 <p className="welcome-text">Explore courses. Read reviews. Connect with students.</p>
-                <div className="welcomeColumns">
-                    <div className="welcomeColumn">
-                        <img className="homepageImage" src={searchingImg} alt="searching" />
-                        <p className="homepageImageText">Search</p>
-                    </div>
-                    <div className="welcomeColumn">
-                        <img className="homepageImage" src={reviewImg} alt="review" />
-                        <p className="homepageImageText">Review</p>
-                    </div>
-                    <div className="welcomeColumn">
-                        <img className="homepageImage" src={connectImg} alt=" connect" />
-                        <p className="homepageImageText">Advise</p>
-                    </div>
-                </div>
-                <div className="buttonDiv"><Button className="homepageButton">Get Started</Button></div>
+                <p className="welcome-description">CourseQuest is a perfect platform for all your course selection needs. We understand the importance of choosing the right courses for your academic and professional growth. Start exploring courses, reading reviews, and connecting with other students to enhance your academic experience.</p>
+                {/*<div className="welcomeColumns">*/}
+                {/*    <div className="welcomeColumn">*/}
+                {/*        <img className="homepageImage" src={searchingImg} alt="searching" />*/}
+                {/*        <p className="homepageImageText">Search</p>*/}
+                {/*    </div>*/}
+                {/*    <div className="welcomeColumn">*/}
+                {/*        <img className="homepageImage" src={reviewImg} alt="review" />*/}
+                {/*        <p className="homepageImageText">Review</p>*/}
+                {/*    </div>*/}
+                {/*    <div className="welcomeColumn">*/}
+                {/*        <img className="homepageImage" src={connectImg} alt=" connect" />*/}
+                {/*        <p className="homepageImageText">Advise</p>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
+                <div className="buttonDiv"><button className="homepageButton">Get Started</button></div>
 
             </Container>
         );
