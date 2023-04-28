@@ -38,14 +38,14 @@ export default function LoginPage() {
             setOpen(true);
             setUser({});
         } else {
-            sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+            localStorage.setItem("userInfo", JSON.stringify(userInfo));
             dispatch(
                 setUserProfile({
                     type: "userProfile/userProfileSet",
                     payload: userInfo,
                 })
             )
-            sessionStorage.setItem("access_token", access_token);
+            localStorage.setItem("access_token", access_token);
             navigate("/");
         }
     }
@@ -56,7 +56,7 @@ export default function LoginPage() {
                 handleUniIDCheck(user.email);
             }
         },
-        [user, sessionStorage.getItem("userInfo")]
+        [user, localStorage.getItem("userInfo")]
     );
 
     const logOut = () => {
@@ -101,10 +101,10 @@ export default function LoginPage() {
                 <p className="loginFromTitle">Login</p>
                 <div className="google-login">
                     {/* <GoogleLogin onSuccess={responseMessage} onError={errorMessage} /> */}
-                    <Button className="loginBtn" hidden={userProfile.email} onClick={login} >
+                    <button className="loginBtn" hidden={userProfile.email} onClick={login} >
                         <img className="googleImg" src={googleImg} alt="Google logo" />
                         Login with Google
-                    </Button>
+                    </button>
                     <p hidden={!userProfile.email}>Already loggedin as {userProfile.given_name} {userProfile.family_name}</p>
                 </div>
             </div>

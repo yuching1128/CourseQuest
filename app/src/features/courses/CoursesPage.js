@@ -71,7 +71,7 @@ export const CoursesPage = () => {
                 <SearchComponent />
             </div>
             <div className="courses-list">{content}</div>
-                <ButtonGroup className="pagination-buttons" style={{ display: 'flex', justifyContent: 'center', marginTop: '1em' }}>
+                <ButtonGroup className="pagination-buttons" style={{ display: 'flex', justifyContent: 'center', marginTop: '1em', marginBottom: '50px'}}>
                     <Pagination
                         count={20} // Set the total number of pages
                         page={currentPage+1}

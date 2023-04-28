@@ -1,26 +1,26 @@
-import React, {Component, useEffect, useRef, useState} from 'react'
+import React, { Component, useEffect, useRef, useState } from 'react'
 import Container from "react-bootstrap/Container";
-import {useParams} from "react-router-dom";
-import {Spinner} from "react-bootstrap";
+import { useParams } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
 import {
     useAddUserCourseInterestedMutation,
     useGetCourseQuery,
     useGetUserInfoQuery,
     useGetUserReviewsQuery
 } from "../api/apiSlice";
-import {ReviewsPage} from "../reviews/ReviewsPage";
+import { ReviewsPage } from "../reviews/ReviewsPage";
 import StarRatings from 'react-star-ratings';
 import Accordion from 'react-bootstrap/Accordion';
 import { RateReviewForm } from '../reviews/RateReviewForm';
-import {useSelector} from "react-redux";
-import {EditReviewForm} from "../reviews/EditReviewForm";
+import { useSelector } from "react-redux";
+import { EditReviewForm } from "../reviews/EditReviewForm";
 
 export const CoursePage = () => {
 
     const user = useSelector(state => state.user)
     const { universityId, courseId } = useParams()
-    const [followedCourseId, setFollowedCourseId] = useState([]);
-    const [addUserCourseInterested, { isLoading: courseInterestedIsLoading }] = useAddUserCourseInterestedMutation();
+    // const [followedCourseId, setFollowedCourseId] = useState([]);
+    // const [addUserCourseInterested, { isLoading: courseInterestedIsLoading }] = useAddUserCourseInterestedMutation();
 
     // determine if user has written a review for this course
     const {
@@ -48,20 +48,22 @@ export const CoursePage = () => {
         isSuccess,
         isError,
         error
-    } = useGetCourseQuery({universityId: universityId, courseId: courseId})
+    } = useGetCourseQuery({ universityId: universityId, courseId: courseId })
 
-    const {
-        data: userProfileData,
-        isSuccess: userProfileSuccess,
-    } = useGetUserInfoQuery();
+    // const {
+    //     data: userProfileData,
+    //     isSuccess: userProfileSuccess,
+    // } = useGetUserInfoQuery();
 
-    useEffect(() => {
-        const selectedCoursesInterestId = userProfileData.interestedCourse
-            .map((course) => ({ id: parseInt(course.id) }));
-        setFollowedCourseId(selectedCoursesInterestId);
-    }, [userProfileData])
-
-    console.log(followedCourseId)
+    // useEffect(() => {
+    //     if(userProfileData && userProfileData.interestedCourse){
+    //         const selectedCoursesInterestId = userProfileData.interestedCourse
+    //             .map((course) => ({ id: parseInt(course.id) }));
+    //         setFollowedCourseId(selectedCoursesInterestId);
+    //     }
+    // }, [userProfileData])
+    //
+    // console.log(followedCourseId)
 
     class Bar extends Component {
         render() {
@@ -70,7 +72,7 @@ export const CoursePage = () => {
                     rating={course.rating}
                     starDimension="1em"
                     starSpacing="0.1em"
-                    starRatedColor ='rgb(237, 139, 0)'
+                    starRatedColor='rgb(237, 139, 0)'
                 />
             );
         }
@@ -78,20 +80,20 @@ export const CoursePage = () => {
 
     const rateReviewRef = useRef(null);
 
-    const handleFollowClick = async () => {
-        // check if courseId is already in followedCourseId
-        if (followedCourseId.some(course => course.id === parseInt(courseId))) {
-            // if it is, remove courseId from followedCourseId
-            const updatedFollowedCourseId = followedCourseId.filter(course => course.id !== parseInt(courseId));
-            setFollowedCourseId(updatedFollowedCourseId);
-            await addUserCourseInterested({ courseList: updatedFollowedCourseId });
-        } else {
-            // if it is not, add courseId to followedCourseId
-            const updatedFollowedCourseId = [...followedCourseId, { id: parseInt(courseId) }];
-            setFollowedCourseId(updatedFollowedCourseId);
-            await addUserCourseInterested({ courseList: updatedFollowedCourseId });
-        }
-    };
+    // const handleFollowClick = async () => {
+    //     // check if courseId is already in followedCourseId
+    //     if (followedCourseId.some(course => course.id === parseInt(courseId))) {
+    //         // if it is, remove courseId from followedCourseId
+    //         const updatedFollowedCourseId = followedCourseId.filter(course => course.id !== parseInt(courseId));
+    //         setFollowedCourseId(updatedFollowedCourseId);
+    //         await addUserCourseInterested({ courseList: updatedFollowedCourseId });
+    //     } else {
+    //         // if it is not, add courseId to followedCourseId
+    //         const updatedFollowedCourseId = [...followedCourseId, { id: parseInt(courseId) }];
+    //         setFollowedCourseId(updatedFollowedCourseId);
+    //         await addUserCourseInterested({ courseList: updatedFollowedCourseId });
+    //     }
+    // };
 
 
     let content
@@ -120,11 +122,11 @@ export const CoursePage = () => {
                     <div className="courseDescription">
                         {course.description}
                     </div>
-                    <div className="functionButtons">
-                        <button onClick={handleFollowClick} className="rate-review-but">
-                            {followedCourseId.some(item => item.id === parseInt(courseId)) ? "Unfollow" : "Follow"}
-                        </button>
-                    </div>
+                    {/*<div className="functionButtons">*/}
+                    {/*    <button onClick={handleFollowClick} className="rate-review-but">*/}
+                    {/*        {followedCourseId.some(item => item.id === parseInt(courseId)) ? "Unfollow" : "Follow"}*/}
+                    {/*    </button>*/}
+                    {/*</div>*/}
                 </div>
                 <Accordion alwaysOpen>
                     <Accordion.Item eventKey="0">
@@ -134,10 +136,10 @@ export const CoursePage = () => {
                         </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="1">
-                        <Accordion.Header>{userWrittenReview ? "Your Review" : "Write Review"}</Accordion.Header>
+                        <Accordion.Header style={{ marginBottom: '50px' }}>{userWrittenReview ? "Your Review" : "Write Review"}</Accordion.Header>
                         <Accordion.Body>
                             {/* If user written review, show EditForm. Else show RateReviewForm*/}
-                            {userWrittenReview ? <EditReviewForm reviewDetails={userReviewInfo} courseInstructors={course.instructor}/> : <RateReviewForm universityId={universityId} courseId={courseId} courseInstructors={course.instructor} /> }
+                            {userWrittenReview ? <EditReviewForm reviewDetails={userReviewInfo} courseInstructors={course.instructor} /> : <RateReviewForm universityId={universityId} courseId={courseId} courseInstructors={course.instructor} />}
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>

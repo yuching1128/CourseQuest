@@ -179,7 +179,7 @@ export const ProfilePage = () => {
 
     return (
         <Container>
-            <Accordion alwaysOpen>
+            <Accordion defaultActiveKey={['0']} alwaysOpen>
                 <Accordion.Item eventKey="0">
                     <Accordion.Header className="profileTitleText"><FontAwesomeIcon icon={faCircleUser} className="profileIcon" />Information</Accordion.Header>
                     <Accordion.Body>
@@ -247,7 +247,7 @@ export const ProfilePage = () => {
                     </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey="3">
-                    <Accordion.Header className="profileTitleText"><FontAwesomeIcon icon={faUserGraduate} className="profileIcon" />Mentoring on</Accordion.Header>
+                    <Accordion.Header style={{marginBottom: '50px'}} className="profileTitleText"><FontAwesomeIcon icon={faUserGraduate} className="profileIcon" />Mentoring on</Accordion.Header>
                     <Accordion.Body>
                         <div className="profileBlock">
                             <div className="courseBlockEdit">

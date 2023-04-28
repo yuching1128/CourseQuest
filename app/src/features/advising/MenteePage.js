@@ -32,22 +32,32 @@ export const MenteePage = () => {
         }
 
         return (
-            <div className="appointmentExcerpt">
-                <Stack direction="horizontal" gap={2}>
-                    <p>Advisor's Name: {appointment.advisor.firstName} {appointment.advisor.lastName}</p>
-                    <p>Appointment Time: {<FormattedDate date={appointment.advisingTimeslot.time} />}</p>
-                    <p>Subject: {appointment.course.name}</p>
-                    <p>Status: {appointment.appointmentStatus}</p>
-                    <Link to={`/advising/appointment/${appointment.id}`} >View</Link>
-                    { appointment.appointmentStatus !== "CANCELLED" && <Button type="button" onClick={onCancelAppointmentClicked}>Cancel</Button> }
-                </Stack>
+            <div className="appointment-excerpt">
+                <p className="advising-time">
+                    Appointment Time: <FormattedDate date={appointment.advisingTimeslot.time}/>
+                </p>
+                <p className="appointment-details">
+                    Advisee's Name: {appointment.advisor.firstName} {appointment.advisor.lastName}
+                    <span><br/></span>
+                    Subject: {appointment.course.name}
+                    <span><br/></span>
+                    Status: {appointment.appointmentStatus}
+                </p>
+                <div className="button-group">
+                    <Link to={`/advising/appointment/${appointment.id}`} className="btn view-btn">View</Link>
+                    { appointment.appointmentStatus !== "CANCELLED" &&
+                        <button type="button" className="btn cancel-btn" onClick={onCancelAppointmentClicked}>
+                            Cancel
+                        </button>
+                    }
+                </div>
             </div>
         )
     }
 
     return (
         <Container className="menteePage">
-            <Accordion alwaysOpen>
+            <Accordion defaultActiveKey={['0']} alwaysOpen>
                 <Accordion.Item eventKey="0">
                     <Accordion.Header>Book An Appointment</Accordion.Header>
                     <Accordion.Body className="reviewsComponent">
@@ -55,9 +65,9 @@ export const MenteePage = () => {
                     </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey="1">
-                    <Accordion.Header>Your Appointments</Accordion.Header>
+                    <Accordion.Header style={{marginBottom: '50px'}}>Your Appointments</Accordion.Header>
                     <Accordion.Body>
-                        <div>
+                        <div style={{marginTop: '-2em', marginBottom: '4em'}}>
                             {appointmentsByAdvisee.length===0 && <p>You have no upcoming appointments!</p>}
                             {appointmentsByAdvisee.map(appointment => <AppointmentExcerpt key={appointment.id} appointment={appointment} />)}
                         </div>

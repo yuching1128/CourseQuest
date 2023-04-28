@@ -1,0 +1,39 @@
+.mentoring-container {
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.mentoring-title {
+    font-size: 1.3em;
+    font-weight: 500;
+    margin-bottom: 1em;
+    color: #000;
+    margin-left: 0.2em;
+}
+
+.mentoring-form {
+    margin-bottom: 1em;
+}
+
+.mentoring-select {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    color: #000;
+    background-color: #fff;
+    width: 60%;
+}
+
+.mentoring-message {
+    color: #007bff;
+    font-size: 1.2em;
+    margin-top: 1.5em;
+    margin-left: 0.2em;
+}
+
+.mentoring-timeslots {
+    display: inline-block;
+    gap: 1rem;
+}
