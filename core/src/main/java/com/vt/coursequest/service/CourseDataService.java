@@ -123,4 +123,9 @@ public interface CourseDataService {
 	List<Review> findUserReviews(Integer userId);
 
 
+	Optional<Course> addFollowCourse(User user, Integer courseId);
+
+	Optional<Course> deleteFollowCourse(User user, Integer courseId);
+
+
 }
