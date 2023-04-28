@@ -23,6 +23,7 @@ export default function HomePage() {
             <Container className="HomePage" >
                 <p className="welcome-back">Welcome back {userProfile.given_name}.</p>
                 <p className="course-recommendation">Your course recommendations: </p>
+                <CourseList />
             </Container>
         );
     }
