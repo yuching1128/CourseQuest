@@ -3,6 +3,7 @@ package com.vt.coursequest.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.vt.coursequest.elasticsearch.dto.CourseListDTO;
 import com.vt.coursequest.entity.Course;
 import com.vt.coursequest.entity.Degree;
 import com.vt.coursequest.entity.Review;
@@ -38,7 +39,7 @@ public interface CourseDataService {
 	 * 
 	 * @return List<Course> for a particular university
 	 */
-	List<Course> getCourseList(Integer universityid, Integer pageNum, Integer pageSize, String orderBy);
+	CourseListDTO getCourseList(Integer universityid, Integer pageNum, Integer pageSize, String orderBy);
 
 	/**
 	 * 
