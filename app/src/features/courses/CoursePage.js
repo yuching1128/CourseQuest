@@ -105,6 +105,7 @@ export const CoursePage = () => {
             <Container className="singleCoursePage">
                 <div className="course-container">
                     <p className="courseName">{course.name}</p>
+                    <p className="courseNumber">{course.dept.name}-{course.courseNum}</p>
                     <div className="rating-container">
                         <div className="ratingPoint">
                             {course.rating && (
@@ -127,6 +128,11 @@ export const CoursePage = () => {
                     {/*        {followedCourseId.some(item => item.id === parseInt(courseId)) ? "Unfollow" : "Follow"}*/}
                     {/*    </button>*/}
                     {/*</div>*/}
+                    <div className="functionButtons">
+                        <button className="rate-review-but">
+                            Follow
+                        </button>
+                    </div>
                 </div>
                 <Accordion alwaysOpen>
                     <Accordion.Item eventKey="0">

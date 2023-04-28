@@ -12,7 +12,7 @@ let CourseExcerpt = ({ course }) => {
     return (
         <Link to={`/university/${course.university.id}/courses/${course.id}`} className="course-button">
             <article className="course-excerpt" key={course.id}>
-                <h3>{course.name}</h3>
+                <h3>{course.dept.name}-{course.courseNum}: {course.name}</h3>
                 <div className="all-info">
                     <div className="rating-box">
                         <p className="rating-text">Rating</p>

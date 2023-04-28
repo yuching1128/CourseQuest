@@ -25,19 +25,12 @@ import { Row } from "react-bootstrap";
 
 export const ProfilePage = () => {
 
-    const { userId } = useParams();
     const [universityId, setUniversityId] = useState(1)
 
     const {
         data: userProfileData,
         isSuccess: userProfileSuccess,
     } = useGetUserInfoQuery();
-
-    // useEffect(() => {
-    //     if (userProfileData && userProfileData.university){
-    //         setUniversityId(userProfileData.university.id)
-    //     }
-    // },[userProfileData])
 
     // set parameters
     const [courseTaken, setCourseTaken] = useState([]);
@@ -103,7 +96,7 @@ export const ProfilePage = () => {
 
     useEffect(() => {
         if (courseTakenSuccess) {
-            const courseTakenOptions = courseTakenData.map((courseTaken) => ({
+            const courseTakenOptions = courseTakenData.courses.map((courseTaken) => ({
                 value: courseTaken.id,
                 label: courseTaken.name,
             }));
