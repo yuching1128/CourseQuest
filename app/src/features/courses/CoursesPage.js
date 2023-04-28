@@ -44,10 +44,18 @@ export const CoursesPage = () => {
     const {
         data: deptList=[]
     } = useGetDepartmentsQuery(universityId);
+    const depthListSorted = deptList.slice();
+    depthListSorted.sort(function (a,b) {
+        return a.name.localeCompare(b.name)
+    })
 
     const {
         data: levelsList=[]
     } = useGetLevelsQuery(universityId);
+    const levelsListSorted = levelsList.slice();
+    levelsListSorted.sort(function (a,b) {
+        return a.name.localeCompare(b.name)
+    })
 
     const {
         data: courseSearch=[],
@@ -56,16 +64,16 @@ export const CoursesPage = () => {
         isError,
         error,
     } = useSearchCoursesQuery({ dept: searchDept, searchText: searchText, level: searchLevel, universityId: universityId, page: currentPage, size: pageSize });
-    console.log(courseSearch);
+
     const maxPages = Math.ceil(courseSearch.totalCourses/pageSize);
 
     // generate list of departments and levels for search component
-    const deptOptions = deptList.map((dept) => (
+    const deptOptions = depthListSorted.map((dept) => (
         <option key={dept.id} value={dept.name}>
             {dept.name}
         </option>
     ))
-    const levelOptions = levelsList.map((level) => (
+    const levelOptions = levelsListSorted.map((level) => (
         <option key={level.id} value={level.name}>
             {level.name}
         </option>
