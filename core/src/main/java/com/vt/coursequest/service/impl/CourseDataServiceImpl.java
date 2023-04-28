@@ -17,6 +17,7 @@ import com.vt.coursequest.dao.InstructorRepository;
 import com.vt.coursequest.dao.ReviewRepository;
 import com.vt.coursequest.dao.UniversityRepository;
 import com.vt.coursequest.dao.UserRepository;
+import com.vt.coursequest.elasticsearch.dto.CourseListDTO;
 import com.vt.coursequest.entity.Course;
 import com.vt.coursequest.entity.Degree;
 import com.vt.coursequest.entity.Instructor;
@@ -88,14 +89,15 @@ public class CourseDataServiceImpl implements CourseDataService {
 	}
 
 	@Override
-	public List<Course> getCourseList(Integer universityId, Integer pageNum, Integer pageSize, String orderBy) {
+	public CourseListDTO getCourseList(Integer universityId, Integer pageNum, Integer pageSize, String orderBy) {
 		Pageable pageable = PageRequest.of(pageNum, pageSize);
 		List<Course> list = courseRepository.findByUniversityId(universityId, pageable);
+		Integer totalCourses = courseRepository.findAll().size();
 		for (Course curCourse : list) {
 			Double curVal = courseRepository.getAverageRatingForCourse(curCourse.getId());
 			curCourse.setRating(curVal);
 		}
-		return list;
+		return new CourseListDTO(list, totalCourses);
 	}
 
 	@Override

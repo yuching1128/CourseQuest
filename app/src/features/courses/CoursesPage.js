@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState} from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
-import { Spinner } from 'react-bootstrap';
-import { useGetCoursesQuery } from "../api/apiSlice";
-import { SearchComponent } from "../search/search";
-import classnames from 'classnames';
-import Button from '@mui/material/Button';
+import {Form, Spinner} from 'react-bootstrap';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Pagination from '@mui/material/Pagination';
+import {useGetDepartmentsQuery, useGetLevelsQuery, useSearchCoursesQuery} from "../api/apiSlice";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 
 let CourseExcerpt = ({ course }) => {
     return (
@@ -31,36 +30,66 @@ let CourseExcerpt = ({ course }) => {
 };
 
 export const CoursesPage = () => {
-    const { universityId } = useParams();
-    const [currentPage, setCurrentPage] = useState(0); // Current page state
 
-    const size = 10;
+    const { universityId } = useParams();
+    const pageSize = 10;
+
+    // state
+    const [currentPage, setCurrentPage] = useState(1);
+    const [searchText, setSearchText] = useState("");
+    const [searchDept, setSearchDept] = useState("");
+    const [searchLevel, setSearchLevel] = useState("");
+
+    // API calls
+    const {
+        data: deptList=[]
+    } = useGetDepartmentsQuery(universityId);
 
     const {
-        data: courseList,
+        data: levelsList=[]
+    } = useGetLevelsQuery(universityId);
+
+    const {
+        data: courseSearch=[],
         isLoading,
-        isFetching,
         isSuccess,
         isError,
         error,
-    } = useGetCoursesQuery({ universityId: universityId, page: currentPage, size: size });
+    } = useSearchCoursesQuery({ dept: searchDept, searchText: searchText, level: searchLevel, universityId: universityId, page: currentPage, size: pageSize });
+    console.log(courseSearch);
+    const maxPages = Math.ceil(courseSearch.totalCourses/pageSize);
 
-    // Update current page when pagination is changed
-    const handlePageChange = (event, page) => {
-        setCurrentPage(page-1);
-    };
+    // generate list of departments and levels for search component
+    const deptOptions = deptList.map((dept) => (
+        <option key={dept.id} value={dept.name}>
+            {dept.name}
+        </option>
+    ))
+    const levelOptions = levelsList.map((level) => (
+        <option key={level.id} value={level.name}>
+            {level.name}
+        </option>
+    ))
 
+    // Handlers
+    const onSearchClicked = (event) => {
+        event.preventDefault();
+        console.log(event.target.searchText.value)
+        console.log(event.target.department.value)
+        console.log(event.target.level.value)
+        setSearchText(event.target.searchText.value)
+        setSearchDept(event.target.department.value)
+        setSearchLevel(event.target.level.value)
+    }
+
+    // Display Content
     let content;
 
     if (isLoading) {
         content = <Spinner text="Loading..." />;
     } else if (isSuccess) {
-        const renderedCourses = courseList.map((course) =>
-            <CourseExcerpt key={course.id} universityId={universityId} course={course} />);
-        const containerClassname = classnames('posts-container', {
-            disabled: isFetching
-        })
-        content = <div className={containerClassname}>{renderedCourses}</div>
+        const renderedCourses = courseSearch.courses.map((course) => <CourseExcerpt key={course.id} universityId={universityId} course={course} />);
+        content = <div className="posts-container">{renderedCourses}</div>
     } else if (isError) {
         content = <div>{error.toString()}</div>;
     }
@@ -68,18 +97,45 @@ export const CoursesPage = () => {
     return (
         <Container>
             <div className="searchComponent">
-                <SearchComponent />
+                <Form className="searchForm" onSubmit={onSearchClicked}>
+                    <div className="searchBarContainer">
+                        <input className="searchBar"
+                               type="text"
+                               placeholder="Search for keywords"
+                               name="searchText"
+                        />
+                        <button className="searchButton" type="submit"><FontAwesomeIcon icon={faMagnifyingGlass}/></button>
+                    </div>
+                    <div className="filterContainer">
+                        <Form.Group controlId="department" className="filterItem">
+                            <Form.Label className="filterLabel">Department:</Form.Label>
+                            <Form.Select className="department" name="department">
+                                <option selected value="">All</option>
+                                {deptOptions}
+                            </Form.Select>
+                        </Form.Group>
+                        <Form.Group controlId="level" className="filterItem">
+                            <Form.Label className="filterLabel">Level:</Form.Label>
+                            <Form.Select className="levelz" name="level">
+                                <option selected value="">All</option>
+                                {levelOptions}
+                            </Form.Select>
+                        </Form.Group>
+                    </div>
+                </Form>
             </div>
-            <div className="courses-list">{content}</div>
-                <ButtonGroup className="pagination-buttons" style={{ display: 'flex', justifyContent: 'center', marginTop: '1em', marginBottom: '50px'}}>
-                    <Pagination
-                        count={20} // Set the total number of pages
-                        page={currentPage+1}
-                        onChange={handlePageChange}
-                        color="primary"
-                        size="large"
-                    />
-                </ButtonGroup>
+            <div className="courses-list">
+                {content}
+            </div>
+            <ButtonGroup className="pagination-buttons" style={{ display: 'flex', justifyContent: 'center', marginTop: '1em' }}>
+                <Pagination
+                    count={maxPages}
+                    page={currentPage}
+                    onChange={(e, value) => setCurrentPage(value)}
+                    color="primary"
+                    size="large"
+                />
+            </ButtonGroup>
         </Container>
     );
 };

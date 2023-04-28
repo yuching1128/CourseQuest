@@ -9,6 +9,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.vt.coursequest.elasticsearch.dto.CourseListDTO;
 import com.vt.coursequest.elasticsearch.dto.SearchDTO;
 import com.vt.coursequest.elasticsearch.model.CourseModel;
 import com.vt.coursequest.entity.Course;
@@ -35,9 +36,9 @@ public class SearchServiceImpl implements SearchService {
 	private ElasticsearchClient esClient;
 
 	@Override
-	public Set<Course> getSearchResults(SearchDTO searchDto, Integer pageNum, Integer pageSize)
+	public CourseListDTO getSearchResults(SearchDTO searchDto, Integer pageNum, Integer pageSize)
 			throws ElasticsearchException, IOException {
-		Set<Course> courses = new HashSet<>();
+		List<Course> courses = new ArrayList<>();
 		SearchRequest searchRequest = null;
 		SearchResponse<CourseModel> response = null;
 		List<Query> qList = new ArrayList<>();
@@ -62,7 +63,7 @@ public class SearchServiceImpl implements SearchService {
 		response = esClient.search(searchRequest, CourseModel.class);
 		TotalHits total = response.hits().total();
 		boolean isExactResult = total.relation() == TotalHitsRelation.Eq;
-
+		Integer totalResultCourses = (int) total.value();
 		if (isExactResult) {
 			log.info("There are " + total.value() + " results");
 		} else {
@@ -86,7 +87,8 @@ public class SearchServiceImpl implements SearchService {
 			courses.add(courseObj);
 		}
 
-		return courses;
+		
+		return new CourseListDTO(courses, totalResultCourses);
 	}
 
 }
