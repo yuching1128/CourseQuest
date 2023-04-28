@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,12 +30,21 @@ public class SearchController {
 	private CourseDataService courseDBService;
 
 	@ApiOperation("This service is used to search for courses")
-	@PostMapping("/api/university/courses/search")
-	public ResponseEntity<CourseListDTO> searchCourses(@RequestBody SearchDTO courseInfo, @RequestParam Integer pageNum,
-			@RequestParam Integer pageSize) {
+	@GetMapping("/api/university/courses/search")
+	public ResponseEntity<CourseListDTO> searchCourses(@RequestParam Integer pageNum,
+													   @RequestParam Integer pageSize,
+													   @RequestParam(required = false) String universityId,
+													   @RequestParam(required = false) String fullTextSearch,
+													   @RequestParam(required = false) String dept,
+													   @RequestParam(required = false) String level) {
 
 		CourseListDTO searchResponse = null;
 		try {
+			SearchDTO courseInfo = new SearchDTO();
+			courseInfo.setDept(dept);
+			courseInfo.setFullTextSearch(fullTextSearch);
+			courseInfo.setLevel(level);
+			courseInfo.setUniversityId(universityId);
 			searchResponse = searchService.getSearchResults(courseInfo, pageNum, pageSize);
 			if (searchResponse.getCourses().isEmpty() && courseInfo.isEmpty()) {
 				searchResponse = courseDBService.getCourseList(Integer.valueOf(courseInfo.getUniversityId()), pageNum,
@@ -49,3 +58,4 @@ public class SearchController {
 	}
 
 }
+

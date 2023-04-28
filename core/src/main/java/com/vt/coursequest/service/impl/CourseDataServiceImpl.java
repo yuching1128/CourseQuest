@@ -3,6 +3,7 @@ package com.vt.coursequest.service.impl;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -159,5 +160,33 @@ public class CourseDataServiceImpl implements CourseDataService {
 	public List<Review> findUserReviews(Integer userId) {
 		return reviewRepository.findByUserId(userId);
 	}
+
+	@Override
+	public Optional<Course> addFollowCourse(User user, Integer courseId) {
+		Optional<User> userObj = userRepository.findById(user.getId());
+		Optional<Course> courseObj = courseRepository.findById(courseId);
+		if (userObj.isPresent() && courseObj.isPresent()) {
+			User userData = userObj.get();
+			Set<Course> interestedCourse = userData.getInterestedCourse();
+			interestedCourse.add(courseObj.get());
+			userData.setInterestedCourse(interestedCourse);
+			userRepository.save(userData);
+		}
+		return Optional.of(courseObj.get());
+	}
+
+	public Optional<Course> deleteFollowCourse(User user, Integer courseId) {
+		Optional<User> userObj = userRepository.findById(user.getId());
+		Optional<Course> courseObj = courseRepository.findById(courseId);
+		if (userObj.isPresent() && courseObj.isPresent()) {
+			User userData = userObj.get();
+			Set<Course> interestedCourse = userData.getInterestedCourse();
+			interestedCourse.remove(courseObj.get());
+			userData.setInterestedCourse(interestedCourse);
+			userRepository.save(userData);
+		}
+		return Optional.of(courseObj.get());
+	}
+
 
 }

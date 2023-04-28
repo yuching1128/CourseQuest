@@ -110,6 +110,25 @@ public class CourseController {
 	// ResponseEntity<>(review, HttpStatus.OK);
 	// }
 
+
+	@ApiOperation("This service is used to follow a course and add it in interested course")
+	@PostMapping("/api/university/{universityId}/courses/{courseId}/follow")
+	public ResponseEntity<Optional<Course>> followCourse(@PathVariable Integer courseId) {
+		UserDetailsFromGoogle userDetails = (UserDetailsFromGoogle) session.getAttribute("user_details");
+		User user = uds.findOrCreateUser(userDetails);
+		Optional<Course> curCourse = cds.addFollowCourse(user, courseId);
+		return new ResponseEntity<>(curCourse, HttpStatus.OK);
+	}
+
+	@ApiOperation("This service is used to unfollow a course and delete it from interested course")
+	@DeleteMapping("/api/university/{universityId}/courses/{courseId}/unfollow")
+	public ResponseEntity<?> unfollowCourse(@PathVariable Integer courseId) {
+		UserDetailsFromGoogle userDetails = (UserDetailsFromGoogle) session.getAttribute("user_details");
+		User user = uds.findOrCreateUser(userDetails);
+		Optional<Course> curCourse = cds.deleteFollowCourse(user, courseId);
+		return new ResponseEntity<>(curCourse, HttpStatus.OK);
+	}
+
 	@ApiOperation("This service is used to create a review for a specific course")
 	@PostMapping("/api/university/{universityId}/courses/{courseId}/review")
 	public ResponseEntity<Review> addReview(@RequestBody Review review) {

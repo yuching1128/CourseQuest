@@ -10,9 +10,8 @@ import { useSelector } from "react-redux";
 
 export const RateReviewForm = ({ courseInstructors }) => {
 
-    const user = useSelector(state => state.user)
+    // State
     const { universityId, courseId } = useParams()
-
     const [anonymous, setAnonymous] = useState(false)
     const [rating, setRating] = useState(0)
     const [professor, setProfessor] = useState(<option disabled selected value> -- select an option -- </option>)

@@ -176,12 +176,10 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['Timeslots', 'Appointments']
         }),
-        searchCourses: builder.mutation({
-            query: ({ searchDTO, page, size }) => ({
-                url: `university/courses/search?pageNum=${page}&pageSize=${size}`,
-                method: 'POST',
-                body: searchDTO
-            }),
+
+        // Search
+        searchCourses: builder.query({
+            query: ({dept, searchText, level, universityId, page, size}) => `university/courses/search?fullTextSearch=${searchText}&dept=${dept}&level=${level}&universityId=${universityId}&pageNum=${page}&pageSize=${size}`,
             providesTags: ['Courses']
         }),
         getRecommendedCourses: builder.query({
@@ -220,6 +218,6 @@ export const {
     useAddUserCourseInterestedMutation,
     useAddUserConcentrationMutation,
     useAddUserMentorCourseMutation,
-    useSearchCoursesMutation,
+    useSearchCoursesQuery,
     useGetRecommendedCoursesQuery
 } = apiSlice

@@ -1,4 +1,4 @@
-// Request Endpoint: /api/university/{universityid}/courses/{courseid}
+// Request Endpoint: /api/universearchDTOsity/{universityid}/courses/{courseid}
 // Request method: GET
 // Response code: 200
 
