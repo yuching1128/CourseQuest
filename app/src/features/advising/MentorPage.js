@@ -102,7 +102,7 @@ export const MentorPage = () => {
                     Status: {appointment.appointmentStatus}
                 </p>
                 <div className="button-group">
-                    <Link to={`/advising/appointment/${appointment.id}`} class="btn view-btn">View</Link>
+                    <Link to={`/advising/appointment/${appointment.id}`} className="btn view-btn">View</Link>
                     <button type="button" className="btn cancel-btn" onClick={onCancelAppointmentClicked}>
                         Cancel
                     </button>
@@ -135,7 +135,7 @@ export const MentorPage = () => {
                 <Accordion.Item eventKey="1">
                     <Accordion.Header style={{marginBottom: '50px'}}>Your Appointments</Accordion.Header>
                     <Accordion.Body>
-                        <div>
+                        <div style={{marginTop: '-2em', marginBottom: '4em'}}>
                             {appointmentsByAdvisor.length===0 && <p className="noAppointment">You have no upcoming appointments!</p>}
                             {appointmentsByAdvisor.map(appointment => <AppointmentExcerpt key={appointment.id} appointment={appointment} />)}
                         </div>
