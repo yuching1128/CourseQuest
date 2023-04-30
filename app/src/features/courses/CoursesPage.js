@@ -124,7 +124,7 @@ export const CoursesPage = () => {
                         </Form.Group>
                         <Form.Group controlId="level" className="filterItem">
                             <Form.Label className="filterLabel">Level:</Form.Label>
-                            <Form.Select className="levelz" name="level">
+                            <Form.Select className="level" name="level">
                                 <option selected value="">All</option>
                                 {levelOptions}
                             </Form.Select>
@@ -135,7 +135,7 @@ export const CoursesPage = () => {
             <div className="courses-list">
                 {content}
             </div>
-            <ButtonGroup className="pagination-buttons" style={{ display: 'flex', justifyContent: 'center', marginTop: '1em' }}>
+            <ButtonGroup className="pagination-buttons" style={{ display: 'flex', justifyContent: 'center', marginTop: '2em', marginBottom: '50px' }}>
                 <Pagination
                     count={maxPages}
                     page={currentPage}
