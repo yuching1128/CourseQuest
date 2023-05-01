@@ -3,6 +3,7 @@ package com.vt.coursequest.service.impl;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -16,6 +17,7 @@ import com.vt.coursequest.dao.InstructorRepository;
 import com.vt.coursequest.dao.ReviewRepository;
 import com.vt.coursequest.dao.UniversityRepository;
 import com.vt.coursequest.dao.UserRepository;
+import com.vt.coursequest.elasticsearch.dto.CourseListDTO;
 import com.vt.coursequest.entity.Course;
 import com.vt.coursequest.entity.Degree;
 import com.vt.coursequest.entity.Instructor;
@@ -87,14 +89,15 @@ public class CourseDataServiceImpl implements CourseDataService {
 	}
 
 	@Override
-	public List<Course> getCourseList(Integer universityId, Integer pageNum, Integer pageSize, String orderBy) {
+	public CourseListDTO getCourseList(Integer universityId, Integer pageNum, Integer pageSize, String orderBy) {
 		Pageable pageable = PageRequest.of(pageNum, pageSize);
 		List<Course> list = courseRepository.findByUniversityId(universityId, pageable);
+		Integer totalCourses = courseRepository.findAll().size();
 		for (Course curCourse : list) {
 			Double curVal = courseRepository.getAverageRatingForCourse(curCourse.getId());
 			curCourse.setRating(curVal);
 		}
-		return list;
+		return new CourseListDTO(list, totalCourses);
 	}
 
 	@Override
@@ -157,5 +160,33 @@ public class CourseDataServiceImpl implements CourseDataService {
 	public List<Review> findUserReviews(Integer userId) {
 		return reviewRepository.findByUserId(userId);
 	}
+
+	@Override
+	public Optional<Course> addFollowCourse(User user, Integer courseId) {
+		Optional<User> userObj = userRepository.findById(user.getId());
+		Optional<Course> courseObj = courseRepository.findById(courseId);
+		if (userObj.isPresent() && courseObj.isPresent()) {
+			User userData = userObj.get();
+			Set<Course> interestedCourse = userData.getInterestedCourse();
+			interestedCourse.add(courseObj.get());
+			userData.setInterestedCourse(interestedCourse);
+			userRepository.save(userData);
+		}
+		return Optional.of(courseObj.get());
+	}
+
+	public Optional<Course> deleteFollowCourse(User user, Integer courseId) {
+		Optional<User> userObj = userRepository.findById(user.getId());
+		Optional<Course> courseObj = courseRepository.findById(courseId);
+		if (userObj.isPresent() && courseObj.isPresent()) {
+			User userData = userObj.get();
+			Set<Course> interestedCourse = userData.getInterestedCourse();
+			interestedCourse.remove(courseObj.get());
+			userData.setInterestedCourse(interestedCourse);
+			userRepository.save(userData);
+		}
+		return Optional.of(courseObj.get());
+	}
+
 
 }

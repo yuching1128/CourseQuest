@@ -58,13 +58,15 @@ export const AddAppointmentForm = () => {
         }
 
         return (
-            <div className="timeslotExcerpt">
-                <Stack direction="horizontal" gap={2}>
-                    <p>{<FormattedDate date={timeslotDateTime} />}</p>
-                    <Button type="button" onClick={onAddAppointmentClicked}>
+            <div className="timeslot-excerpt" style={{padding: '1em 1em 0em 0.2em'}}>
+                <div className="timeslot-info">
+                    <p className="timeslot-date">{<FormattedDate date={timeslotDateTime}/>}</p>
+                </div>
+                <div className="timeslot-actions">
+                    <button type="button" className="timeslot-delete-btn" style={{marginBottom: '7px'}} onClick={onAddAppointmentClicked}>
                         Book
-                    </Button>
-                </Stack>
+                    </button>
+                </div>
             </div>
         )
     }
@@ -83,16 +85,24 @@ export const AddAppointmentForm = () => {
         ))
         
         content = (
-            <div>
-                Select Course to get mentoring on:
-                <Form.Select onChange={onInterestedCourseChange}>
-                    <option disabled selected value> -- select an option --</option>
-                    {interestedCoursesOptions}
-                </Form.Select>
-
-                {(freeTimeslots.length===0 && interestedCourseId !== -1) && <p>Currently there are no advising timeslots available for this course. Check back later.</p>}
-                {freeTimeslots && freeTimeslots.map(timeslot => <TimeslotExcerpt key={timeslot[0]} timeslot={timeslot} />)}
-
+            <div className="mentoring-container">
+                <p className="mentoring-title">Select Course to get mentoring on:</p>
+                <div className="mentoring-form">
+                    <Form.Select className="mentoring-select" onChange={onInterestedCourseChange}>
+                        <option disabled selected value> -- select an option --</option>
+                        {interestedCoursesOptions}
+                    </Form.Select>
+                </div>
+                {freeTimeslots.length === 0 && interestedCourseId !== -1 && (
+                    <p className="mentoring-message">
+                        Currently there are no advising timeslots available for this course. Check back later.
+                    </p>
+                )}
+                <div className="mentoring-timeslots">
+                    {freeTimeslots.map((timeslot) => (
+                        <TimeslotExcerpt key={timeslot[0]} timeslot={timeslot}/>
+                    ))}
+                </div>
             </div>
         )
     } else if (isErrorUser) {

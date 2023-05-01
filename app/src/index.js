@@ -11,6 +11,7 @@ import './css/searchComponent.css';
 import './css/ProfilePage.css';
 import './css/homePage.css';
 import './css/mentorPage.css';
+import './css/menteePage.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store, { Persistor } from './app/store'

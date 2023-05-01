@@ -7,8 +7,8 @@ export const MeetingLink = ({creationTime}) => {
     const uniqueMeetingId = creationTime.toString().replaceAll(':','')
 
     return (
-        <JitsiMeeting roomName = { uniqueMeetingId }
-                      getIFrameRef = { node => node.style.height = '600px' }
-        />
+        <div style={{ marginTop: '50px' }}>
+            <JitsiMeeting roomName={uniqueMeetingId} getIFrameRef={node => node.style.height = '600px'} />
+        </div>
     )
 }

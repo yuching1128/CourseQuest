@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const apiSlice = createApi({
     reducerPath: 'api',
-    tagTypes: ['Review', 'Timeslots', 'Appointments', 'Courses'],
+    tagTypes: ['Review', 'Timeslots', 'Appointments', 'Courses', 'Profile'],
     baseQuery: fetchBaseQuery({
         baseUrl: 'http://localhost:8080/api/', credentials: 'include', prepareHeaders: (headers) => {
             const token = localStorage.getItem("access_token")
@@ -22,7 +22,7 @@ export const apiSlice = createApi({
         }),
         getCourse: builder.query({
             query: ({ universityId, courseId }) => `university/${universityId}/courses/${courseId}`,
-            providesTags: ['Courses']
+            providesTags: ['Courses', 'Profile']
         }),
         getCourseReviews: builder.query({
             query: ({ universityId, courseId }) => `university/${universityId}/courses/${courseId}/review`,
@@ -64,7 +64,8 @@ export const apiSlice = createApi({
 
         // User Profile APIs
         getUserInfo: builder.query({
-            query: () => `user/profile`
+            query: () => `user/profile`,
+            providesTags:['Profile']
         }),
         getUniversity: builder.query({
             query: () => `university/types`
@@ -176,17 +177,30 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['Timeslots', 'Appointments']
         }),
-        searchCourses: builder.mutation({
-            query: ({ searchDTO, page, size }) => ({
-                url: `university/courses/search?pageNum=${page}&pageSize=${size}`,
-                method: 'POST',
-                body: searchDTO
-            }),
+
+        // Search
+        searchCourses: builder.query({
+            query: ({dept, searchText, level, universityId, page, size}) => `university/courses/search?fullTextSearch=${searchText}&dept=${dept}&level=${level}&universityId=${universityId}&pageNum=${page}&pageSize=${size}`,
             providesTags: ['Courses']
         }),
         getRecommendedCourses: builder.query({
             query: () => `openai/get-recommended-courses`
+        }),
+        addFollowCourse: builder.mutation({
+            query: ({ universityId, courseId}) => ({
+                url: `university/${universityId}/courses/${courseId}/follow`,
+                method: 'POST'
+            }),
+            invalidatesTags:['Profile']
+        }),
+        deleteFollowCourse: builder.mutation({
+            query: ({ universityId, courseId}) => ({
+                url: `university/${universityId}/courses/${courseId}/unfollow`,
+                method: 'DELETE'
+            }),
+            invalidatesTags:['Profile']
         })
+
     })
 })
 
@@ -220,6 +234,8 @@ export const {
     useAddUserCourseInterestedMutation,
     useAddUserConcentrationMutation,
     useAddUserMentorCourseMutation,
-    useSearchCoursesMutation,
-    useGetRecommendedCoursesQuery
+    useSearchCoursesQuery,
+    useGetRecommendedCoursesQuery,
+    useAddFollowCourseMutation,
+    useDeleteFollowCourseMutation
 } = apiSlice

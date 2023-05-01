@@ -39,14 +39,23 @@ export const AppointmentPage = () => {
 
         content = (
             <Container>
-                <p>Advisor: {appointment.advisor.firstName} {appointment.advisor.lastName}</p>
-                <p>Advisee: {appointment.advisee.firstName} {appointment.advisee.lastName}</p>
-                <p>Appointment Time: {<FormattedDate date={appointment.advisingTimeslot.time} />}</p>
-                <p>Subject: {appointment.course.name}</p>
-                { appointment.appointmentStatus === "UPCOMING" && <Button onClick={() => setJoinAppointment(!joinAppointment)}>Join Meeting</Button> }
-                { appointment.appointmentStatus !== "CANCELLED" && <Button type="button" onClick={onDeleteAppointmentClicked}>Cancel Appointment</Button> }
-                { joinAppointment && <MeetingLink creationTime={appointment.advisingTimeslot.time} /> }
-
+                <div className="appointment-excerpt" style={{marginTop: '3em', marginBottom: '3em'}}>
+                    <p className="advising-time">
+                        Appointment Time: {<FormattedDate date={appointment.advisingTimeslot.time} />}
+                    </p>
+                    <p className="appointment-details">
+                        Advisor: {appointment.advisor.firstName} {appointment.advisor.lastName}
+                        <span><br/></span>
+                        Advisee: {appointment.advisee.firstName} {appointment.advisee.lastName}
+                        <span><br/></span>
+                        Subject: {appointment.course.name}
+                    </p>
+                    <div>
+                        { appointment.appointmentStatus === "UPCOMING" && <button className="btn view-btn" onClick={() => setJoinAppointment(!joinAppointment)}>Join Meeting</button> }
+                        { appointment.appointmentStatus !== "CANCELLED" && <button type="button" className="btn cancel-btn" onClick={onDeleteAppointmentClicked}>Cancel Appointment</button> }
+                        { joinAppointment && <MeetingLink creationTime={appointment.advisingTimeslot.time} /> }
+                    </div>
+                </div>
             </Container>
         )
     } else if (isError) {

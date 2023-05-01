@@ -1,5 +1,4 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import coursesReducer from '../features/courses/coursesSlice';
+import { configureStore } from '@reduxjs/toolkit';
 import userReducer from '../features/user/userSlice';
 import { apiSlice } from '../features/api/apiSlice';
 import userProfileReducer from '../features/userProfile/userProfileSlice';
@@ -15,7 +14,6 @@ const persistConfig = {
 };
 
 const reducers = {
-    courses: coursesReducer,
     user: userReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
     userProfile: userProfileReducer
