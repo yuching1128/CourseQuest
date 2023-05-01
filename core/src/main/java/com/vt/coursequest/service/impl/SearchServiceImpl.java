@@ -2,9 +2,7 @@ package com.vt.coursequest.service.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,7 +57,7 @@ public class SearchServiceImpl implements SearchService {
 
 		}
 		searchRequest = SearchRequest.of(e -> e.index("course").query(b -> b.bool(bq -> bq.must(qList)))
-				.allowPartialSearchResults(true).from(pageNum).size(pageSize));
+				.allowPartialSearchResults(true).from(pageNum-1).size(pageSize));
 		response = esClient.search(searchRequest, CourseModel.class);
 		TotalHits total = response.hits().total();
 		boolean isExactResult = total.relation() == TotalHitsRelation.Eq;
