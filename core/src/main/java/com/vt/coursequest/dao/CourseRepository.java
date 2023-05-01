@@ -34,7 +34,7 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, Paging
 
 	Optional<Course> findByCourseNumAndDeptIdAndUniversityId(String courseNo, Integer deptId, int universityId);
 
-	@Query("SELECT c.name FROM Course c WHERE c.name in :courseNames")
-	List<String> getAvailableCourses(List<String> courseNames);
+	@Query("SELECT c FROM Course c WHERE c.name in :courseNames")
+	List<Course> getAvailableCourses(List<String> courseNames);
 	
 }

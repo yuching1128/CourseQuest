@@ -7,7 +7,6 @@ import com.vt.coursequest.entity.OpenAIRequest;
 import com.vt.coursequest.entity.OpenAIResponse;
 import com.vt.coursequest.service.OpenAIService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -32,7 +31,7 @@ public class OpenAIServiceImpl implements OpenAIService {
     private static RestTemplate restTemplate = new RestTemplate();
 
     @Override
-    public List<String> requestRecommendation(String concentration, Set<Course> courses) throws Exception {
+    public List<Course> requestRecommendation(String concentration, Set<Course> courses) throws Exception {
         StringBuilder question = new StringBuilder();
         if(!Objects.isNull(courses)){
             question.append("Recommend me courses given I already took ")
@@ -49,7 +48,7 @@ public class OpenAIServiceImpl implements OpenAIService {
         log.info(question.toString());
         String responseFromOpenAI = this.getRecommendationFromOpenAI(question.toString());
         List<String> coursesRecom = Arrays.asList(responseFromOpenAI.split("\n\n")[0].split(", ")).stream().filter(s->!s.isEmpty()).collect(Collectors.toList());
-        List<String> coursesAvailable = courseRepo.getAvailableCourses(coursesRecom);
+        List<Course> coursesAvailable = courseRepo.getAvailableCourses(coursesRecom);
         return coursesAvailable;
     }
 

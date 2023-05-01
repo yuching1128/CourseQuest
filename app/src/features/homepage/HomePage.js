@@ -9,20 +9,30 @@ import reviewImg from '../../images/review.png';
 import connectImg from '../../images/connect.png';
 import { Button } from "react-bootstrap";
 import backgroundImage from '../../images/hero.png'
+import { Link } from "react-router-dom";
 export default function HomePage() {
     const userProfile = useSelector(selectUserProfile)
     const { data: recommendedCourses = [] } = useGetRecommendedCoursesQuery();
 
     const CourseList = () => {
         console.log(recommendedCourses)
-        const courses = recommendedCourses.map((course) => <li>{course}</li>);
+        let courses = [];
+        if (recommendedCourses) {
+            courses = recommendedCourses.map((course) =>
+                <Link to={`/university/${course.university.id}/courses/${course.id}`} >
+                    <li>{course.courseNum}: {course.name}</li>
+                </Link>
+            );
+        }
         return <ul>{courses}</ul>
     }
     if (userProfile.email) {
         return (
             <Container className="HomePage" >
                 <p className="welcome-back">Welcome back {userProfile.given_name}.</p>
-                <p className="course-recommendation">Your course recommendations: </p>
+                <p className="course-recommendation">Your course recommendations:
+                    <CourseList />
+                </p>
             </Container>
         );
     }

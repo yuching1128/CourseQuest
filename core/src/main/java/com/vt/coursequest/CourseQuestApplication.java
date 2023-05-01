@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableElasticsearchRepositories("com.vt.coursequest.elasticsearch")
-@EnableScheduling
+//@EnableScheduling
 @ComponentScan(basePackages = { "com.vt.coursequest" })
 public class CourseQuestApplication {
 
