@@ -60,8 +60,8 @@ application:
       pg: Masters
       ug: UG
   jobs: #Fire at 10:15 AM every day
-   cronSchedule: 0 15 10 ? * *
-   cronScheduleElastic: 0 */5 * * * *
+   cronSchedule: 0 0 13 ? 1/1 MON#1
+   cronScheduleElastic: 0 0 13 ? 1/1 TUE#1 //0 0 * * * *
 es:
   hostname: localhost
   port: 9200
