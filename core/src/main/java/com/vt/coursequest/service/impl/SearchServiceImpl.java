@@ -59,7 +59,7 @@ public class SearchServiceImpl implements SearchService {
 
 		}
 		searchRequest = SearchRequest.of(e -> e.index("course").query(b -> b.bool(bq -> bq.must(qList)))
-				.allowPartialSearchResults(true).from(pageNum).size(pageSize));
+				.allowPartialSearchResults(true).from(pageNum-1).size(pageSize));
 		response = esClient.search(searchRequest, CourseModel.class);
 		TotalHits total = response.hits().total();
 		boolean isExactResult = total.relation() == TotalHitsRelation.Eq;
