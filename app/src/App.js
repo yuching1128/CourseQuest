@@ -11,17 +11,16 @@ import { ProfilePage } from "./features/profile/ProfilePage";
 import { MentorPage } from "./features/advising/MentorPage";
 import LogoutPage from "./features/logout/LogoutPage";
 import { MenteePage } from "./features/advising/MenteePage";
-import {AppointmentPage} from "./features/advising/AppointmentPage";
+import { AppointmentPage } from "./features/advising/AppointmentPage";
 
 export default function App() {
-    // const [authDetails, setAuthDetails, deleteAuthDetails] = useStore("authDetails", {});
     return (
         <Container fluid className="App">
             <HashRouter>
                 <Header />
                 <Routes>
-                    <Route exact path="/" element={<HomePage />} />
                     <Route exact path="/login" element={<LoginPage />} />
+                    <Route exact path="/" element={<HomePage />} />
                     <Route exact path="/logout" element={<LogoutPage />} />
                     <Route exact path="/university/:universityId/courses" element={<CoursesPage />} />
                     <Route exact path="/university/:universityId/mentor" element={<MentorPage />} />

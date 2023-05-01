@@ -1,5 +1,6 @@
 package com.vt.coursequest.controller;
 
+import com.vt.coursequest.entity.Course;
 import com.vt.coursequest.entity.User;
 import com.vt.coursequest.interceptor.UserDetailsFromGoogle;
 import com.vt.coursequest.service.OpenAIService;
@@ -29,10 +30,10 @@ public class OpenAIController {
     private OpenAIService openAIService;
 
     @GetMapping("/get-recommended-courses")
-    public ResponseEntity<List<String>> askForRecommendation() throws Exception {
+    public ResponseEntity<List<Course>> askForRecommendation() throws Exception {
         UserDetailsFromGoogle userDetails = (UserDetailsFromGoogle) session.getAttribute("user_details");
         User user = uds.findOrCreateUser(userDetails);
-        List<String> recCourses = new ArrayList<>();
+        List<Course> recCourses = new ArrayList<>();
         try{
             recCourses = openAIService.requestRecommendation(user.getConcentration(), user.getCourse());
         } catch (Exception e){
