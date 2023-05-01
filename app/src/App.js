@@ -19,8 +19,8 @@ export default function App() {
             <HashRouter>
                 <Header />
                 <Routes>
-                    <Route exact path="/" element={<LoginPage />} />
-                    <Route exact path="/home" element={<HomePage />} />
+                    <Route exact path="/login" element={<LoginPage />} />
+                    <Route exact path="/" element={<HomePage />} />
                     <Route exact path="/logout" element={<LogoutPage />} />
                     <Route exact path="/university/:universityId/courses" element={<CoursesPage />} />
                     <Route exact path="/university/:universityId/mentor" element={<MentorPage />} />

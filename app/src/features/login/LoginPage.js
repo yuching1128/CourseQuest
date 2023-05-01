@@ -46,7 +46,7 @@ export default function LoginPage() {
                 })
             )
             localStorage.setItem("access_token", access_token);
-            navigate("/home");
+            navigate("/");
         }
     }
 
